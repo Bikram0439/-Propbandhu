@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Home Loan Assistance - Propbandhu | EMI Calculator & Apply</title>
+    <!-- Google Fonts & Tailwind + Font Awesome + Chart.js -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* ========== CUSTOM CSS (beyond Tailwind) ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* Smooth transitions for all interactive elements */
+        .transition-smooth {
+            transition: all 0.25s ease-in-out;
+        }
+
+        /* Custom range input styling (modern cross-browser) */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        /* WebKit (Chrome, Safari, Edge) */
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            border: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2563eb;
+            margin-top: -7px;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+            border: 2px solid white;
+            transition: transform 0.1s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            background: #1d4ed8;
+        }
+
+        /* Firefox */
+        input[type="range"]::-moz-range-track {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2563eb;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+            cursor: pointer;
+        }
+
+        input[type="range"]::-moz-range-thumb:hover {
+            background: #1d4ed8;
+            transform: scale(1.1);
+        }
+
+        /* Card hover effects */
+        .offer-card {
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .offer-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.1), 0 4px 8px -4px rgba(0, 0, 0, 0.02);
+            border-color: #bfdbfe;
+        }
+
+        /* Sticky form panel with subtle glass effect */
+        .sticky-card {
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        /* Button ripple effect simulation */
+        .btn-apply {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-apply:active {
+            transform: scale(0.97);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* EMI result cards gradient animation */
+        .emi-result-card {
+            background: linear-gradient(105deg, #eff6ff 0%, #ffffff 100%);
+            transition: all 0.2s;
+        }
+
+        /* Chart container responsiveness */
+        canvas {
+            max-height: 220px;
+            width: 100%;
+        }
+
+        /* Input focus style */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            ring: 2px solid #3b82f6;
+            border-color: #3b82f6;
+        }
+
+        /* Success message fade */
+        .success-toast {
+            animation: fadeSlideUp 0.4s ease-out forwards;
+        }
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* number input spinner hide */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button {
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .emi-result-card {
+                padding: 0.75rem;
+            }
+            .text-2xl {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+<!-- Simulated Navbar (since include is not available in static preview, we build a clean navbar) -->
+<nav class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-home text-blue-600 text-2xl"></i>
+                <span class="font-bold text-xl text-gray-800">Prop<span class="text-blue-600">bandhu</span></span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Buy Property</a>
+                <a href="#" class="text-blue-600 font-semibold border-b-2 border-blue-600 pb-1">Home Loan</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+            </div>
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-user-circle text-gray-500 text-2xl"></i>
+                <span class="hidden sm:inline text-gray-700">Sign In</span>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <div class="mb-8 text-center lg:text-left">
+        <h1 class="text-3xl lg:text-4xl font-extrabold text-gray-900 tracking-tight">Home Loan Assistance</h1>
+        <p class="text-gray-600 mt-2 text-lg">Calculate EMI, compare best offers, and apply for home loans instantly</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- LEFT SECTION: EMI CALCULATOR + BANK OFFERS -->
+        <div class="lg:col-span-2 space-y-8">
+            <!-- EMI Calculator Card -->
+            <div class="bg-white rounded-2xl shadow-xl p-6 transition-smooth hover:shadow-2xl">
+                <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center border-b border-gray-100 pb-3">
+                    <i class="fas fa-calculator text-blue-600 mr-3 text-2xl"></i>
+                    EMI Calculator
+                </h2>
+                
+                <div class="space-y-6">
+                    <!-- Loan Amount Slider -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-sm font-semibold text-gray-700">🏦 Loan Amount (₹)</label>
+                            <span class="text-blue-700 font-mono font-bold bg-blue-50 px-3 py-1 rounded-full text-sm" id="loanAmountValue">₹50,00,000</span>
+                        </div>
+                        <input type="range" id="loanAmount" min="100000" max="20000000" step="100000" value="5000000" class="w-full">
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>₹1 Lakh</span>
+                            <span>₹50 Lakhs</span>
+                            <span>₹1 Cr</span>
+                            <span>₹2 Cr</span>
+                        </div>
+                    </div>
+
+                    <!-- Interest Rate Slider -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-sm font-semibold text-gray-700">📈 Interest Rate (% p.a.)</label>
+                            <span class="text-blue-700 font-mono font-bold bg-blue-50 px-3 py-1 rounded-full text-sm" id="interestRateValue">8.5%</span>
+                        </div>
+                        <input type="range" id="interestRate" min="6" max="15" step="0.1" value="8.5" class="w-full">
+                        <div class="flex justify-between text-xs text-gray-500">
+                            <span>6%</span><span>8%</span><span>10%</span><span>12%</span><span>15%</span>
+                        </div>
+                    </div>
+
+                    <!-- Tenure Slider -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-sm font-semibold text-gray-700">⏱️ Loan Tenure (Years)</label>
+                            <span class="text-blue-700 font-mono font-bold bg-blue-50 px-3 py-1 rounded-full text-sm" id="tenureValue">20 Years</span>
+                        </div>
+                        <input type="range" id="tenure" min="1" max="30" step="1" value="20" class="w-full">
+                        <div class="flex justify-between text-xs text-gray-500">
+                            <span>1 Yr</span><span>5 Yrs</span><span>10 Yrs</span><span>20 Yrs</span><span>30 Yrs</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EMI Results Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8 p-5 emi-result-card rounded-xl shadow-inner">
+                    <div class="text-center bg-white/60 p-3 rounded-xl backdrop-blur-sm">
+                        <p class="text-sm text-gray-500 uppercase tracking-wide">Monthly EMI</p>
+                        <p class="text-3xl font-extrabold text-blue-600 mt-1" id="emiAmount">₹0</p>
+                    </div>
+                    <div class="text-center bg-white/60 p-3 rounded-xl backdrop-blur-sm">
+                        <p class="text-sm text-gray-500 uppercase tracking-wide">Total Interest</p>
+                        <p class="text-3xl font-extrabold text-orange-600 mt-1" id="totalInterest">₹0</p>
+                    </div>
+                    <div class="text-center bg-white/60 p-3 rounded-xl backdrop-blur-sm">
+                        <p class="text-sm text-gray-500 uppercase tracking-wide">Total Payment</p>
+                        <p class="text-3xl font-extrabold text-green-700 mt-1" id="totalPayment">₹0</p>
+                    </div>
+                </div>
+
+                <!-- Chart.js Pie Chart -->
+                <div class="mt-6 bg-gray-50 p-3 rounded-xl">
+                    <canvas id="emiChart" width="400" height="200" style="max-height: 210px;"></canvas>
+                    <p class="text-center text-xs text-gray-400 mt-2">Principal vs Interest Distribution</p>
+                </div>
+            </div>
+
+            <!-- Bank Offers Section with attractive cards -->
+            <div class="bg-white rounded-2xl shadow-xl p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-university text-blue-600 mr-3 text-2xl"></i>
+                    🔥 Best Home Loan Offers
+                </h2>
+                
+                <div class="space-y-4">
+                    <!-- SBI Offer -->
+                    <div class="offer-card border border-gray-200 rounded-xl p-5 hover:border-blue-300 bg-white">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-landmark text-blue-800 text-xl"></i>
+                                    <h3 class="font-bold text-xl text-gray-800">SBI Home Loan</h3>
+                                    <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">Trusted</span>
+                                </div>
+                                <p class="text-3xl font-black text-blue-600 mt-1">8.40% <span class="text-sm font-normal text-gray-500">p.a.</span></p>
+                                <p class="text-sm text-gray-500 mt-1"><i class="fas fa-rupee-sign"></i> Processing: ₹10,000 + GST</p>
+                                <p class="text-xs text-green-600">✅ Zero prepayment charges</p>
+                            </div>
+                            <a href="#" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-semibold text-center hover:bg-blue-700 transition shadow-md hover:shadow-lg flex items-center justify-center gap-2">Apply Now <i class="fas fa-arrow-right text-sm"></i></a>
+                        </div>
+                    </div>
+                    
+                    <!-- HDFC Offer -->
+                    <div class="offer-card border border-gray-200 rounded-xl p-5 hover:border-blue-300 bg-white">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-building text-blue-800 text-xl"></i>
+                                    <h3 class="font-bold text-xl text-gray-800">HDFC Home Loan</h3>
+                                    <span class="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">Flexible</span>
+                                </div>
+                                <p class="text-3xl font-black text-blue-600 mt-1">8.50% <span class="text-sm font-normal text-gray-500">p.a.</span></p>
+                                <p class="text-sm text-gray-500 mt-1"><i class="fas fa-rupee-sign"></i> Processing: ₹8,500</p>
+                                <p class="text-xs text-green-600">🎁 Special festive offer</p>
+                            </div>
+                            <a href="#" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-semibold text-center hover:bg-blue-700 transition shadow-md">Apply Now</a>
+                        </div>
+                    </div>
+                    
+                    <!-- ICICI Offer -->
+                    <div class="offer-card border border-gray-200 rounded-xl p-5 hover:border-blue-300 bg-white">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-chart-line text-blue-800 text-xl"></i>
+                                    <h3 class="font-bold text-xl text-gray-800">ICICI Home Loan</h3>
+                                    <span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded-full">Low EMI</span>
+                                </div>
+                                <p class="text-3xl font-black text-blue-600 mt-1">8.45% <span class="text-sm font-normal text-gray-500">p.a.</span></p>
+                                <p class="text-sm text-gray-500 mt-1"><i class="fas fa-rupee-sign"></i> Processing: ₹9,000</p>
+                                <p class="text-xs text-green-600">⚡ Instant approval</p>
+                            </div>
+                            <a href="#" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-semibold text-center hover:bg-blue-700 transition shadow-md">Apply Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-5 text-center text-xs text-gray-400 border-t pt-4">
+                    <i class="fas fa-shield-alt"></i> Interest rates subject to credit score & eligibility
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT SECTION: LOAN APPLICATION FORM (Sticky) -->
+        <div class="lg:col-span-1">
+            <div class="bg-white rounded-2xl shadow-xl p-6 sticky top-24 transition-all sticky-card">
+                <h2 class="text-xl font-bold text-gray-900 mb-5 flex items-center border-b pb-3">
+                    <i class="fas fa-file-alt text-blue-600 mr-3 text-xl"></i>
+                    Quick Apply
+                </h2>
+                
+                <form id="loanApplicationForm" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Full Name *</label>
+                        <input type="text" required placeholder="Rahul Sharma" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Email Address *</label>
+                        <input type="email" required placeholder="rahul@example.com" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Phone Number *</label>
+                        <input type="tel" required placeholder="9876543210" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Desired Loan Amount (₹)</label>
+                        <input type="number" id="formLoanAmount" placeholder="e.g. 5000000" class="w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50">
+                        <p class="text-xs text-gray-400 mt-1">Syncs with EMI slider</p>
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3.5 rounded-xl font-bold text-lg shadow-lg hover:from-blue-700 hover:to-blue-800 transition transform active:scale-95 flex items-center justify-center gap-2">
+                        <i class="fas fa-paper-plane"></i> Submit Application
+                    </button>
+                </form>
+                
+                <div id="successMessage" class="mt-5 p-3 bg-green-50 rounded-xl hidden success-toast border border-green-200 flex items-center gap-2">
+                    <i class="fas fa-check-circle text-green-600 text-lg"></i>
+                    <span class="text-green-800 font-medium">Application submitted! Our loan expert will contact you shortly.</span>
+                </div>
+                <div class="mt-4 text-center text-xs text-gray-400 flex justify-center gap-3">
+                    <span><i class="far fa-clock"></i> Instant callback</span>
+                    <span><i class="fas fa-lock"></i> Secure & encrypted</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Simple Footer -->
+<footer class="bg-gray-900 text-white mt-16 py-8">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+        <div class="flex justify-center space-x-6 mb-4">
+            <i class="fab fa-facebook-f text-gray-400 hover:text-blue-400 cursor-pointer"></i>
+            <i class="fab fa-twitter text-gray-400 hover:text-blue-400 cursor-pointer"></i>
+            <i class="fab fa-linkedin-in text-gray-400 hover:text-blue-400 cursor-pointer"></i>
+            <i class="fab fa-instagram text-gray-400 hover:text-pink-400 cursor-pointer"></i>
+        </div>
+        <p class="text-gray-400 text-sm">© 2025 Propbandhu Home Loans | Empowering your home ownership dream</p>
+        <p class="text-gray-500 text-xs mt-2">*Terms & conditions apply. EMI calculated as per standard reducing balance method.</p>
+    </div>
+</footer>
+
+<script>
+    // ---------- EMI Calculation Logic & Chart Rendering ----------
+    let emiChartInstance = null;
+
+    function formatINR(num) {
+        return '₹' + num.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+    }
+
+    function calculateAndUpdate() {
+        // Get values
+        let loanAmount = parseFloat(document.getElementById('loanAmount').value);
+        let annualRate = parseFloat(document.getElementById('interestRate').value);
+        let tenureYears = parseFloat(document.getElementById('tenure').value);
+
+        // Monthly rate & months
+        let monthlyRate = annualRate / 12 / 100;
+        let months = tenureYears * 12;
+
+        let emi = 0, totalPayment = 0, totalInterest = 0;
+        
+        if (monthlyRate === 0) {
+            emi = loanAmount / months;
+            totalPayment = loanAmount;
+            totalInterest = 0;
+        } else {
+            emi = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
+            totalPayment = emi * months;
+            totalInterest = totalPayment - loanAmount;
+        }
+
+        // Update DOM elements
+        document.getElementById('emiAmount').innerHTML = formatINR(emi);
+        document.getElementById('totalInterest').innerHTML = formatINR(totalInterest);
+        document.getElementById('totalPayment').innerHTML = formatINR(totalPayment);
+        document.getElementById('loanAmountValue').innerHTML = formatINR(loanAmount);
+        document.getElementById('interestRateValue').innerHTML = annualRate.toFixed(1) + '%';
+        document.getElementById('tenureValue').innerHTML = tenureYears + ' Year' + (tenureYears > 1 ? 's' : '');
+        
+        // Sync form loan amount field
+        let formLoanField = document.getElementById('formLoanAmount');
+        if (formLoanField) formLoanField.value = Math.round(loanAmount);
+
+        // Update Pie Chart (Principal vs Interest)
+        if (emiChartInstance) {
+            emiChartInstance.destroy();
+        }
+        const ctx = document.getElementById('emiChart').getContext('2d');
+        emiChartInstance = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Principal Amount', 'Total Interest Payable'],
+                datasets: [{
+                    data: [loanAmount, totalInterest],
+                    backgroundColor: ['#3b82f6', '#f97316'],
+                    borderColor: 'white',
+                    borderWidth: 2,
+                    hoverOffset: 8,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { size: 12 }, usePointStyle: true } },
+                    tooltip: { callbacks: { label: (tooltipItem) => `${tooltipItem.label}: ${formatINR(tooltipItem.raw)}` } }
+                },
+                cutout: '55%',
+            }
+        });
+    }
+
+    // Event listeners for sliders
+    document.getElementById('loanAmount').addEventListener('input', calculateAndUpdate);
+    document.getElementById('interestRate').addEventListener('input', calculateAndUpdate);
+    document.getElementById('tenure').addEventListener('input', calculateAndUpdate);
+    
+    // Also update when form loan amount changes manually (extra sync)
+    const formLoanInput = document.getElementById('formLoanAmount');
+    if (formLoanInput) {
+        formLoanInput.addEventListener('change', function() {
+            let val = parseFloat(this.value);
+            if (!isNaN(val) && val >= 100000 && val <= 20000000) {
+                document.getElementById('loanAmount').value = val;
+                calculateAndUpdate();
+            } else if (val < 100000) {
+                document.getElementById('loanAmount').value = 100000;
+                calculateAndUpdate();
+            } else if (val > 20000000) {
+                document.getElementById('loanAmount').value = 20000000;
+                calculateAndUpdate();
+            }
+        });
+    }
+
+    // Form submission with success message and reset
+    const loanForm = document.getElementById('loanApplicationForm');
+    const successDiv = document.getElementById('successMessage');
+    
+    loanForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Show success message
+        successDiv.classList.remove('hidden');
+        // Optionally reset form fields
+        loanForm.reset();
+        // Keep the loan amount synced with current slider after reset
+        let currentLoan = document.getElementById('loanAmount').value;
+        document.getElementById('formLoanAmount').value = currentLoan;
+        // Auto-hide success message after 5 secs
+        setTimeout(() => {
+            successDiv.classList.add('hidden');
+        }, 5000);
+        // Scroll to success smoothly if needed
+        successDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    // Initialize on page load
+    calculateAndUpdate();
+    
+    // Add extra micro interaction: display loan amount values as tooltips
+    const sliders = ['loanAmount', 'interestRate', 'tenure'];
+    sliders.forEach(id => {
+        const slider = document.getElementById(id);
+        slider.addEventListener('mousemove', function(e) {
+            // just for better UX, no extra function needed
+        });
+    });
+</script>
+</body>
+</html>

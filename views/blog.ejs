@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        
+        /* ========== MODERN NAVBAR STYLES ========== */
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+        
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(37,99,235,0.3);
+        }
+        
+        .logo-icon i {
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e293b, #2563eb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .logo-sub {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-links li a {
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: #334155;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .nav-links li a:hover {
+            color: #2563eb;
+        }
+        
+        .nav-links li a.active {
+            color: #2563eb;
+            font-weight: 600;
+        }
+        
+        .has-submenu {
+            position: relative;
+        }
+        
+        .submenu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            border-radius: 16px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.15);
+            padding: 0.5rem 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.25s ease;
+            list-style: none;
+            border: 1px solid #f0f2f5;
+        }
+        
+        .has-submenu:hover .submenu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .submenu li a {
+            padding: 0.6rem 1.2rem;
+            display: block;
+            font-size: 0.85rem;
+        }
+        
+        .submenu li a:hover {
+            background: #f8fafc;
+            color: #2563eb;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+        
+        .auth-btn {
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .login-btn {
+            background: transparent;
+            color: #2563eb;
+            border: 1.5px solid #2563eb;
+        }
+        
+        .login-btn:hover {
+            background: #eff6ff;
+            transform: translateY(-2px);
+        }
+        
+        .signup-btn {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            color: white;
+        }
+        
+        .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #334155;
+            cursor: pointer;
+        }
+        
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 320px;
+            height: 100vh;
+            background: white;
+            z-index: 2000;
+            transition: right 0.3s ease;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.1);
+            padding: 2rem 1.5rem;
+        }
+        
+        .mobile-menu.active {
+            right: 0;
+        }
+        
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .navbar {
+                padding: 0.8rem 1.5rem;
+            }
+        }
+        
+        /* ========== MODERN FOOTER STYLES ========== */
+        .footer {
+            background: #0f172a;
+            color: #e2e8f0;
+            position: relative;
+            overflow: hidden;
+            margin-top: 4rem;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #2563eb, #06b6d4, #8b5cf6, #2563eb);
+            background-size: 200% 100%;
+            animation: gradientMove 3s ease infinite;
+        }
+        
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .footer a {
+            transition: all 0.2s ease;
+        }
+        
+        .footer a:hover {
+            color: #60a5fa;
+            transform: translateX(4px);
+        }
+        
+        .footer-heading {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+            border-radius: 2px;
+        }
+        
+        .social-icon {
+            width: 38px;
+            height: 38px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background: #2563eb;
+            transform: translateY(-4px);
+        }
+        
+        .newsletter-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            color: white;
+            transition: all 0.2s;
+        }
+        
+        .newsletter-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .newsletter-btn {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .newsletter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+        }
+        
+        /* Blog Card Styles */
+        .blog-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .blog-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.15);
+            border-color: rgba(37,99,235,0.2);
+        }
+        
+        .category-btn.active {
+            background: #2563eb;
+            color: white;
+        }
+        
+        .category-item {
+            transition: all 0.2s ease;
+        }
+        
+        .category-item:hover {
+            background: #f1f5f9;
+            transform: translateX(4px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    
+    <!-- ========== MODERN NAVBAR ========== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div>
+                    <div class="logo-text">Propbandhu</div>
+                    <div class="logo-sub">by Bandhu Group</div>
+                </div>
+            </a>
+            
+            <ul class="nav-links">
+                <li class="has-submenu">
+                    <a href="/properties"><i class="fas fa-search"></i> Buy</a>
+                    <ul class="submenu">
+                        <li><a href="/properties?type=Apartment">Flats</a></li>
+                        <li><a href="/properties?type=Villa">Villas</a></li>
+                        <li><a href="/properties?type=Plot">Plots</a></li>
+                        <li><a href="/properties?type=Commercial">Commercial</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="/properties?for=rent"><i class="fas fa-key"></i> Rent</a>
+                    <ul class="submenu">
+                        <li><a href="/properties?type=Apartment&for=rent">Apartments</a></li>
+                        <li><a href="/properties?type=Villa&for=rent">Villas</a></li>
+                        <li><a href="/properties?type=House&for=rent">Houses</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="#"><i class="fas fa-concierge-bell"></i> Services</a>
+                    <ul class="submenu">
+                        <li><a href="/needs/homeloan">Home Loans</a></li>
+                        <li><a href="/needs/legal-support">Legal Support</a></li>
+                        <li><a href="/needs/property-management">Property Management</a></li>
+                        <li><a href="/needs/valuation">Property Valuation</a></li>
+                    </ul>
+                </li>
+                <li><a href="/careers"><i class="fas fa-briefcase"></i> Careers</a></li>
+                <li><a href="/blog" class="active"><i class="fas fa-blog"></i> Blogs</a></li>
+            </ul>
+            
+            <div class="auth-buttons">
+                <a href="/login" class="auth-btn login-btn"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="/register" class="auth-btn signup-btn"><i class="fas fa-user-plus"></i> Sign Up</a>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="flex justify-between items-center mb-8 pb-4 border-b border-gray-100">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div>
+                    <div class="logo-text">Propbandhu</div>
+                    <div class="logo-sub">by Bandhu Group</div>
+                </div>
+            </div>
+            <button class="text-gray-500 text-2xl" id="closeMenuBtn"><i class="fas fa-times"></i></button>
+        </div>
+        <ul class="space-y-4">
+            <li><a href="/properties" class="text-gray-700 hover:text-blue-600 block py-2">Buy</a></li>
+            <li><a href="/properties?for=rent" class="text-gray-700 hover:text-blue-600 block py-2">Rent</a></li>
+            <li><a href="#" class="text-gray-700 hover:text-blue-600 block py-2">Services</a></li>
+            <li><a href="/careers" class="text-gray-700 hover:text-blue-600 block py-2">Careers</a></li>
+            <li><a href="/blog" class="text-blue-600 font-semibold block py-2">Blogs</a></li>
+        </ul>
+        <div class="mt-8 pt-4 border-t border-gray-100 flex gap-3">
+            <a href="/login" class="flex-1 text-center border-2 border-blue-600 text-blue-600 py-2 rounded-xl font-semibold">Login</a>
+            <a href="/register" class="flex-1 text-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2 rounded-xl font-semibold">Sign Up</a>
+        </div>
+    </div>
+    
+    <!-- Hero Section -->
+    <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full filter blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-indigo-500 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-4 py-16 text-center">
+            <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm mb-4">
+                <i class="fas fa-newspaper text-yellow-400"></i>
+                <span>Latest Insights</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+                Propbandhu Blog
+            </h1>
+            <p class="text-xl text-blue-100 max-w-2xl mx-auto">
+                Expert insights, guides, and tips for your real estate journey
+            </p>
+        </div>
+        
+        <div class="hero-wave">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120">
+                <path fill="#f3f4f6" fill-opacity="1" d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
+            </svg>
+        </div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-4 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Sidebar -->
+            <div class="lg:w-1/4">
+                <!-- Search Box -->
+                <div class="bg-white rounded-2xl shadow-md p-5 mb-6 hover:shadow-lg transition">
+                    <h3 class="font-bold text-lg text-gray-800 mb-3 flex items-center gap-2">
+                        <i class="fas fa-search text-blue-500"></i> Search Articles
+                    </h3>
+                    <form method="GET" action="/blog" class="flex gap-2">
+                        <input type="text" name="search" value="<%= searchQuery %>" placeholder="Search..." 
+                               class="flex-1 px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+                        <button type="submit" class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-5 rounded-xl hover:shadow-lg transition">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Categories -->
+                <div class="bg-white rounded-2xl shadow-md p-5 mb-6 hover:shadow-lg transition">
+                    <h3 class="font-bold text-lg text-gray-800 mb-3 flex items-center gap-2">
+                        <i class="fas fa-folder-open text-blue-500"></i> Categories
+                    </h3>
+                    <div class="space-y-1">
+                        <% categories.forEach(cat => { %>
+                            <a href="/blog?category=<%= cat.slug %>" 
+                               class="category-item flex justify-between items-center p-2 rounded-xl transition <%= currentCategory === cat.slug ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-gray-600 hover:bg-gray-50' %>">
+                                <span><%= cat.name %></span>
+                                <span class="text-xs <%= currentCategory === cat.slug ? 'text-blue-500' : 'text-gray-400' %>"><%= cat.count %></span>
+                            </a>
+                        <% }); %>
+                    </div>
+                </div>
+                
+                <!-- Popular Tags -->
+                <div class="bg-white rounded-2xl shadow-md p-5 mb-6 hover:shadow-lg transition">
+                    <h3 class="font-bold text-lg text-gray-800 mb-3 flex items-center gap-2">
+                        <i class="fas fa-tags text-blue-500"></i> Popular Tags
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="/blog?tag=realestate" class="bg-gray-100 text-gray-600 text-xs px-3 py-1.5 rounded-full hover:bg-blue-100 hover:text-blue-600 transition">Real Estate</a>
+                        <a href="/blog?tag=homeloan" class="bg-gray-100 text-gray-600 text-xs px-3 py-1.5 rounded-full hover:bg-blue-100 hover:text-blue-600 transition">Home Loan</a>
+                        <a href="/blog?tag=investment" class="bg-gray-100 text-gray-600 text-xs px-3 py-1.5 rounded-full hover:bg-blue-100 hover:text-blue-600 transition">Investment</a>
+                        <a href="/blog?tag=legal" class="bg-gray-100 text-gray-600 text-xs px-3 py-1.5 rounded-full hover:bg-blue-100 hover:text-blue-600 transition">Legal</a>
+                        <a href="/blog?tag=buying" class="bg-gray-100 text-gray-600 text-xs px-3 py-1.5 rounded-full hover:bg-blue-100 hover:text-blue-600 transition">Buying Guide</a>
+                        <a href="/blog?tag=selling" class="bg-gray-100 text-gray-600 text-xs px-3 py-1.5 rounded-full hover:bg-blue-100 hover:text-blue-600 transition">Selling Tips</a>
+                    </div>
+                </div>
+                
+                <!-- Newsletter -->
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-5 text-white relative overflow-hidden">
+                    <div class="absolute top-0 right-0 opacity-10">
+                        <i class="fas fa-envelope text-8xl"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <h3 class="font-bold text-xl mb-2">Subscribe to Newsletter</h3>
+                        <p class="text-sm text-blue-100 mb-4">Get the latest real estate insights delivered to your inbox</p>
+                        <form action="/newsletter/subscribe" method="POST" class="flex flex-col gap-3">
+                            <input type="email" name="email" placeholder="Your email address" 
+                                   class="px-4 py-2.5 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-white" required>
+                            <button type="submit" class="bg-white text-blue-600 py-2.5 rounded-xl font-semibold hover:bg-gray-100 transition transform hover:scale-[1.02]">
+                                Subscribe <i class="fas fa-paper-plane ml-2"></i>
+                            </button>
+                        </form>
+                        <p class="text-xs text-blue-200 mt-3">No spam, unsubscribe anytime.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Blog Listing -->
+            <div class="lg:w-3/4">
+                <% if (blogs.length === 0) { %>
+                    <div class="text-center py-16 bg-white rounded-2xl shadow-md">
+                        <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-gray-700">No articles found</h3>
+                        <p class="text-gray-500 mt-2">Try a different search term or category</p>
+                        <a href="/blog" class="inline-flex items-center gap-2 mt-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:shadow-lg transition">
+                            Clear filters <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                <% } else { %>
+                    <div class="space-y-6">
+                        <% blogs.forEach((blog, index) => { %>
+                            <a href="/blog/<%= blog.slug %>" class="blog-card bg-white rounded-2xl shadow-md overflow-hidden flex flex-col md:flex-row group">
+                                <div class="md:w-64 h-52 overflow-hidden bg-gray-100">
+                                    <img src="<%= blog.image %>" alt="<%= blog.title %>" 
+                                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                </div>
+                                <div class="flex-1 p-5">
+                                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                                        <span class="bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 text-xs px-3 py-1 rounded-full font-medium"><%= blog.category %></span>
+                                        <span class="text-gray-400 text-xs flex items-center gap-1"><i class="far fa-calendar-alt"></i> <%= blog.date %></span>
+                                        <span class="text-gray-400 text-xs flex items-center gap-1"><i class="far fa-clock"></i> <%= blog.readTime %></span>
+                                    </div>
+                                    <h2 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition line-clamp-2"><%= blog.title %></h2>
+                                    <p class="text-gray-500 text-sm mb-4 line-clamp-2"><%= blog.excerpt %></p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <img src="<%= blog.authorAvatar %>" alt="<%= blog.author %>" class="w-7 h-7 rounded-full">
+                                            <span class="text-sm text-gray-600 font-medium"><%= blog.author %></span>
+                                        </div>
+                                        <span class="text-blue-600 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
+                                            Read More <i class="fas fa-arrow-right text-xs"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        <% }); %>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="flex justify-center gap-2 mt-8">
+                        <button class="px-4 py-2 border border-gray-300 rounded-xl text-gray-600 hover:bg-gray-50 transition">Previous</button>
+                        <button class="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl">1</button>
+                        <button class="px-4 py-2 border border-gray-300 rounded-xl text-gray-600 hover:bg-gray-50 transition">2</button>
+                        <button class="px-4 py-2 border border-gray-300 rounded-xl text-gray-600 hover:bg-gray-50 transition">3</button>
+                        <button class="px-4 py-2 border border-gray-300 rounded-xl text-gray-600 hover:bg-gray-50 transition">Next</button>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ========== MODERN FOOTER ========== -->
+    <footer class="footer">
+        <div class="max-w-7xl mx-auto px-4 py-12">
+            <!-- Main Footer Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="logo-icon w-10 h-10">
+                            <i class="fas fa-home text-white"></i>
+                        </div>
+                        <div>
+                            <div class="text-white text-xl font-bold">Propbandhu</div>
+                            <div class="text-gray-400 text-xs">by Bandhu Group</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+                        India's most trusted real estate platform helping millions find their dream homes and make smart property investments.
+                    </p>
+                    <div class="flex gap-3">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f text-gray-300"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter text-gray-300"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram text-gray-300"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in text-gray-300"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube text-gray-300"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/properties" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> Buy Property</a></li>
+                        <li><a href="/properties?for=rent" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> Rent Property</a></li>
+                        <li><a href="/needs/valuation" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> Property Valuation</a></li>
+                        <li><a href="/needs/homeloan" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> Home Loans</a></li>
+                        <li><a href="/needs/legal-support" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> Legal Support</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Support -->
+                <div>
+                    <h3 class="footer-heading">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/about" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> About Us</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> Contact Us</a></li>
+                        <li><a href="/faq" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> FAQ</a></li>
+                        <li><a href="/careers" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> Careers</a></li>
+                        <li><a href="/blog" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> Blog</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Newsletter -->
+                <div>
+                    <h3 class="footer-heading">Newsletter</h3>
+                    <p class="text-gray-400 text-sm mb-3">Subscribe to get updates on new properties and real estate insights.</p>
+                    <form action="/newsletter" method="POST" class="flex flex-col gap-3">
+                        <input type="email" name="email" placeholder="Your email address" class="newsletter-input" required>
+                        <button type="submit" class="newsletter-btn text-white">Subscribe <i class="fas fa-paper-plane ml-2"></i></button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Bottom Bar -->
+            <div class="border-t border-gray-800 pt-6 mt-6">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="text-gray-500 text-sm">
+                        &copy; 2026 Propbandhu. All rights reserved. Built with <i class="fas fa-heart text-red-500"></i> in India
+                    </p>
+                    <div class="flex gap-6">
+                        <a href="/privacy" class="text-gray-500 hover:text-gray-300 text-sm">Privacy Policy</a>
+                        <a href="/terms" class="text-gray-500 hover:text-gray-300 text-sm">Terms of Service</a>
+                        <a href="/sitemap" class="text-gray-500 hover:text-gray-300 text-sm">Sitemap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+            });
+        }
+        
+        if (closeMenuBtn) {
+            closeMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        }
+        
+        // Close mobile menu on link click
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

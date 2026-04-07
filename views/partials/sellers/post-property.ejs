@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Post Free Property - Propbandhu | Sell/Rent Property Online</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ========== COMPLETE CUSTOM CSS FOR POST FREE PROPERTY PAGE ========== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #fef3c7 100%);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        /* Form card styling */
+        .form-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .form-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Form input focus effects */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        input, select, textarea {
+            transition: all 0.2s ease;
+        }
+
+        /* Button hover effects */
+        .btn-submit {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4);
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+        }
+        
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        /* Custom file input styling */
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            font-size: 100px;
+            opacity: 0;
+            right: 0;
+            top: 0;
+            cursor: pointer;
+        }
+        
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border: 2px dashed #9ca3af;
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .file-input-label:hover {
+            background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+            border-color: #3b82f6;
+        }
+
+        /* Image preview container */
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        
+        .preview-item {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .preview-remove {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .preview-remove:hover {
+            background: #dc2626;
+            transform: scale(1.1);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #bbf7d0;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #22c55e;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #16a34a;
+        }
+
+        /* Sidebar card hover */
+        .benefit-card {
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Tip item hover */
+        .tip-item {
+            transition: all 0.2s ease;
+        }
+        
+        .tip-item:hover {
+            transform: translateX(5px);
+            background-color: #eff6ff;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-card {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Checkbox styling */
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #3b82f6;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success animation */
+        .success-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #22c55e;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            animation: slideInRight 0.3s ease-out;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Error input styling */
+        input.error, select.error, textarea.error {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+        }
+        
+        /* Floating labels effect */
+        .input-group {
+            position: relative;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar (simulated for standalone preview) -->
+    <nav class="bg-white/90 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-9 h-9 bg-gradient-to-r from-blue-600 to-green-600 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-plus-circle text-white text-lg"></i>
+                    </div>
+                    <span class="font-bold text-xl text-gray-800">Prop<span class="text-blue-600">bandhu</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition">Buy Property</a>
+                    <a href="#" class="text-blue-600 font-semibold border-b-2 border-blue-600 pb-1">Post Property</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition">Contact</a>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-user-circle text-gray-500 text-2xl hover:text-blue-600 transition cursor-pointer"></i>
+                    <span class="hidden sm:inline text-gray-700">Sign In</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Hero Header -->
+        <div class="mb-10 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-1.5 rounded-full text-sm font-semibold mb-3 shadow-md">
+                <i class="fas fa-gift"></i> 100% Free Listing
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">Post Free Property</h1>
+            <p class="text-gray-600 mt-3 text-lg max-w-2xl">Reach millions of potential buyers and tenants across India. Sell or rent your property quickly with zero commission.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Property Form -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-2xl shadow-xl p-6 form-card">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                        <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-home text-blue-600 text-sm"></i>
+                        </div>
+                        Property Details
+                    </h2>
+                    
+                    <form id="postPropertyForm" class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Property Title <span class="text-red-500">*</span></label>
+                            <input type="text" id="title" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-400 transition" placeholder="e.g., 3 BHK Luxury Apartment in Andheri">
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Purpose <span class="text-red-500">*</span></label>
+                                <select id="purpose" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-400 transition bg-white">
+                                    <option value="sell">🏠 For Sale</option>
+                                    <option value="rent">🔑 For Rent</option>
+                                    <option value="lease">📄 For Lease</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Property Type <span class="text-red-500">*</span></label>
+                                <select id="propertyType" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-400 transition bg-white">
+                                    <option value="apartment">🏢 Apartment/Flat</option>
+                                    <option value="villa">🏰 Villa</option>
+                                    <option value="plot">🌳 Plot/Land</option>
+                                    <option value="commercial">🏪 Commercial</option>
+                                    <option value="pg">🏠 PG/Hostel</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Price (₹) <span class="text-red-500">*</span></label>
+                                <input type="number" id="price" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-400 transition" placeholder="e.g., 7500000">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Area (sq.ft) <span class="text-red-500">*</span></label>
+                                <input type="number" id="area" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-400 transition" placeholder="e.g., 1200">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">BHK</label>
+                                <select id="bhk" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-400 transition bg-white">
+                                    <option value="1">1 BHK / 1 RK</option>
+                                    <option value="2">2 BHK</option>
+                                    <option value="3">3 BHK</option>
+                                    <option value="4">4 BHK</option>
+                                    <option value="4+">4+ BHK</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Furnishing Status</label>
+                                <select id="furnishing" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-400 transition bg-white">
+                                    <option value="unfurnished">🪑 Unfurnished</option>
+                                    <option value="semi">🛋️ Semi-furnished</option>
+                                    <option value="fully">🛏️ Fully Furnished</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Location / Area <span class="text-red-500">*</span></label>
+                            <input type="text" id="location" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-400 transition" placeholder="e.g., Andheri East, Mumbai">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Full Address <span class="text-red-500">*</span></label>
+                            <textarea id="address" rows="2" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-400 transition" placeholder="House No, Street, Landmark, City, Pincode"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Description <span class="text-red-500">*</span></label>
+                            <textarea id="description" rows="4" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-400 transition" placeholder="Describe your property - features, amenities, nearby facilities, USPs..."></textarea>
+                            <p class="text-xs text-gray-400 mt-1"><i class="fas fa-info-circle"></i> Add details about nearby schools, metro, hospitals, etc.</p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Upload Images <span class="text-red-500">*</span></label>
+                            <div class="file-input-wrapper">
+                                <div class="file-input-label" onclick="document.getElementById('images').click()">
+                                    <i class="fas fa-cloud-upload-alt text-2xl text-blue-500"></i>
+                                    <span>Click to upload property images</span>
+                                </div>
+                                <input type="file" id="images" multiple accept="image/*" style="display: none" onchange="previewImages(this)">
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1"><i class="fas fa-info-circle"></i> Upload up to 10 images (JPG, PNG, JPEG). First image will be the cover photo.</p>
+                            <div id="imagePreviewContainer" class="image-preview"></div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Contact Name <span class="text-red-500">*</span></label>
+                                <input type="text" id="contactName" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-400 transition" placeholder="Your full name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Contact Phone <span class="text-red-500">*</span></label>
+                                <input type="tel" id="contactPhone" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-400 transition" placeholder="10-digit mobile number">
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-xl">
+                            <div class="flex items-start gap-3">
+                                <input type="checkbox" id="terms" required class="mt-1">
+                                <label class="text-sm text-gray-700">I confirm that all information provided is accurate and I have the legal right to sell/rent this property. I agree to the <a href="#" class="text-blue-600 hover:underline">Terms & Conditions</a>.</label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" id="submitBtn" class="btn-submit w-full text-white py-3.5 rounded-xl font-bold text-lg shadow-md transition flex items-center justify-center gap-2">
+                            <i class="fas fa-cloud-upload-alt"></i> Post Property for Free
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Tips Sidebar -->
+            <div>
+                <div class="bg-gradient-to-r from-green-600 to-blue-600 rounded-2xl shadow-xl p-6 text-white mb-6 benefit-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-gem text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">Why Post with Us?</h3>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-300"></i> <span>100% Free Listing</span></li>
+                        <li class="flex items-center gap-2"><i class="fas fa-users text-green-300"></i> <span>1 Million+ Monthly Visitors</span></li>
+                        <li class="flex items-center gap-2"><i class="fas fa-verified text-green-300"></i> <span>Verified Buyer Leads</span></li>
+                        <li class="flex items-center gap-2"><i class="fas fa-chart-line text-green-300"></i> <span>Easy Dashboard Management</span></li>
+                        <li class="flex items-center gap-2"><i class="fas fa-headset text-green-300"></i> <span>24/7 Support</span></li>
+                        <li class="flex items-center gap-2"><i class="fas fa-bolt text-green-300"></i> <span>Instant Approval</span></li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-xl p-6">
+                    <h3 class="font-bold text-lg text-gray-800 mb-4 flex items-center gap-2">
+                        <i class="fas fa-lightbulb text-yellow-500"></i> Tips for Best Results
+                    </h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="tip-item flex items-center gap-2 p-2 rounded-lg"><i class="fas fa-camera text-blue-600 w-5"></i> <span>Upload high-quality images (well-lit, different angles)</span></li>
+                        <li class="tip-item flex items-center gap-2 p-2 rounded-lg"><i class="fas fa-tag text-blue-600 w-5"></i> <span>Price competitively - research similar properties</span></li>
+                        <li class="tip-item flex items-center gap-2 p-2 rounded-lg"><i class="fas fa-map-marker-alt text-blue-600 w-5"></i> <span>Provide exact location with landmark</span></li>
+                        <li class="tip-item flex items-center gap-2 p-2 rounded-lg"><i class="fas fa-pen-fancy text-blue-600 w-5"></i> <span>Highlight unique features & amenities</span></li>
+                        <li class="tip-item flex items-center gap-2 p-2 rounded-lg"><i class="fas fa-chart-simple text-blue-600 w-5"></i> <span>Update listing regularly for better visibility</span></li>
+                    </ul>
+                    
+                    <div class="mt-4 pt-3 border-t border-gray-100">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-500">Need help?</span>
+                            <a href="#" class="text-blue-600 text-sm font-semibold hover:underline"><i class="fas fa-phone-alt"></i> Call +91 98765 43210</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stats Card -->
+                <div class="mt-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-4 text-center">
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <div class="text-xl font-bold text-purple-600">10K+</div>
+                            <div class="text-xs text-gray-500">Properties Sold</div>
+                        </div>
+                        <div>
+                            <div class="text-xl font-bold text-blue-600">50K+</div>
+                            <div class="text-xs text-gray-500">Happy Sellers</div>
+                        </div>
+                        <div>
+                            <div class="text-xl font-bold text-green-600">24hr</div>
+                            <div class="text-xs text-gray-500">Approval Time</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <i class="fab fa-facebook-f text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-twitter text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-linkedin-in text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-instagram text-gray-400 hover:text-pink-400 cursor-pointer transition text-xl"></i>
+            </div>
+            <p class="text-gray-400 text-sm">© 2025 Propbandhu | Post Free Property - Sell/Rent Your Property Online</p>
+            <p class="text-gray-500 text-xs mt-2">Verified Listings | No Commission | Direct Owner Contact</p>
+        </div>
+    </footer>
+
+    <script>
+        let selectedFiles = [];
+        
+        function previewImages(input) {
+            const previewContainer = document.getElementById('imagePreviewContainer');
+            const files = Array.from(input.files);
+            
+            if (selectedFiles.length + files.length > 10) {
+                alert('You can upload maximum 10 images');
+                return;
+            }
+            
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    selectedFiles.push(file);
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const previewDiv = document.createElement('div');
+                        previewDiv.className = 'preview-item';
+                        previewDiv.innerHTML = `
+                            <img src="${e.target.result}" alt="Preview">
+                            <div class="preview-remove" onclick="removeImage(this, '${file.name}')">
+                                <i class="fas fa-times"></i>
+                            </div>
+                        `;
+                        previewContainer.appendChild(previewDiv);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        
+        function removeImage(element, fileName) {
+            const index = selectedFiles.findIndex(f => f.name === fileName);
+            if (index !== -1) {
+                selectedFiles.splice(index, 1);
+                element.closest('.preview-item').remove();
+            }
+        }
+        
+        function showToast(message, isError = false) {
+            const existingToast = document.querySelector('.success-toast');
+            if (existingToast) existingToast.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'success-toast';
+            toast.style.background = isError ? '#ef4444' : '#22c55e';
+            toast.innerHTML = `<i class="fas fa-${isError ? 'exclamation-triangle' : 'check-circle'}"></i><span>${message}</span>`;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 4000);
+        }
+        
+        document.getElementById('postPropertyForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validate required fields
+            const title = document.getElementById('title').value.trim();
+            const price = document.getElementById('price').value;
+            const location = document.getElementById('location').value.trim();
+            const contactName = document.getElementById('contactName').value.trim();
+            const contactPhone = document.getElementById('contactPhone').value.trim();
+            const terms = document.getElementById('terms').checked;
+            
+            if (!title || !price || !location || !contactName || !contactPhone) {
+                showToast('❌ Please fill in all required fields', true);
+                return;
+            }
+            
+            if (!/^\d{10}$/.test(contactPhone)) {
+                showToast('❌ Please enter a valid 10-digit mobile number', true);
+                return;
+            }
+            
+            if (!terms) {
+                showToast('❌ Please accept the terms and conditions', true);
+                return;
+            }
+            
+            if (selectedFiles.length === 0) {
+                showToast('❌ Please upload at least one property image', true);
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="loading-spinner"></span> Posting Property...';
+            submitBtn.disabled = true;
+            
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('purpose', document.getElementById('purpose').value);
+            formData.append('propertyType', document.getElementById('propertyType').value);
+            formData.append('price', price);
+            formData.append('area', document.getElementById('area').value);
+            formData.append('bhk', document.getElementById('bhk').value);
+            formData.append('furnishing', document.getElementById('furnishing').value);
+            formData.append('location', location);
+            formData.append('address', document.getElementById('address').value);
+            formData.append('description', document.getElementById('description').value);
+            formData.append('contactName', contactName);
+            formData.append('contactPhone', contactPhone);
+            
+            selectedFiles.forEach(file => {
+                formData.append('images', file);
+            });
+            
+            setTimeout(() => {
+                console.log('Property Data:', Object.fromEntries(formData));
+                showToast('✅ Property posted successfully! Our team will review and publish it within 24 hours.');
+                document.getElementById('postPropertyForm').reset();
+                document.getElementById('imagePreviewContainer').innerHTML = '';
+                selectedFiles = [];
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                setTimeout(() => {
+                    window.location.href = '/seller/dashboard';
+                }, 2000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

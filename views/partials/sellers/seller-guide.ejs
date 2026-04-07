@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Guide - Propbandhu</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9eef5 100%);
+        }
+        
+        /* Modern Navbar Styles */
+        .navbar-modern {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #2563eb, #06b6d4);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link-active {
+            color: #2563eb;
+            font-weight: 600;
+        }
+        
+        .nav-link-active::after {
+            width: 100%;
+        }
+        
+        .btn-nav-cta {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+        }
+        
+        /* Card Styles */
+        .guide-card {
+            background: white;
+            border-radius: 24px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+        
+        .guide-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -12px rgba(0,0,0,0.1);
+        }
+        
+        .tip-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tip-card::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(59,130,246,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .resource-item {
+            transition: all 0.2s ease;
+        }
+        
+        .resource-item:hover {
+            transform: translateX(4px);
+            background: linear-gradient(90deg, #f8fafc, #ffffff);
+        }
+        
+        /* Step Number Styling */
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 16px -6px rgba(37,99,235,0.3);
+        }
+        
+        /* Checklist Icons */
+        .checklist-item {
+            transition: all 0.2s;
+        }
+        
+        .checklist-item:hover {
+            transform: translateX(4px);
+        }
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Mobile Menu */
+        @media (max-width: 768px) {
+            .mobile-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                height: 100vh;
+                background: white;
+                z-index: 2000;
+                transition: right 0.3s ease;
+                box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+            }
+            
+            .mobile-menu.active {
+                right: 0;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        /* Image Placeholder Styles */
+        .image-placeholder {
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            min-height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Modern Navbar -->
+    <nav class="navbar-modern px-4 md:px-8 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
+                    <i class="fas fa-home text-white text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-2xl font-bold gradient-text">Propbandhu</span>
+                    <span class="text-xs text-gray-500 block -mt-1">by Bandhu Group</span>
+                </div>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#" class="nav-link text-gray-700 hover:text-blue-600 transition font-medium">Home</a>
+                <a href="#" class="nav-link text-gray-700 hover:text-blue-600 transition font-medium">Buy</a>
+                <a href="#" class="nav-link text-gray-700 hover:text-blue-600 transition font-medium">Rent</a>
+                <a href="#" class="nav-link text-gray-700 hover:text-blue-600 transition font-medium">Valuation</a>
+                <a href="#" class="nav-link text-gray-700 hover:text-blue-600 transition font-medium">Properties</a>
+                <a href="#" class="nav-link nav-link-active text-blue-600 font-semibold">Seller Guide</a>
+                <a href="#" class="nav-link text-gray-700 hover:text-blue-600 transition font-medium">Contact</a>
+            </div>
+            
+            <!-- Desktop CTA -->
+            <div class="hidden md:flex items-center space-x-4">
+                <div class="flex items-center space-x-2 bg-gray-100 px-3 py-1.5 rounded-full">
+                    <i class="fas fa-user-circle text-gray-600"></i>
+                    <span class="text-sm font-medium text-gray-700">My Account</span>
+                </div>
+                <button class="btn-nav-cta px-5 py-2 text-white rounded-xl font-semibold text-sm">
+                    <i class="fas fa-home mr-2"></i>List Property
+                </button>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" class="md:hidden text-gray-700 text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu Panel -->
+        <div id="mobileMenu" class="mobile-menu md:hidden">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-home text-white text-sm"></i>
+                        </div>
+                        <span class="text-xl font-bold gradient-text">Propbandhu</span>
+                    </div>
+                    <button id="closeMenuBtn" class="text-gray-600 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="flex items-center space-x-3 mb-6 p-3 bg-gray-50 rounded-xl">
+                    <i class="fas fa-user-circle text-3xl text-gray-500"></i>
+                    <div>
+                        <p class="font-semibold text-gray-800">Guest User</p>
+                        <p class="text-xs text-gray-500">Sign in for more features</p>
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-4">
+                    <a href="#" class="py-3 text-gray-700 hover:text-blue-600 transition font-medium border-b border-gray-100">Home</a>
+                    <a href="#" class="py-3 text-gray-700 hover:text-blue-600 transition font-medium border-b border-gray-100">Buy</a>
+                    <a href="#" class="py-3 text-gray-700 hover:text-blue-600 transition font-medium border-b border-gray-100">Rent</a>
+                    <a href="#" class="py-3 text-gray-700 hover:text-blue-600 transition font-medium border-b border-gray-100">Valuation</a>
+                    <a href="#" class="py-3 text-gray-700 hover:text-blue-600 transition font-medium border-b border-gray-100">Properties</a>
+                    <a href="#" class="py-3 text-blue-600 font-semibold border-b border-gray-100">Seller Guide</a>
+                    <a href="#" class="py-3 text-gray-700 hover:text-blue-600 transition font-medium">Contact</a>
+                    <button class="mt-4 w-full btn-nav-cta text-white py-3 rounded-xl font-semibold">
+                        <i class="fas fa-home mr-2"></i>List Property
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-8 px-4 md:px-8">
+        <!-- Hero Header -->
+        <div class="text-center mb-10 fade-in-up">
+            <div class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                <i class="fas fa-book-open"></i>
+                <span>Expert Guide for Sellers</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+                Seller's <span class="gradient-text">Success Guide</span>
+            </h1>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                Expert tips and strategies to sell your property faster and at the best possible price
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Content -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Section 1: Price Your Property -->
+                <div class="guide-card p-6">
+                    <div class="flex items-start gap-5">
+                        <div class="step-number text-white">1</div>
+                        <div class="flex-1">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-3">Price Your Property Right</h2>
+                            <p class="text-gray-600 mb-4">Setting the right price is crucial for a quick sale. Overpricing can lead to your property sitting on the market for months.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                <div class="bg-blue-50 rounded-xl p-4">
+                                    <i class="fas fa-chart-line text-blue-600 text-xl mb-2"></i>
+                                    <h3 class="font-bold text-gray-800">Market Research</h3>
+                                    <ul class="text-sm space-y-2 mt-2">
+                                        <li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i> Analyze recent sales in your area</li>
+                                        <li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i> Compare similar properties (size, age, condition)</li>
+                                        <li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i> Check price per square foot trends</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-purple-50 rounded-xl p-4">
+                                    <i class="fas fa-tag text-purple-600 text-xl mb-2"></i>
+                                    <h3 class="font-bold text-gray-800">Pricing Strategy</h3>
+                                    <ul class="text-sm space-y-2 mt-2">
+                                        <li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i> Price 5-10% below market for quick sale</li>
+                                        <li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i> Get professional valuation for accuracy</li>
+                                        <li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i> Be realistic about property condition</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section 2: Prepare Your Property -->
+                <div class="guide-card p-6">
+                    <div class="flex items-start gap-5">
+                        <div class="step-number text-white">2</div>
+                        <div class="flex-1">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-3">Prepare Your Property</h2>
+                            <p class="text-gray-600 mb-4">First impressions matter. A well-presented property attracts more buyers and better offers.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
+                                <div>
+                                    <div class="image-placeholder rounded-xl mb-3">
+                                        <i class="fas fa-broom text-5xl text-gray-500"></i>
+                                    </div>
+                                    <h3 class="font-bold text-gray-800 flex items-center gap-2"><i class="fas fa-spray-can-sparkles text-blue-500"></i> Home Staging Tips</h3>
+                                    <ul class="text-sm space-y-2 mt-2">
+                                        <li class="checklist-item flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i> Deep clean everything</li>
+                                        <li class="checklist-item flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i> Fix minor repairs</li>
+                                        <li class="checklist-item flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i> Declutter and depersonalize</li>
+                                        <li class="checklist-item flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i> Fresh coat of neutral paint</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div class="image-placeholder rounded-xl mb-3">
+                                        <i class="fas fa-camera text-5xl text-gray-500"></i>
+                                    </div>
+                                    <h3 class="font-bold text-gray-800 flex items-center gap-2"><i class="fas fa-camera text-blue-500"></i> Photography Tips</h3>
+                                    <ul class="text-sm space-y-2 mt-2">
+                                        <li class="checklist-item flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i> Use natural light</li>
+                                        <li class="checklist-item flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i> Shoot from corners</li>
+                                        <li class="checklist-item flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i> Include all rooms</li>
+                                        <li class="checklist-item flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-0.5"></i> Take exterior shots</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section 3: Legal Documents -->
+                <div class="guide-card p-6">
+                    <div class="flex items-start gap-5">
+                        <div class="step-number text-white">3</div>
+                        <div class="flex-1">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-3">Legal Documents Checklist</h2>
+                            <p class="text-gray-600 mb-4">Having all documents ready speeds up the sale process and builds buyer confidence.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
+                                <div class="bg-green-50 rounded-xl p-4">
+                                    <h3 class="font-bold text-green-700 flex items-center gap-2"><i class="fas fa-check-circle"></i> Must Have</h3>
+                                    <ul class="space-y-2 mt-3 text-sm">
+                                        <li class="flex items-start gap-2"><i class="fas fa-file-alt text-green-600 mt-0.5"></i> Sale Deed</li>
+                                        <li class="flex items-start gap-2"><i class="fas fa-file-alt text-green-600 mt-0.5"></i> Mother Deed</li>
+                                        <li class="flex items-start gap-2"><i class="fas fa-file-alt text-green-600 mt-0.5"></i> Encumbrance Certificate</li>
+                                        <li class="flex items-start gap-2"><i class="fas fa-file-alt text-green-600 mt-0.5"></i> Tax Receipts</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-blue-50 rounded-xl p-4">
+                                    <h3 class="font-bold text-blue-700 flex items-center gap-2"><i class="fas fa-star"></i> Recommended</h3>
+                                    <ul class="space-y-2 mt-3 text-sm">
+                                        <li class="flex items-start gap-2"><i class="fas fa-building text-blue-600 mt-0.5"></i> Building Plan Approval</li>
+                                        <li class="flex items-start gap-2"><i class="fas fa-certificate text-blue-600 mt-0.5"></i> Occupancy Certificate</li>
+                                        <li class="flex items-start gap-2"><i class="fas fa-shield-alt text-blue-600 mt-0.5"></i> NOCs from authorities</li>
+                                        <li class="flex items-start gap-2"><i class="fas fa-users text-blue-600 mt-0.5"></i> Society NOC</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Quick Tips Card -->
+                <div class="tip-card p-6 text-white relative">
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-2 mb-4">
+                            <i class="fas fa-lightbulb text-yellow-400 text-2xl"></i>
+                            <h3 class="text-xl font-bold">Quick Tips</h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-3"><i class="fas fa-clock text-blue-300 w-5"></i> <span>Best time to sell: <strong class="font-semibold">Oct-Mar</strong></span></li>
+                            <li class="flex items-center gap-3"><i class="fas fa-chart-line text-blue-300 w-5"></i> <span>Average selling time: <strong>3-6 months</strong></span></li>
+                            <li class="flex items-center gap-3"><i class="fas fa-percent text-blue-300 w-5"></i> <span>Negotiation margin: <strong>5-10%</strong></span></li>
+                            <li class="flex items-center gap-3"><i class="fas fa-file-contract text-blue-300 w-5"></i> <span>Legal verification: <strong>2-3 weeks</strong></span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Download Resources -->
+                <div class="guide-card p-6">
+                    <h3 class="font-bold text-xl text-gray-800 mb-4 flex items-center gap-2">
+                        <i class="fas fa-download text-blue-500"></i> Download Resources
+                    </h3>
+                    <div class="space-y-2">
+                        <a href="#" class="resource-item flex items-center justify-between p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-file-pdf text-red-500 text-xl"></i>
+                                <span class="font-medium text-gray-700">Seller Checklist PDF</span>
+                            </div>
+                            <i class="fas fa-arrow-right text-gray-400 text-sm"></i>
+                        </a>
+                        <a href="#" class="resource-item flex items-center justify-between p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-file-pdf text-red-500 text-xl"></i>
+                                <span class="font-medium text-gray-700">Legal Documents Guide</span>
+                            </div>
+                            <i class="fas fa-arrow-right text-gray-400 text-sm"></i>
+                        </a>
+                        <a href="#" class="resource-item flex items-center justify-between p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-file-excel text-green-600 text-xl"></i>
+                                <span class="font-medium text-gray-700">Price Calculator Tool</span>
+                            </div>
+                            <i class="fas fa-arrow-right text-gray-400 text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Expert Help CTA -->
+                <div class="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-2xl p-6 border border-amber-200">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center shadow-md">
+                            <i class="fas fa-user-tie text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-800">Need Expert Help?</h3>
+                            <p class="text-sm text-gray-600">Our property experts can help you sell faster</p>
+                        </div>
+                    </div>
+                    <button onclick="contactExpert()" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                        <i class="fas fa-phone-alt"></i> Contact Expert
+                    </button>
+                    <p class="text-xs text-center text-gray-500 mt-3">Free consultation • No obligation</p>
+                </div>
+                
+                <!-- Success Stats -->
+                <div class="guide-card p-5 text-center">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <div class="text-2xl font-bold text-blue-600">500+</div>
+                            <div class="text-xs text-gray-500">Properties Sold</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-green-600">₹500Cr+</div>
+                            <div class="text-xs text-gray-500">Total Value</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function contactExpert() {
+            const btn = event.target.closest('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-pulse mr-2"></i> Connecting...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                alert('📞 Expert consultation request submitted!\n\nOur property specialist will call you within 2 hours.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 800);
+        }
+        
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+            });
+        }
+        
+        if (closeMenuBtn) {
+            closeMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        }
+        
+        // Close mobile menu on link click
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

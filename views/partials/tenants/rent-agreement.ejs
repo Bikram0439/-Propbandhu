@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Rent Agreement Generator - Propbandhu | Legal Rent Agreements Online</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ========== COMPLETE CUSTOM CSS FOR RENT AGREEMENT GENERATOR PAGE ========== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #dcfce7 100%);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        /* Form card styling */
+        .form-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .form-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Form input focus effects */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            ring: 2px solid #3b82f6;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Custom checkbox styling */
+        .custom-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #3b82f6;
+        }
+
+        /* Button press effect */
+        .btn-generate {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-generate:active {
+            transform: scale(0.97);
+        }
+        
+        .btn-generate::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+        
+        .btn-generate:active::after {
+            width: 200px;
+            height: 200px;
+        }
+
+        /* Feature card hover */
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Benefits list animation */
+        .benefit-item {
+            transition: transform 0.2s ease;
+        }
+        
+        .benefit-item:hover {
+            transform: translateX(5px);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #10b981;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #059669;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success animation */
+        .success-pulse {
+            animation: successPulse 0.5s ease-out;
+        }
+        
+        @keyframes successPulse {
+            0% {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.02);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Info tooltip */
+        .info-icon {
+            cursor: help;
+            color: #94a3b8;
+            transition: color 0.2s;
+        }
+        
+        .info-icon:hover {
+            color: #3b82f6;
+        }
+
+        /* Document required card hover */
+        .doc-card {
+            transition: all 0.2s ease;
+        }
+        
+        .doc-card:hover {
+            background-color: #f0fdf4;
+            border-color: #22c55e;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-card {
+                margin-bottom: 1rem;
+            }
+            .feature-card {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Form section divider */
+        .form-divider {
+            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+            height: 1px;
+        }
+
+        /* Floating label effect (optional enhancement) */
+        .input-group {
+            position: relative;
+        }
+        
+        /* Number input spinner hide for cleaner look */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button {
+            opacity: 0.5;
+        }
+
+        /* Radio/Checkbox custom styling */
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* Preview badge */
+        .preview-badge {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar (simulated for standalone preview) -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-file-signature text-green-600 text-2xl"></i>
+                    <span class="font-bold text-xl text-gray-800">Prop<span class="text-green-600">bandhu</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-green-600 font-medium">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-green-600 font-medium">Buy Property</a>
+                    <a href="#" class="text-green-600 font-semibold border-b-2 border-green-600 pb-1">Rent Agreement</a>
+                    <a href="#" class="text-gray-700 hover:text-green-600 font-medium">Contact</a>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-user-circle text-gray-500 text-2xl"></i>
+                    <span class="hidden sm:inline text-gray-700">Sign In</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Hero Header -->
+        <div class="mb-10 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-3">
+                <i class="fas fa-gavel"></i> Legal & Court Admissible
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">Online Rent Agreement Generator</h1>
+            <p class="text-gray-600 mt-3 text-lg max-w-2xl">Create legally valid rent agreement in minutes. E-stamp paper ready, digitally signable, and court admissible.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Agreement Form -->
+            <div class="form-card bg-white rounded-2xl shadow-xl p-6">
+                <div class="flex items-center gap-2 mb-6">
+                    <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-file-alt text-green-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Fill Agreement Details</h2>
+                </div>
+                
+                <form id="agreementForm" class="space-y-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">
+                                Tenant Full Name <span class="text-red-500">*</span>
+                                <i class="fas fa-info-circle info-icon text-xs ml-1" data-tooltip="Name as per ID proof"></i>
+                            </label>
+                            <input type="text" id="tenantName" required placeholder="e.g., Rahul Sharma" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-400 transition">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">
+                                Owner/Landlord Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="ownerName" required placeholder="e.g., Priya Mehta" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-400">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">
+                            Property Address <span class="text-red-500">*</span>
+                        </label>
+                        <textarea id="propertyAddress" rows="2" required placeholder="Full property address with landmark, city, pincode" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-400"></textarea>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Monthly Rent (₹) <span class="text-red-500">*</span></label>
+                            <input type="number" id="monthlyRent" required placeholder="e.g., 25000" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-400">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Security Deposit (₹)</label>
+                            <input type="number" id="securityDeposit" placeholder="e.g., 50000" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-400">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Agreement Start Date <span class="text-red-500">*</span></label>
+                            <input type="date" id="startDate" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-400">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Duration <span class="text-red-500">*</span></label>
+                            <select id="duration" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-400 bg-white">
+                                <option value="11">11 Months (Standard)</option>
+                                <option value="12">12 Months (1 Year)</option>
+                                <option value="24">24 Months (2 Years)</option>
+                                <option value="36">36 Months (3 Years)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Notice Period (Days)</label>
+                            <input type="number" id="noticePeriod" value="30" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-400">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Rent Due Day</label>
+                            <select id="rentDueDay" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-400 bg-white">
+                                <option value="1">1st of every month</option>
+                                <option value="5">5th of every month</option>
+                                <option value="7">7th of every month</option>
+                                <option value="10">10th of every month</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                        <input type="checkbox" id="includeMaintenance" class="custom-checkbox w-5 h-5">
+                        <label class="text-sm font-medium text-gray-700 cursor-pointer">Include Maintenance Charges</label>
+                        <i class="fas fa-question-circle info-icon text-gray-400" data-tooltip="Common area maintenance, society charges"></i>
+                    </div>
+                    
+                    <div id="maintenanceField" class="hidden pl-7">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Maintenance Charges (₹/month)</label>
+                        <input type="number" id="maintenanceCharges" placeholder="e.g., 2000" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-400">
+                    </div>
+                    
+                    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                        <input type="checkbox" id="includeParking" class="custom-checkbox w-5 h-5">
+                        <label class="text-sm font-medium text-gray-700 cursor-pointer">Include Parking Clause</label>
+                    </div>
+                    
+                    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                        <input type="checkbox" id="includeElectricity" class="custom-checkbox w-5 h-5">
+                        <label class="text-sm font-medium text-gray-700 cursor-pointer">Separate Electricity/Water Meter Clause</label>
+                    </div>
+                    
+                    <button type="submit" id="generateBtn" class="btn-generate w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3.5 rounded-xl font-bold text-lg shadow-md hover:shadow-xl transition flex items-center justify-center gap-2">
+                        <i class="fas fa-file-pdf"></i> Generate Agreement
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Preview & Info Sidebar -->
+            <div class="space-y-6">
+                <!-- Features Card -->
+                <div class="bg-gradient-to-r from-green-600 to-emerald-700 rounded-2xl shadow-xl p-6 text-white feature-card">
+                    <div class="flex items-center gap-3 mb-5">
+                        <i class="fas fa-crown text-3xl text-yellow-300"></i>
+                        <h3 class="text-2xl font-bold">Why Choose Us?</h3>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="benefit-item flex items-center gap-2"><i class="fas fa-check-circle text-green-300"></i> <span>100% Legal & Valid Agreement</span></li>
+                        <li class="benefit-item flex items-center gap-2"><i class="fas fa-stamp text-green-300"></i> <span>E-Stamp Paper Included</span></li>
+                        <li class="benefit-item flex items-center gap-2"><i class="fas fa-signature text-green-300"></i> <span>Digital Signature Ready</span></li>
+                        <li class="benefit-item flex items-center gap-2"><i class="fas fa-download text-green-300"></i> <span>Instant PDF Download</span></li>
+                        <li class="benefit-item flex items-center gap-2"><i class="fas fa-gavel text-green-300"></i> <span>Court Admissible</span></li>
+                        <li class="benefit-item flex items-center gap-2"><i class="fas fa-shield-alt text-green-300"></i> <span>₹10,000 Legal Insurance Included</span></li>
+                    </ul>
+                    
+                    <div class="mt-6 pt-4 border-t border-green-500">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm">Agreement Price</span>
+                            <span class="text-2xl font-bold">₹499 <span class="text-sm font-normal">+ GST</span></span>
+                        </div>
+                        <p class="text-xs text-green-200 mt-1">Includes e-stamp paper up to ₹500 value</p>
+                    </div>
+                </div>
+                
+                <!-- Documents Required Card -->
+                <div class="bg-white rounded-2xl shadow-xl p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fas fa-folder-open text-blue-600 text-xl"></i>
+                        <h3 class="font-bold text-lg text-gray-800">Documents Required</h3>
+                    </div>
+                    <ul class="space-y-2 text-sm">
+                        <li class="doc-card flex items-center gap-2 p-2 rounded-lg"><i class="fas fa-id-card text-blue-600 w-5"></i> <span>Tenant ID Proof (Aadhar/PAN/Passport)</span></li>
+                        <li class="doc-card flex items-center gap-2 p-2 rounded-lg"><i class="fas fa-id-card text-blue-600 w-5"></i> <span>Owner ID Proof</span></li>
+                        <li class="doc-card flex items-center gap-2 p-2 rounded-lg"><i class="fas fa-file-invoice text-blue-600 w-5"></i> <span>Property Tax Receipt / Ownership Proof</span></li>
+                        <li class="doc-card flex items-center gap-2 p-2 rounded-lg"><i class="fas fa-camera text-blue-600 w-5"></i> <span>Property Photos (Optional)</span></li>
+                        <li class="doc-card flex items-center gap-2 p-2 rounded-lg"><i class="fas fa-users text-blue-600 w-5"></i> <span>Witness ID Proof (Optional)</span></li>
+                    </ul>
+                    
+                    <div class="mt-5 p-3 bg-amber-50 rounded-xl border border-amber-200">
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-lightbulb text-amber-600 mt-0.5"></i>
+                            <p class="text-xs text-amber-800">Pro Tip: Keep scanned copies of all documents ready before generating agreement for smooth digital signing process.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Trust Badge -->
+                <div class="flex items-center justify-center gap-4 text-center">
+                    <div class="flex-1">
+                        <i class="fas fa-users text-2xl text-green-600"></i>
+                        <p class="text-xs text-gray-500 mt-1">10,000+<br>Agreements Made</p>
+                    </div>
+                    <div class="flex-1">
+                        <i class="fas fa-star text-2xl text-yellow-500"></i>
+                        <p class="text-xs text-gray-500 mt-1">4.9 Rating<br>5000+ Reviews</p>
+                    </div>
+                    <div class="flex-1">
+                        <i class="fas fa-clock text-2xl text-blue-600"></i>
+                        <p class="text-xs text-gray-500 mt-1">5-Minute<br>Generation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sample Preview Section -->
+        <div class="mt-10 bg-white rounded-2xl shadow-lg p-6">
+            <div class="flex items-center gap-2 mb-4">
+                <i class="fas fa-eye text-green-600"></i>
+                <h3 class="font-bold text-lg text-gray-800">What's Included in Your Agreement?</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Rent payment terms</div>
+                <div class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Security deposit clause</div>
+                <div class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Maintenance responsibilities</div>
+                <div class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Termination & notice period</div>
+                <div class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Utility bills allocation</div>
+                <div class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Dispute resolution clause</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <i class="fab fa-facebook-f text-gray-400 hover:text-green-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-twitter text-gray-400 hover:text-green-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-linkedin-in text-gray-400 hover:text-green-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-instagram text-gray-400 hover:text-green-400 cursor-pointer transition text-xl"></i>
+            </div>
+            <p class="text-gray-400 text-sm">© 2025 Propbandhu | Online Rent Agreement Generator - Legal & Court Admissible</p>
+            <p class="text-gray-500 text-xs mt-2">Powered by RBI-approved e-stamp vendor | 24/7 Customer Support</p>
+        </div>
+    </footer>
+
+    <script>
+        // Maintenance field toggle
+        const includeMaintenance = document.getElementById('includeMaintenance');
+        const maintenanceField = document.getElementById('maintenanceField');
+        
+        includeMaintenance.addEventListener('change', function() {
+            if (this.checked) {
+                maintenanceField.classList.remove('hidden');
+            } else {
+                maintenanceField.classList.add('hidden');
+            }
+        });
+        
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('startDate').min = today;
+        document.getElementById('startDate').value = today;
+        
+        // Tooltip functionality (simple)
+        const infoIcons = document.querySelectorAll('[data-tooltip]');
+        infoIcons.forEach(icon => {
+            icon.setAttribute('title', icon.getAttribute('data-tooltip'));
+        });
+        
+        // Form submission with validation and API simulation
+        const agreementForm = document.getElementById('agreementForm');
+        const generateBtn = document.getElementById('generateBtn');
+        
+        agreementForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validation
+            const tenantName = document.getElementById('tenantName').value.trim();
+            const ownerName = document.getElementById('ownerName').value.trim();
+            const propertyAddress = document.getElementById('propertyAddress').value.trim();
+            const monthlyRent = document.getElementById('monthlyRent').value;
+            const startDate = document.getElementById('startDate').value;
+            
+            if (!tenantName || !ownerName || !propertyAddress || !monthlyRent || !startDate) {
+                alert('❌ Please fill in all required fields marked with *');
+                return;
+            }
+            
+            if (parseFloat(monthlyRent) <= 0) {
+                alert('❌ Please enter a valid monthly rent amount');
+                return;
+            }
+            
+            // Show loading state
+            const originalText = generateBtn.innerHTML;
+            generateBtn.innerHTML = '<span class="loading-spinner"></span> Generating Agreement...';
+            generateBtn.disabled = true;
+            
+            // Prepare data
+            const agreementData = {
+                tenantName: tenantName,
+                ownerName: ownerName,
+                propertyAddress: propertyAddress,
+                monthlyRent: parseFloat(monthlyRent),
+                securityDeposit: parseFloat(document.getElementById('securityDeposit').value) || 0,
+                startDate: startDate,
+                duration: parseInt(document.getElementById('duration').value),
+                noticePeriod: parseInt(document.getElementById('noticePeriod').value) || 30,
+                rentDueDay: parseInt(document.getElementById('rentDueDay').value),
+                includeMaintenance: document.getElementById('includeMaintenance').checked,
+                maintenanceCharges: parseFloat(document.getElementById('maintenanceCharges').value) || 0,
+                includeParking: document.getElementById('includeParking').checked,
+                includeElectricity: document.getElementById('includeElectricity').checked,
+                generatedAt: new Date().toISOString()
+            };
+            
+            // Simulate API call (in production, replace with actual backend endpoint)
+            setTimeout(() => {
+                // Log for debugging
+                console.log('Rent Agreement Data:', agreementData);
+                
+                // Generate end date
+                const endDate = new Date(startDate);
+                endDate.setMonth(endDate.getMonth() + agreementData.duration);
+                const formattedEndDate = endDate.toLocaleDateString('en-IN');
+                const formattedStartDate = new Date(startDate).toLocaleDateString('en-IN');
+                
+                // Create a simple preview/success message
+                const totalRent = agreementData.monthlyRent * agreementData.duration;
+                const totalMaintenance = agreementData.includeMaintenance ? agreementData.maintenanceCharges * agreementData.duration : 0;
+                
+                alert(`✅ Rent Agreement Generated Successfully!\n\n` +
+                    `📄 Agreement Details:\n` +
+                    `Tenant: ${agreementData.tenantName}\n` +
+                    `Owner: ${agreementData.ownerName}\n` +
+                    `Property: ${agreementData.propertyAddress.substring(0, 50)}...\n` +
+                    `Monthly Rent: ₹${agreementData.monthlyRent.toLocaleString()}\n` +
+                    `Duration: ${agreementData.duration} months\n` +
+                    `Period: ${formattedStartDate} to ${formattedEndDate}\n` +
+                    `Security Deposit: ₹${agreementData.securityDeposit.toLocaleString()}\n\n` +
+                    `📎 A download link has been sent to your email. The PDF agreement is ready for e-signature.`);
+                
+                // Simulate PDF download
+                const dummyPDF = `data:application/pdf,${encodeURIComponent(JSON.stringify(agreementData, null, 2))}`;
+                // In real scenario, would trigger download via backend
+                
+                // Reset button
+                generateBtn.innerHTML = originalText;
+                generateBtn.disabled = false;
+                
+                // Reset form (optional - can keep data for reference)
+                // agreementForm.reset();
+                // document.getElementById('startDate').value = today;
+                // maintenanceField.classList.add('hidden');
+                // document.getElementById('includeMaintenance').checked = false;
+                
+                // Add success animation to button
+                generateBtn.classList.add('success-pulse');
+                setTimeout(() => {
+                    generateBtn.classList.remove('success-pulse');
+                }, 500);
+                
+            }, 1500);
+        });
+        
+        // Add input validation for numeric fields
+        const numberInputs = document.querySelectorAll('input[type="number"]');
+        numberInputs.forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value < 0) this.value = 0;
+            });
+        });
+        
+        // Preview helper - update end date when duration changes
+        const durationSelect = document.getElementById('duration');
+        const startDateInput = document.getElementById('startDate');
+        
+        function updateEndDatePreview() {
+            if (startDateInput.value) {
+                const endDate = new Date(startDateInput.value);
+                endDate.setMonth(endDate.getMonth() + parseInt(durationSelect.value));
+                // Could display preview - optional
+            }
+        }
+        
+        durationSelect.addEventListener('change', updateEndDatePreview);
+        startDateInput.addEventListener('change', updateEndDatePreview);
+    </script>
+</body>
+</html>

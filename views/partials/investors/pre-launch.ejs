@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Pre-Launch Offers - Propbandhu | Exclusive Early Bird Discounts</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ========== COMPLETE CUSTOM CSS FOR PRE-LAUNCH OFFERS PAGE ========== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        /* Countdown banner animation */
+        .countdown-banner {
+            background: linear-gradient(135deg, #dc2626, #ea580c, #f97316);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .countdown-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotateGlow 10s linear infinite;
+        }
+        
+        @keyframes rotateGlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Countdown timer box styling */
+        .countdown-box {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .countdown-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Project card hover effects */
+        .prelaunch-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        
+        .prelaunch-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 40px -15px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Special badge animation */
+        .special-badge {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            animation: badgePulse 2s infinite;
+        }
+        
+        @keyframes badgePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+
+        /* Price strike through styling */
+        .price-strike {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .price-strike::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -5%;
+            width: 110%;
+            height: 2px;
+            background: #ef4444;
+            transform: rotate(-5deg);
+        }
+
+        /* Save badge animation */
+        .save-badge {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            animation: savePulse 1.5s infinite;
+        }
+        
+        @keyframes savePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+        }
+
+        /* Button hover effects */
+        .btn-book {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-book:active {
+            transform: scale(0.97);
+        }
+        
+        .btn-book::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+        
+        .btn-book:active::after {
+            width: 200px;
+            height: 200px;
+        }
+
+        /* Form input focus effects */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            ring: 2px solid #f59e0b;
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #fed7aa;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #ea580c;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c2410c;
+        }
+
+        /* Toast notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            animation: slideInRight 0.3s ease-out;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Modal animation */
+        .modal-content {
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Feature tag styling */
+        .feature-tag {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .feature-tag:hover {
+            background: #fde68a;
+            transform: scale(1.02);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .prelaunch-card {
+                margin-bottom: 1rem;
+            }
+            .countdown-box {
+                padding: 8px;
+            }
+            .countdown-box .text-2xl {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Limited stock indicator */
+        .stock-indicator {
+            background: #fef2f2;
+            border-left: 3px solid #ef4444;
+        }
+        
+        /* Floating offer button */
+        .floating-offer {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 40;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        /* Gold border animation for prelaunch cards */
+        .gold-border {
+            position: relative;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        
+        .gold-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #fbbf24, #f59e0b, #fbbf24);
+            border-radius: 16px;
+            z-index: -1;
+            animation: borderRotate 3s linear infinite;
+        }
+        
+        @keyframes borderRotate {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar (simulated for standalone preview) -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-rocket text-orange-600 text-2xl"></i>
+                    <span class="font-bold text-xl text-gray-800">Prop<span class="text-orange-600">bandhu</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-orange-600 font-medium">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-orange-600 font-medium">Buy Property</a>
+                    <a href="#" class="text-orange-600 font-semibold border-b-2 border-orange-600 pb-1">Pre-Launch</a>
+                    <a href="#" class="text-gray-700 hover:text-orange-600 font-medium">Contact</a>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-user-circle text-gray-500 text-2xl"></i>
+                    <span class="hidden sm:inline text-gray-700">Sign In</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Hero Header -->
+        <div class="mb-10 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 bg-orange-100 text-orange-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-3">
+                <i class="fas fa-gift"></i> Limited Period Offer
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">Pre-Launch Offers</h1>
+            <p class="text-gray-600 mt-3 text-lg max-w-2xl">Exclusive early bird discounts on upcoming premium projects. Book now and save up to 18% on launch prices.</p>
+        </div>
+
+        <!-- Countdown Banner -->
+        <div class="countdown-banner rounded-2xl shadow-2xl p-8 text-white text-center mb-10 relative">
+            <div class="relative z-10">
+                <div class="inline-flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full mb-4">
+                    <i class="fas fa-clock"></i>
+                    <span class="text-sm font-semibold">HURRY UP! OFFER ENDS IN</span>
+                </div>
+                <h2 class="text-3xl font-bold mb-2">Limited Time Offer!</h2>
+                <p class="mb-6 text-orange-100">Book your apartment at pre-launch prices and save up to 18% with exclusive benefits</p>
+                <div class="flex justify-center gap-3 md:gap-6 text-center">
+                    <div class="countdown-box bg-white/20 backdrop-blur-sm rounded-xl px-3 py-2 md:px-6 md:py-3">
+                        <div class="text-3xl md:text-4xl font-bold" id="days">00</div>
+                        <div class="text-xs uppercase tracking-wide">Days</div>
+                    </div>
+                    <div class="countdown-box bg-white/20 backdrop-blur-sm rounded-xl px-3 py-2 md:px-6 md:py-3">
+                        <div class="text-3xl md:text-4xl font-bold" id="hours">00</div>
+                        <div class="text-xs uppercase tracking-wide">Hours</div>
+                    </div>
+                    <div class="countdown-box bg-white/20 backdrop-blur-sm rounded-xl px-3 py-2 md:px-6 md:py-3">
+                        <div class="text-3xl md:text-4xl font-bold" id="minutes">00</div>
+                        <div class="text-xs uppercase tracking-wide">Minutes</div>
+                    </div>
+                    <div class="countdown-box bg-white/20 backdrop-blur-sm rounded-xl px-3 py-2 md:px-6 md:py-3">
+                        <div class="text-3xl md:text-4xl font-bold" id="seconds">00</div>
+                        <div class="text-xs uppercase tracking-wide">Seconds</div>
+                    </div>
+                </div>
+                <p class="text-xs text-orange-200 mt-4">*Offer valid on first 50 bookings only</p>
+            </div>
+        </div>
+
+        <!-- Pre-Launch Projects Grid -->
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">🔥 Exclusive Pre-Launch Projects</h2>
+            <span class="text-sm text-orange-600 bg-orange-100 px-3 py-1 rounded-full"><i class="fas fa-tag"></i> Limited Inventory</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Project 1 - Royal Greens -->
+            <div class="prelaunch-card gold-border bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="special-badge text-center py-2.5 font-bold text-white">
+                    <i class="fas fa-star"></i> PRE-LAUNCH SPECIAL  <i class="fas fa-star"></i>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800">Royal Greens</h3>
+                            <p class="text-gray-500 text-sm"><i class="fas fa-map-marker-alt text-orange-500 mr-1"></i> Worli, Mumbai</p>
+                        </div>
+                        <div class="save-badge text-white text-xs font-bold px-3 py-1 rounded-full">Save 16%</div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <p class="text-sm text-gray-400 line-through">Launch Price: ₹2.5 Cr</p>
+                        <div class="flex items-baseline gap-2">
+                            <p class="text-3xl font-bold text-green-600">₹2.1 Cr</p>
+                            <span class="text-xs text-green-600">* All inclusive</span>
+                        </div>
+                        <p class="text-sm text-green-600 mt-1"><i class="fas fa-rupee-sign"></i> Save ₹40 Lakhs (16% off)</p>
+                    </div>
+                    
+                    <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+                        <div class="flex items-center gap-2"><i class="fas fa-bed text-orange-500"></i> <span>3/4 BHK</span></div>
+                        <div class="flex items-center gap-2"><i class="fas fa-ruler-combined text-orange-500"></i> <span>1500-2000 sq.ft</span></div>
+                        <div class="flex items-center gap-2"><i class="fas fa-calendar-alt text-orange-500"></i> <span>Possession: Dec 2026</span></div>
+                        <div class="flex items-center gap-2"><i class="fas fa-chart-line text-orange-500"></i> <span>Expected ROI: 20%</span></div>
+                    </div>
+                    
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="feature-tag"><i class="fas fa-swimming-pool"></i> Infinity Pool</span>
+                        <span class="feature-tag"><i class="fas fa-dumbbell"></i> State-of-art Gym</span>
+                        <span class="feature-tag"><i class="fas fa-tree"></i> 70% Open Space</span>
+                    </div>
+                    
+                    <div class="mt-4 stock-indicator p-3 rounded-lg">
+                        <p class="text-xs text-red-600"><i class="fas fa-fire"></i> Only 12 units left at pre-launch price!</p>
+                    </div>
+                    
+                    <button onclick="bookNow('Royal Greens', '2.1 Cr')" class="btn-book mt-5 w-full bg-gradient-to-r from-orange-600 to-red-600 text-white py-3 rounded-xl font-bold text-lg shadow-md hover:shadow-xl transition flex items-center justify-center gap-2">
+                        <i class="fas fa-ticket-alt"></i> Book Now @ Pre-Launch Price
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Project 2 - Lake View Residency -->
+            <div class="prelaunch-card gold-border bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="special-badge text-center py-2.5 font-bold text-white">
+                    <i class="fas fa-star"></i> PRE-LAUNCH SPECIAL  <i class="fas fa-star"></i>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800">Lake View Residency</h3>
+                            <p class="text-gray-500 text-sm"><i class="fas fa-map-marker-alt text-orange-500 mr-1"></i> Electronic City, Bangalore</p>
+                        </div>
+                        <div class="save-badge text-white text-xs font-bold px-3 py-1 rounded-full">Save 18%</div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <p class="text-sm text-gray-400 line-through">Launch Price: ₹1.2 Cr</p>
+                        <div class="flex items-baseline gap-2">
+                            <p class="text-3xl font-bold text-green-600">₹98 Lakhs</p>
+                            <span class="text-xs text-green-600">* All inclusive</span>
+                        </div>
+                        <p class="text-sm text-green-600 mt-1"><i class="fas fa-rupee-sign"></i> Save ₹22 Lakhs (18% off)</p>
+                    </div>
+                    
+                    <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+                        <div class="flex items-center gap-2"><i class="fas fa-bed text-orange-500"></i> <span>2/3 BHK</span></div>
+                        <div class="flex items-center gap-2"><i class="fas fa-ruler-combined text-orange-500"></i> <span>1100-1500 sq.ft</span></div>
+                        <div class="flex items-center gap-2"><i class="fas fa-calendar-alt text-orange-500"></i> <span>Possession: Jun 2026</span></div>
+                        <div class="flex items-center gap-2"><i class="fas fa-chart-line text-orange-500"></i> <span>Expected ROI: 25%</span></div>
+                    </div>
+                    
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="feature-tag"><i class="fas fa-water"></i> Lake View</span>
+                        <span class="feature-tag"><i class="fas fa-running"></i> Jogging Track</span>
+                        <span class="feature-tag"><i class="fas fa-shield-alt"></i> 24/7 Security</span>
+                    </div>
+                    
+                    <div class="mt-4 stock-indicator p-3 rounded-lg">
+                        <p class="text-xs text-red-600"><i class="fas fa-fire"></i> Only 8 units left at pre-launch price!</p>
+                    </div>
+                    
+                    <button onclick="bookNow('Lake View Residency', '98 Lakhs')" class="btn-book mt-5 w-full bg-gradient-to-r from-orange-600 to-red-600 text-white py-3 rounded-xl font-bold text-lg shadow-md hover:shadow-xl transition flex items-center justify-center gap-2">
+                        <i class="fas fa-ticket-alt"></i> Book Now @ Pre-Launch Price
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Benefits Section -->
+        <div class="mt-12 bg-white rounded-2xl shadow-xl p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <i class="fas fa-gift text-orange-600"></i> Exclusive Pre-Launch Benefits
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="flex items-start gap-3 p-3 bg-orange-50 rounded-xl">
+                    <i class="fas fa-percent text-orange-600 text-xl"></i>
+                    <div>
+                        <p class="font-semibold">5% Discount on Base Price</p>
+                        <p class="text-xs text-gray-500">On spot booking</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3 p-3 bg-orange-50 rounded-xl">
+                    <i class="fas fa-shield-alt text-orange-600 text-xl"></i>
+                    <div>
+                        <p class="font-semibold">Free Legal Verification</p>
+                        <p class="text-xs text-gray-500">Worth ₹25,000</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3 p-3 bg-orange-50 rounded-xl">
+                    <i class="fas fa-tools text-orange-600 text-xl"></i>
+                    <div>
+                        <p class="font-semibold">Modular Kitchen Included</p>
+                        <p class="text-xs text-gray-500">Premium fittings</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Why Invest in Pre-Launch -->
+        <div class="mt-8 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-3">Why Invest in Pre-Launch Projects?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
+                <div class="flex items-center gap-2"><i class="fas fa-chart-line text-green-600"></i> Higher Appreciation (20-30%)</div>
+                <div class="flex items-center gap-2"><i class="fas fa-tags text-blue-600"></i> Lower Prices than Launch</div>
+                <div class="flex items-center gap-2"><i class="fas fa-layer-group text-purple-600"></i> Best Unit Selection</div>
+                <div class="flex items-center gap-2"><i class="fas fa-hand-holding-usd text-orange-600"></i> Flexible Payment Plans</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4 modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-gray-800"><i class="fas fa-ticket-alt text-orange-600"></i> Book <span id="modalProjectName">Project</span></h3>
+                <button onclick="closeBookingModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+            </div>
+            <p class="text-sm text-gray-600 mb-4">Pre-launch price: <span id="modalProjectPrice" class="font-bold text-green-600"></span></p>
+            <form id="bookingForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Full Name *</label>
+                    <input type="text" id="bookName" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-400">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Email *</label>
+                    <input type="email" id="bookEmail" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-400">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Phone *</label>
+                    <input type="tel" id="bookPhone" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-400">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Preferred Unit Type</label>
+                    <select id="bookUnit" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-400 bg-white">
+                        <option value="2 BHK">2 BHK</option>
+                        <option value="3 BHK">3 BHK</option>
+                        <option value="4 BHK">4 BHK</option>
+                    </select>
+                </div>
+                <button type="submit" id="bookSubmitBtn" class="w-full bg-gradient-to-r from-orange-600 to-red-600 text-white py-3 rounded-xl font-bold text-lg shadow-md hover:shadow-xl transition">
+                    <i class="fas fa-check-circle"></i> Confirm Booking
+                </button>
+                <button type="button" onclick="closeBookingModal()" class="w-full text-gray-500 py-2 hover:text-gray-700">Cancel</button>
+            </form>
+            <p class="text-xs text-gray-400 mt-3 text-center">*Booking amount: ₹50,000 (Refundable)</p>
+        </div>
+    </div>
+
+    <!-- Floating Offer Button -->
+    <div class="floating-offer">
+        <button onclick="openEnquiryModal()" class="bg-orange-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-orange-700 transition transform hover:scale-105">
+            <i class="fas fa-headset text-xl"></i>
+        </button>
+    </div>
+
+    <!-- Quick Enquiry Modal -->
+    <div id="enquiryModal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-6 max-w-sm w-full mx-4 modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800"><i class="fas fa-question-circle text-orange-600"></i> Quick Enquiry</h3>
+                <button onclick="closeEnquiryModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+            </div>
+            <form id="enquiryForm" class="space-y-3">
+                <input type="text" id="enqName" placeholder="Your Name" required class="w-full px-4 py-3 border rounded-xl">
+                <input type="tel" id="enqPhone" placeholder="Phone Number" required class="w-full px-4 py-3 border rounded-xl">
+                <button type="submit" class="w-full bg-orange-600 text-white py-3 rounded-xl font-bold">Get Callback</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <i class="fab fa-facebook-f text-gray-400 hover:text-orange-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-twitter text-gray-400 hover:text-orange-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-linkedin-in text-gray-400 hover:text-orange-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-instagram text-gray-400 hover:text-orange-400 cursor-pointer transition text-xl"></i>
+            </div>
+            <p class="text-gray-400 text-sm">© 2025 Propbandhu | Pre-Launch Offers - Book at Lowest Prices</p>
+            <p class="text-gray-500 text-xs mt-2">RERA Registered Projects | T&C Apply | Limited Period Offer</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentBookProject = '';
+        let currentBookPrice = '';
+        
+        // Countdown timer
+        function updateCountdown() {
+            const targetDate = new Date('2025-01-15T00:00:00').getTime();
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+            
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').innerHTML = days.toString().padStart(2, '0');
+                document.getElementById('hours').innerHTML = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').innerHTML = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').innerHTML = seconds.toString().padStart(2, '0');
+            } else {
+                document.getElementById('days').innerHTML = '00';
+                document.getElementById('hours').innerHTML = '00';
+                document.getElementById('minutes').innerHTML = '00';
+                document.getElementById('seconds').innerHTML = '00';
+            }
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+        
+        function bookNow(project, price) {
+            currentBookProject = project;
+            currentBookPrice = price;
+            document.getElementById('modalProjectName').innerHTML = project;
+            document.getElementById('modalProjectPrice').innerHTML = price;
+            document.getElementById('bookingModal').classList.remove('hidden');
+            document.getElementById('bookingModal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.add('hidden');
+            document.getElementById('bookingModal').classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function openEnquiryModal() {
+            document.getElementById('enquiryModal').classList.remove('hidden');
+            document.getElementById('enquiryModal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeEnquiryModal() {
+            document.getElementById('enquiryModal').classList.add('hidden');
+            document.getElementById('enquiryModal').classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function showToast(message) {
+            const existingToast = document.querySelector('.toast-notification');
+            if (existingToast) existingToast.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.innerHTML = `<i class="fas fa-info-circle"></i><span>${message}</span>`;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 4000);
+        }
+        
+        // Booking Form Submission
+        const bookingForm = document.getElementById('bookingForm');
+        bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('bookName').value.trim();
+            const phone = document.getElementById('bookPhone').value.trim();
+            const email = document.getElementById('bookEmail').value.trim();
+            
+            if (!name || !phone || !email) {
+                showToast('❌ Please fill in all required fields');
+                return;
+            }
+            
+            if (!/^\d{10}$/.test(phone)) {
+                showToast('❌ Please enter a valid 10-digit mobile number');
+                return;
+            }
+            
+            showToast(`✅ Booking request received for ${currentBookProject}! Our sales team will contact you within 2 hours to confirm the booking.`);
+            closeBookingModal();
+            bookingForm.reset();
+        });
+        
+        // Enquiry Form Submission
+        const enquiryForm = document.getElementById('enquiryForm');
+        enquiryForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('enqName').value.trim();
+            const phone = document.getElementById('enqPhone').value.trim();
+            
+            if (!name || !phone) {
+                showToast('❌ Please fill in all fields');
+                return;
+            }
+            
+            showToast('📞 Thank you! We will call you back within 30 minutes.');
+            closeEnquiryModal();
+            enquiryForm.reset();
+        });
+        
+        // Close modals on outside click
+        const bookingModal = document.getElementById('bookingModal');
+        bookingModal.addEventListener('click', function(e) {
+            if (e.target === bookingModal) closeBookingModal();
+        });
+        
+        const enquiryModal = document.getElementById('enquiryModal');
+        enquiryModal.addEventListener('click', function(e) {
+            if (e.target === enquiryModal) closeEnquiryModal();
+        });
+    </script>
+</body>
+</html>

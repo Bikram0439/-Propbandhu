@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title><%= title %> | Propbandhu</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================
+           RESET & BASE STYLES
+        ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 100%);
+            color: #1a1a2e;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        /* ========================================
+           CONTAINER & LAYOUT
+        ======================================== */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ========================================
+           TYPOGRAPHY
+        ======================================== */
+        h1 {
+            font-size: 42px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ========================================
+           NAVIGATION
+        ======================================== */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+        }
+
+        .logo-icon i {
+            color: white;
+            font-size: 18px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav-link {
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #2563eb;
+        }
+
+        .nav-link.active {
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #2563eb, #60a5fa);
+            border-radius: 2px;
+        }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 100px;
+        }
+
+        .user-badge i {
+            color: #3b82f6;
+        }
+
+        .user-badge span {
+            font-size: 14px;
+            font-weight: 500;
+            color: #334155;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+
+        /* ========================================
+           STATS CARDS
+        ======================================== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 32px 0 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #eef2ff;
+            transition: all 0.2s;
+        }
+
+        .stat-card:hover {
+            border-color: #c7d2fe;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -6px rgba(59, 130, 246, 0.15);
+        }
+
+        .stat-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .stat-value.warning {
+            color: #f59e0b;
+        }
+
+        .stat-value.success {
+            color: #10b981;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon.blue { background: #dbeafe; color: #2563eb; }
+        .stat-icon.green { background: #d1fae5; color: #10b981; }
+        .stat-icon.purple { background: #ede9fe; color: #7c3aed; }
+        .stat-icon.orange { background: #fed7aa; color: #f97316; }
+
+        .stat-icon i {
+            font-size: 24px;
+        }
+
+        /* ========================================
+           MAIN CONTENT GRID
+        ======================================== */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ========================================
+           PROPERTY CARDS
+        ======================================== */
+        .property-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .property-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .property-card-inner {
+            padding: 24px;
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .property-card-inner {
+                flex-direction: column;
+            }
+        }
+
+        .property-image {
+            flex: 0 0 240px;
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .property-image {
+                flex: auto;
+            }
+        }
+
+        .image-wrapper {
+            width: 100%;
+            height: 180px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .property-card:hover .image-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .days-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            backdrop-filter: blur(8px);
+        }
+
+        .days-badge.green { background: rgba(34, 197, 94, 0.9); color: white; }
+        .days-badge.orange { background: rgba(249, 115, 22, 0.9); color: white; }
+        .days-badge.red { background: rgba(239, 68, 68, 0.9); color: white; }
+
+        .property-details {
+            flex: 1;
+        }
+
+        .property-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+
+        .property-address {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .property-address i {
+            color: #3b82f6;
+            font-size: 12px;
+        }
+
+        .property-price {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            .property-price {
+                text-align: left;
+                margin-top: 8px;
+            }
+        }
+
+        .seller-info {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 12px;
+            margin: 16px 0;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 14px;
+        }
+
+        .seller-info i {
+            color: #94a3b8;
+            margin-right: 6px;
+        }
+
+        /* ========================================
+           BUTTONS
+        ======================================== */
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 16px 0;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #334155;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .btn-danger:hover {
+            background: #fee2e2;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: white;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-outline:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+            padding: 12px;
+        }
+
+        .btn-disabled {
+            background: #cbd5e1;
+            color: #64748b;
+            cursor: not-allowed;
+        }
+
+        /* ========================================
+           SIDEBAR CARDS
+        ======================================== */
+        .sidebar-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-sticky {
+            position: sticky;
+            top: 90px;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar-sticky {
+                position: static;
+            }
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            border-radius: 10px;
+            transition: width 0.6s;
+        }
+
+        /* ========================================
+           TIPS & EMPTY STATE
+        ======================================== */
+        .tips-card {
+            background: linear-gradient(135deg, #eff6ff, #eef2ff);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 24px;
+            border: 1px solid #dbeafe;
+        }
+
+        .tips-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        @media (max-width: 640px) {
+            .tips-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #1e40af;
+        }
+
+        .tip-item i {
+            color: #10b981;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 24px;
+        }
+
+        .empty-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .empty-icon i {
+            font-size: 48px;
+            color: #94a3b8;
+        }
+
+        /* ========================================
+           SUPPORT CARD
+        ======================================== */
+        .support-card {
+            background: linear-gradient(135deg, #1e40af, #2563eb, #3b82f6);
+            border-radius: 20px;
+            padding: 24px;
+            color: white;
+        }
+
+        .support-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .support-icon i {
+            font-size: 24px;
+        }
+
+        .support-contact {
+            margin: 16px 0;
+        }
+
+        .support-contact div {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .chat-btn {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chat-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ========================================
+           DATE INFO & EXPIRY
+        ======================================== */
+        .date-info {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 12px;
+            margin-top: 12px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .expiry-warning {
+            margin-top: 12px;
+            background: #fef3c7;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #d97706;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; background: #fef3c7; }
+            50% { opacity: 0.9; background: #fde68a; }
+        }
+
+        /* ========================================
+           DROPDOWN
+        ======================================== */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 8px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            min-width: 160px;
+            z-index: 50;
+            display: none;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            animation: slideIn 0.15s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            text-decoration: none;
+            color: #334155;
+            font-size: 14px;
+            transition: all 0.15s;
+            cursor: pointer;
+            width: 100%;
+            border: none;
+            background: transparent;
+        }
+
+        .dropdown-item:hover {
+            background: #f8fafc;
+        }
+
+        /* ========================================
+           FOOTER
+        ======================================== */
+        .footer {
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 60px;
+            padding: 32px 0;
+            text-align: center;
+        }
+
+        .footer-text {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        /* ========================================
+           UTILITIES
+        ======================================== */
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: 4px; }
+        .mt-2 { margin-top: 8px; }
+        .mt-3 { margin-top: 12px; }
+        .mt-4 { margin-top: 16px; }
+        .mb-1 { margin-bottom: 4px; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-3 { margin-bottom: 12px; }
+        .mb-4 { margin-bottom: 16px; }
+        .mb-5 { margin-bottom: 20px; }
+        .py-8 { padding-top: 32px; padding-bottom: 32px; }
+        .px-4 { padding-left: 16px; padding-right: 16px; }
+        .gap-2 { gap: 8px; }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            h1 {
+                font-size: 32px;
+            }
+            
+            .container {
+                padding: 0 16px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <span class="logo-text">Propbandhu</span>
+            </div>
+            <div class="nav-links">
+                <div class="user-badge">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Buyer: <%= user.name %></span>
+                </div>
+                <a href="/buyer/dashboard" class="nav-link <%= activePage === 'dashboard' ? 'active' : '' %>">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="/buyer/properties" class="nav-link <%= activePage === 'properties' ? 'active' : '' %>">
+                    <i class="fas fa-search"></i> Browse
+                </a>
+                <a href="/buyer/cart" class="nav-link <%= activePage === 'cart' ? 'active' : '' %>">
+                    <i class="fas fa-shopping-cart"></i> Cart
+                    <% if (cartItems.length > 0) { %>
+                    <span style="background: #ef4444; color: white; font-size: 11px; padding: 2px 6px; border-radius: 100px; margin-left: 4px;"><%= cartItems.length %></span>
+                    <% } %>
+                </a>
+                <a href="/buyer/visits" class="nav-link <%= activePage === 'visits' ? 'active' : '' %>">
+                    <i class="fas fa-calendar-day"></i> Visits
+                </a>
+                <a href="/logout" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container" style="padding-top: 40px;">
+        
+        <!-- Header -->
+        <div>
+            <h1>My Cart</h1>
+            <p style="color: #64748b; font-size: 18px; margin-top: 8px;">Properties you've shortlisted for your dream home</p>
+        </div>
+        
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-content">
+                    <div>
+                        <div class="stat-label">Properties in Cart</div>
+                        <div class="stat-value"><%= cartItems.length %> / <%= cartSettings.max_properties %></div>
+                    </div>
+                    <div class="stat-icon blue"><i class="fas fa-shopping-cart"></i></div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-content">
+                    <div>
+                        <div class="stat-label">Visit Window</div>
+                        <div class="stat-value"><%= cartSettings.visit_window_days || 7 %> days</div>
+                    </div>
+                    <div class="stat-icon green"><i class="fas fa-clock"></i></div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-content">
+                    <div>
+                        <div class="stat-label">Booking Window</div>
+                        <div class="stat-value"><%= cartSettings.booking_window_days || 60 %> days</div>
+                    </div>
+                    <div class="stat-icon purple"><i class="fas fa-calendar-alt"></i></div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-content">
+                    <div>
+                        <div class="stat-label">Available Slots</div>
+                        <div class="stat-value <%= cartSettings.max_properties - cartItems.length <= 1 ? 'warning' : 'success' %>">
+                            <%= cartSettings.max_properties - cartItems.length %>
+                        </div>
+                    </div>
+                    <div class="stat-icon orange"><i class="fas fa-chart-line"></i></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Grid -->
+        <div class="main-grid">
+            
+            <!-- Cart Items Section -->
+            <div>
+                <% if (cartItems.length === 0) { %>
+                <!-- Empty State -->
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3 style="font-size: 24px; margin-bottom: 8px;">Your cart is empty</h3>
+                    <p style="color: #64748b; margin-bottom: 24px;">Start exploring properties and add your favorites to the cart</p>
+                    <a href="/buyer/properties" class="btn btn-primary" style="padding: 12px 32px;">
+                        <i class="fas fa-search"></i> Browse Properties
+                    </a>
+                </div>
+                <% } else { %>
+                <!-- Cart Items List -->
+                <% cartItems.forEach((item, index) => { 
+                    const addedDate = new Date(item.added_at);
+                    const expiryDate = new Date(addedDate.getTime() + (cartSettings.visit_window_days || 7) * 24 * 60 * 60 * 1000);
+                    const now = new Date();
+                    const daysLeft = Math.max(0, Math.ceil((expiryDate - now) / (1000 * 60 * 60 * 24)));
+                    const isUrgent = daysLeft <= 3 && daysLeft > 0;
+                %>
+                <div class="property-card">
+                    <div class="property-card-inner">
+                        <!-- Image -->
+                        <div class="property-image">
+                            <div class="image-wrapper">
+                                <% if (item.property.primary_image) { %>
+                                    <img src="<%= item.property.primary_image %>" alt="<%= item.property.title %>">
+                                <% } else { %>
+                                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-home" style="font-size: 48px; color: #94a3b8;"></i>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="days-badge <%= daysLeft > 3 ? 'green' : (daysLeft > 0 ? 'orange' : 'red') %>">
+                                <i class="fas <%= daysLeft > 3 ? 'fa-clock' : (daysLeft > 0 ? 'fa-exclamation-triangle' : 'fa-ban') %>"></i>
+                                <%= daysLeft > 0 ? daysLeft + ' days left' : 'Expired' %>
+                            </div>
+                        </div>
+                        
+                        <!-- Details -->
+                        <div class="property-details">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+                                <div>
+                                    <div class="property-title"><%= item.property.title || 'Premium Property' %></div>
+                                    <div class="property-address">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span><%= item.property.full_address %></span>
+                                    </div>
+                                </div>
+                                <div class="property-price"><%= item.property.formatted_price %></div>
+                            </div>
+                            
+                            <% if (item.property.seller) { %>
+                            <div class="seller-info">
+                                <div><i class="fas fa-user-circle"></i> <%= item.property.seller.name || 'Not specified' %></div>
+                                <% if (item.property.seller.phone) { %>
+                                <div><i class="fas fa-phone-alt"></i> <%= item.property.seller.phone %></div>
+                                <% } %>
+                            </div>
+                            <% } %>
+                            
+                            <!-- Action Buttons -->
+                            <div class="btn-group">
+                                <% if (daysLeft > 0) { %>
+                                <a href="/buyer/schedule-visit/<%= item.property._id %>" class="btn btn-primary">
+                                    <i class="fas fa-calendar-check"></i> Schedule Visit
+                                </a>
+                                <% } else { %>
+                                <button class="btn btn-disabled" disabled>
+                                    <i class="fas fa-calendar-times"></i> Expired
+                                </button>
+                                <% } %>
+                                
+                                <a href="/buyer/properties/<%= item.property._id %>" class="btn btn-secondary">
+                                    <i class="fas fa-eye"></i> Details
+                                </a>
+                                
+                                <button onclick="removeFromCart('<%= item.property._id %>')" class="btn btn-danger">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                                
+                                <div class="dropdown">
+                                    <button onclick="toggleDropdown(<%= index %>)" class="btn btn-outline">
+                                        <i class="fas fa-ellipsis-h"></i> More
+                                    </button>
+                                    <div id="dropdown-<%= index %>" class="dropdown-menu">
+                                        <button onclick="shareProperty('<%= item.property._id %>', '<%= item.property.title %>')" class="dropdown-item">
+                                            <i class="fas fa-share-alt"></i> Share
+                                        </button>
+                                        <button onclick="downloadPropertyDetails('<%= item.property._id %>')" class="dropdown-item">
+                                            <i class="fas fa-download"></i> Download
+                                        </button>
+                                        <button onclick="printProperty('<%= item.property._id %>')" class="dropdown-item">
+                                            <i class="fas fa-print"></i> Print
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Date Info -->
+                            <div class="date-info">
+                                <span><i class="far fa-calendar-plus"></i> Added: <%= new Date(item.added_at).toLocaleDateString('en-IN') %></span>
+                                <span><i class="far fa-hourglass-half"></i> Expires: <%= expiryDate.toLocaleDateString('en-IN') %></span>
+                            </div>
+                            
+                            <% if (isUrgent) { %>
+                            <div class="expiry-warning">
+                                <i class="fas fa-bell"></i> Hurry! Only <%= daysLeft %> day(s) left to schedule a visit!
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+                
+                <!-- Tips Card -->
+                <div class="tips-card">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                        <i class="fas fa-lightbulb" style="font-size: 24px; color: #f59e0b;"></i>
+                        <strong style="font-size: 18px; color: #1e3a8a;">Pro Tips</strong>
+                    </div>
+                    <div class="tips-list">
+                        <div class="tip-item"><i class="fas fa-check-circle"></i> Schedule within <%= cartSettings.visit_window_days || 7 %> days</div>
+                        <div class="tip-item"><i class="fas fa-check-circle"></i> <%= cartSettings.booking_window_days || 60 %> days to complete deal after visit</div>
+                        <div class="tip-item"><i class="fas fa-check-circle"></i> Max <%= cartSettings.max_properties %> properties in cart</div>
+                        <div class="tip-item"><i class="fas fa-info-circle"></i> <%= cartSettings.max_properties - cartItems.length %> slots remaining</div>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+            
+            <!-- Sidebar -->
+            <div>
+                <div class="sidebar-sticky">
+                    <!-- Cart Summary -->
+                    <div class="sidebar-card">
+                        <div class="section-title">
+                            <i class="fas fa-chart-pie" style="color: #3b82f6;"></i> Cart Summary
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span style="color: #64748b;">Properties in cart</span>
+                            <span style="font-weight: 700;"><%= cartItems.length %> / <%= cartSettings.max_properties %></span>
+                        </div>
+                        <div class="summary-row">
+                            <span style="color: #64748b;">Remaining slots</span>
+                            <span style="font-weight: 700; color: <%= cartSettings.max_properties - cartItems.length <= 1 ? '#f59e0b' : '#10b981' %>">
+                                <%= cartSettings.max_properties - cartItems.length %>
+                            </span>
+                        </div>
+                        
+                        <% 
+                            let avgTimeUsed = 0;
+                            if (cartItems.length > 0) {
+                                const totalDaysUsed = cartItems.reduce((sum, item) => {
+                                    const addedDate = new Date(item.added_at);
+                                    const expiryDate = new Date(addedDate.getTime() + (cartSettings.visit_window_days || 7) * 24 * 60 * 60 * 1000);
+                                    const now = new Date();
+                                    const daysUsed = (cartSettings.visit_window_days || 7) - Math.max(0, Math.ceil((expiryDate - now) / (1000 * 60 * 60 * 24)));
+                                    return sum + daysUsed;
+                                }, 0);
+                                avgTimeUsed = (totalDaysUsed / cartItems.length) / (cartSettings.visit_window_days || 7) * 100;
+                            }
+                        %>
+                        <div style="margin-top: 16px;">
+                            <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px;">
+                                <span style="color: #64748b;">Window Used</span>
+                                <span style="font-weight: 600;"><%= Math.round(avgTimeUsed) %>%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: <%= avgTimeUsed %>%"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 24px;">
+                            <% if (cartItems.length < cartSettings.max_properties) { %>
+                            <a href="/buyer/properties" class="btn btn-primary btn-block">
+                                <i class="fas fa-plus-circle"></i> Add More Properties
+                            </a>
+                            <% } else { %>
+                            <button class="btn btn-disabled btn-block" disabled>
+                                <i class="fas fa-ban"></i> Cart Full
+                            </button>
+                            <% } %>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="sidebar-card">
+                        <div class="section-title">
+                            <i class="fas fa-bolt" style="color: #f59e0b;"></i> Quick Actions
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <% if (cartItems.length > 0) { %>
+                            <button onclick="clearCart()" class="btn btn-danger btn-block">
+                                <i class="fas fa-trash-alt"></i> Clear Cart
+                            </button>
+                            <button onclick="downloadCart()" class="btn btn-secondary btn-block">
+                                <i class="fas fa-download"></i> Export Cart
+                            </button>
+                            <button onclick="shareCart()" class="btn btn-secondary btn-block">
+                                <i class="fas fa-share-alt"></i> Share Cart
+                            </button>
+                            <% } %>
+                            <a href="/buyer/properties" class="btn btn-secondary btn-block">
+                                <i class="fas fa-search"></i> Browse Properties
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Support Card -->
+                    <div class="support-card">
+                        <div class="support-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3 style="color: white; margin-bottom: 8px;">Need Help?</h3>
+                        <p style="font-size: 14px; opacity: 0.9;">We're here to help you with your property journey</p>
+                        <div class="support-contact">
+                            <div><i class="fas fa-phone-alt"></i> 1800-123-4567</div>
+                            <div><i class="fas fa-envelope"></i> support@propbandhu.com</div>
+                            <div><i class="fas fa-clock"></i> Mon-Sun: 9 AM - 9 PM</div>
+                        </div>
+                        <div class="chat-btn">
+                            <i class="fas fa-comment-dots"></i> Live Chat
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-text">
+            © <%= new Date().getFullYear() %> Propbandhu. All rights reserved.
+            <div style="margin-top: 8px; font-size: 12px;">Your trusted partner in property search and transactions</div>
+        </div>
+    </footer>
+    
+    <script>
+        // Toggle dropdown
+        function toggleDropdown(index) {
+            const dropdown = document.getElementById(`dropdown-${index}`);
+            if(dropdown) dropdown.classList.toggle('show');
+        }
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if(!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    menu.classList.remove('show');
+                });
+            }
+        });
+        
+        // Remove from cart
+        function removeFromCart(propertyId) {
+            if(confirm('Remove this property from your cart?')) {
+                fetch('/buyer/api/cart/remove', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ propertyId })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.success) {
+                        alert('Property removed!');
+                        location.reload();
+                    } else alert('Error: ' + data.message);
+                })
+                .catch(() => alert('Server error'));
+            }
+        }
+        
+        // Clear entire cart
+        function clearCart() {
+            if(confirm('Clear entire cart? This cannot be undone.')) {
+                fetch('/buyer/api/cart/clear', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.success) {
+                        alert('Cart cleared');
+                        location.reload();
+                    } else alert('Error clearing cart');
+                })
+                .catch(() => alert('Network error'));
+            }
+        }
+        
+        // Download cart
+        function downloadCart() {
+            fetch('/buyer/api/cart/export')
+                .then(res => res.json())
+                .then(data => {
+                    if(data.success && data.cartData) {
+                        const blob = new Blob([JSON.stringify(data.cartData, null, 2)], { type: 'application/json' });
+                        const a = document.createElement('a');
+                        a.href = URL.createObjectURL(blob);
+                        a.download = `propbandhu-cart-${new Date().toISOString().split('T')[0]}.json`;
+                        a.click();
+                        URL.revokeObjectURL(a.href);
+                    } else alert('Export failed');
+                })
+                .catch(() => alert('Download error'));
+        }
+        
+        // Share cart
+        function shareCart() {
+            if(navigator.share) {
+                navigator.share({
+                    title: 'Propbandhu Cart',
+                    text: `I have ${<%= cartItems.length %>} properties in my cart!`,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('Cart link copied!');
+            }
+        }
+        
+        // Share property
+        function shareProperty(id, title) {
+            const url = `${window.location.origin}/buyer/properties/${id}`;
+            if(navigator.share) {
+                navigator.share({ title: title, url: url });
+            } else {
+                navigator.clipboard.writeText(url);
+                alert('Property link copied!');
+            }
+        }
+        
+        function downloadPropertyDetails(id) {
+            alert(`Downloading details for property ${id}...`);
+        }
+        
+        function printProperty(id) {
+            window.open(`/buyer/properties/${id}/print`, '_blank');
+        }
+    </script>
+</body>
+</html>

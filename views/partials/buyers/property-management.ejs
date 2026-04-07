@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Fractional Ownership Marketplace - Propbandhu | Own Premium Properties Starting ₹5 Lakhs</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ========== COMPLETE CUSTOM CSS FOR FRACTIONAL OWNERSHIP PAGE ========== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        /* Smooth transitions */
+        .property-card,
+        .benefit-card,
+        .step-card,
+        button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Property card hover effects */
+        .property-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .property-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Image overlay effect */
+        .property-image {
+            transition: transform 0.5s ease;
+            overflow: hidden;
+        }
+        
+        .property-card:hover .property-image img {
+            transform: scale(1.05);
+        }
+        
+        .property-image img {
+            transition: transform 0.5s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Button hover effects */
+        .invest-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .invest-btn:active {
+            transform: scale(0.96);
+        }
+        
+        .invest-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+        
+        .invest-btn:active::after {
+            width: 200px;
+            height: 200px;
+        }
+
+        /* Step cards animation */
+        .step-card {
+            transition: all 0.3s ease;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .step-icon {
+            transition: transform 0.2s ease;
+        }
+        
+        .step-card:hover .step-icon {
+            transform: scale(1.1);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #dbeafe;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563eb;
+        }
+
+        /* ROI badge animation */
+        .roi-badge {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.85;
+            }
+        }
+
+        /* Share availability progress bar */
+        .share-progress {
+            transition: width 0.5s ease;
+        }
+
+        /* Modal animation */
+        .modal-content {
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success toast */
+        .success-toast {
+            animation: slideUpFade 0.4s ease-out forwards;
+        }
+        
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Floating action button for quick contact */
+        .floating-contact {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 40;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .floating-contact {
+                bottom: 20px;
+                right: 20px;
+                transform: scale(0.9);
+            }
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Benefits card hover */
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+        
+        .benefit-card:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+        }
+        
+        /* Counter animation */
+        .counter-value {
+            transition: all 0.3s;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar (simulated for standalone preview) -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-chart-pie text-blue-600 text-2xl"></i>
+                    <span class="font-bold text-xl text-gray-800">Prop<span class="text-blue-600">bandhu</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Buy Property</a>
+                    <a href="#" class="text-blue-600 font-semibold border-b-2 border-blue-600 pb-1">Fractional Ownership</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-user-circle text-gray-500 text-2xl"></i>
+                    <span class="hidden sm:inline text-gray-700">Sign In</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Hero Header -->
+        <div class="mb-10 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-3">
+                <i class="fas fa-chart-line"></i> Revolutionary Investment Model
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">Fractional Ownership <span class="gradient-text">Marketplace</span></h1>
+            <p class="text-gray-600 mt-3 text-lg max-w-2xl">Own premium properties with as low as ₹5 lakhs. Earn passive income through rentals and property appreciation.</p>
+        </div>
+
+        <!-- Featured Properties Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+            <!-- Property 1 - Goa Luxury Villa -->
+            <div class="property-card bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="property-image h-52 bg-gradient-to-r from-blue-400 to-purple-400 relative">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500&h=350&fit=crop" alt="Luxury Villa Goa" class="w-full h-full object-cover">
+                    <span class="absolute top-3 left-3 bg-green-500 text-white text-xs px-2 py-1 rounded-full">Featured</span>
+                </div>
+                <div class="p-5">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-xl text-gray-800">Luxury Villa - Goa</h3>
+                        <i class="fas fa-heart text-gray-300 hover:text-red-500 cursor-pointer transition"></i>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-3"><i class="fas fa-map-marker-alt text-blue-500"></i> North Goa, 500m from beach</p>
+                    <p class="text-gray-600 mb-1">Total Property Value: <span class="font-semibold">₹3.2 Cr</span></p>
+                    <div class="flex justify-between items-baseline mb-3">
+                        <p class="text-2xl font-bold text-blue-600">₹25 Lakhs<span class="text-sm font-normal text-gray-500">/Share</span></p>
+                        <span class="roi-badge bg-green-100 text-green-700 text-sm px-2 py-1 rounded-full"><i class="fas fa-chart-line"></i> 12% ROI</span>
+                    </div>
+                    <div class="mb-3">
+                        <div class="flex justify-between text-xs text-gray-600 mb-1">
+                            <span>Shares Available</span>
+                            <span>8 / 20 sold</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                            <div class="share-progress bg-blue-600 h-2 rounded-full" style="width: 40%"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">12 shares remaining</p>
+                    </div>
+                    <div class="flex gap-2 mt-4">
+                        <button onclick="openInvestmentModal('Luxury Villa - Goa', '2500000', '12')" class="invest-btn flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition">
+                            Invest Now
+                        </button>
+                        <button class="w-10 bg-gray-100 rounded-xl hover:bg-gray-200 transition">
+                            <i class="fas fa-info-circle text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Property 2 - Bangalore Commercial -->
+            <div class="property-card bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="property-image h-52 bg-gradient-to-r from-purple-400 to-pink-400 relative">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=350&fit=crop" alt="Commercial Complex Bangalore" class="w-full h-full object-cover">
+                    <span class="absolute top-3 left-3 bg-purple-500 text-white text-xs px-2 py-1 rounded-full">High ROI</span>
+                </div>
+                <div class="p-5">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-xl text-gray-800">Commercial Complex - Bangalore</h3>
+                        <i class="fas fa-heart text-gray-300 hover:text-red-500 cursor-pointer transition"></i>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-3"><i class="fas fa-map-marker-alt text-blue-500"></i> Whitefield, IT Hub</p>
+                    <p class="text-gray-600 mb-1">Total Property Value: <span class="font-semibold">₹8.5 Cr</span></p>
+                    <div class="flex justify-between items-baseline mb-3">
+                        <p class="text-2xl font-bold text-blue-600">₹50 Lakhs<span class="text-sm font-normal text-gray-500">/Share</span></p>
+                        <span class="roi-badge bg-green-100 text-green-700 text-sm px-2 py-1 rounded-full"><i class="fas fa-chart-line"></i> 15% ROI</span>
+                    </div>
+                    <div class="mb-3">
+                        <div class="flex justify-between text-xs text-gray-600 mb-1">
+                            <span>Shares Available</span>
+                            <span>5 / 13 sold</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                            <div class="share-progress bg-blue-600 h-2 rounded-full" style="width: 38%"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">8 shares remaining</p>
+                    </div>
+                    <div class="flex gap-2 mt-4">
+                        <button onclick="openInvestmentModal('Commercial Complex - Bangalore', '5000000', '8')" class="invest-btn flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition">
+                            Invest Now
+                        </button>
+                        <button class="w-10 bg-gray-100 rounded-xl hover:bg-gray-200 transition">
+                            <i class="fas fa-info-circle text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Property 3 - Pune Premium Apartments -->
+            <div class="property-card bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="property-image h-52 bg-gradient-to-r from-green-400 to-teal-400 relative">
+                    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=500&h=350&fit=crop" alt="Premium Apartments Pune" class="w-full h-full object-cover">
+                    <span class="absolute top-3 left-3 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">New Launch</span>
+                </div>
+                <div class="p-5">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-xl text-gray-800">Premium Apartments - Pune</h3>
+                        <i class="fas fa-heart text-gray-300 hover:text-red-500 cursor-pointer transition"></i>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-3"><i class="fas fa-map-marker-alt text-blue-500"></i> Hinjewadi, IT Park</p>
+                    <p class="text-gray-600 mb-1">Total Property Value: <span class="font-semibold">₹5.8 Cr</span></p>
+                    <div class="flex justify-between items-baseline mb-3">
+                        <p class="text-2xl font-bold text-blue-600">₹15 Lakhs<span class="text-sm font-normal text-gray-500">/Share</span></p>
+                        <span class="roi-badge bg-green-100 text-green-700 text-sm px-2 py-1 rounded-full"><i class="fas fa-chart-line"></i> 10% ROI</span>
+                    </div>
+                    <div class="mb-3">
+                        <div class="flex justify-between text-xs text-gray-600 mb-1">
+                            <span>Shares Available</span>
+                            <span>12 / 32 sold</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                            <div class="share-progress bg-blue-600 h-2 rounded-full" style="width: 37.5%"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">20 shares remaining</p>
+                    </div>
+                    <div class="flex gap-2 mt-4">
+                        <button onclick="openInvestmentModal('Premium Apartments - Pune', '1500000', '20')" class="invest-btn flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition">
+                            Invest Now
+                        </button>
+                        <button class="w-10 bg-gray-100 rounded-xl hover:bg-gray-200 transition">
+                            <i class="fas fa-info-circle text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- How It Works Section -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-10">
+            <h2 class="text-3xl font-bold text-center text-gray-900 mb-3">How Fractional Ownership Works</h2>
+            <p class="text-center text-gray-600 mb-8">Start your real estate investment journey in 4 simple steps</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="step-card text-center">
+                    <div class="step-icon bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                        <i class="fas fa-search text-3xl text-blue-600"></i>
+                    </div>
+                    <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto -mt-10 mb-2 relative z-10">1</div>
+                    <h3 class="font-bold text-xl mb-2">Discover</h3>
+                    <p class="text-sm text-gray-600">Browse curated premium properties across prime locations</p>
+                </div>
+                
+                <div class="step-card text-center">
+                    <div class="step-icon bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                        <i class="fas fa-chart-line text-3xl text-green-600"></i>
+                    </div>
+                    <div class="w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto -mt-10 mb-2 relative z-10">2</div>
+                    <h3 class="font-bold text-xl mb-2">Analyze</h3>
+                    <p class="text-sm text-gray-600">Review ROI projections, legal docs, and property details</p>
+                </div>
+                
+                <div class="step-card text-center">
+                    <div class="step-icon bg-purple-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                        <i class="fas fa-hand-holding-usd text-3xl text-purple-600"></i>
+                    </div>
+                    <div class="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto -mt-10 mb-2 relative z-10">3</div>
+                    <h3 class="font-bold text-xl mb-2">Invest</h3>
+                    <p class="text-sm text-gray-600">Buy shares online with secure payment gateway</p>
+                </div>
+                
+                <div class="step-card text-center">
+                    <div class="step-icon bg-orange-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                        <i class="fas fa-chart-bar text-3xl text-orange-600"></i>
+                    </div>
+                    <div class="w-8 h-8 bg-orange-600 text-white rounded-full flex items-center justify-center mx-auto -mt-10 mb-2 relative z-10">4</div>
+                    <h3 class="font-bold text-xl mb-2">Earn</h3>
+                    <p class="text-sm text-gray-600">Get monthly rental income + appreciation at exit</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Benefits Section -->
+        <div class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-2xl shadow-xl p-8 text-white">
+            <h2 class="text-3xl font-bold text-center mb-3">Why Choose Fractional Ownership?</h2>
+            <p class="text-center text-blue-100 mb-8">Democratizing real estate investment for everyone</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="benefit-card text-center p-6 rounded-xl">
+                    <i class="fas fa-rupee-sign text-4xl mb-3 text-yellow-300"></i>
+                    <h3 class="font-bold text-xl mb-2">Low Investment</h3>
+                    <p class="text-blue-100">Start your real estate journey with as low as ₹5 lakhs</p>
+                </div>
+                
+                <div class="benefit-card text-center p-6 rounded-xl">
+                    <i class="fas fa-chart-line text-4xl mb-3 text-green-300"></i>
+                    <h3 class="font-bold text-xl mb-2">High Returns</h3>
+                    <p class="text-blue-100">Earn 10-15% annual returns through rent + appreciation</p>
+                </div>
+                
+                <div class="benefit-card text-center p-6 rounded-xl">
+                    <i class="fas fa-shield-alt text-4xl mb-3 text-red-300"></i>
+                    <h3 class="font-bold text-xl mb-2">Secure Investment</h3>
+                    <p class="text-blue-100">RERA registered properties with legal documentation</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+                <div class="benefit-card text-center p-6 rounded-xl">
+                    <i class="fas fa-tachometer-alt text-4xl mb-3 text-purple-300"></i>
+                    <h3 class="font-bold text-xl mb-2">Passive Income</h3>
+                    <p class="text-blue-100">Monthly rental credits directly to your bank account</p>
+                </div>
+                
+                <div class="benefit-card text-center p-6 rounded-xl">
+                    <i class="fas fa-exchange-alt text-4xl mb-3 text-cyan-300"></i>
+                    <h3 class="font-bold text-xl mb-2">Liquid Investment</h3>
+                    <p class="text-blue-100">Sell your shares anytime on our secondary marketplace</p>
+                </div>
+                
+                <div class="benefit-card text-center p-6 rounded-xl">
+                    <i class="fas fa-users text-4xl mb-3 text-indigo-300"></i>
+                    <h3 class="font-bold text-xl mb-2">Professional Management</h3>
+                    <p class="text-blue-100">Property managed by experts - zero hassle for you</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats Counter Section -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 text-center">
+            <div class="bg-white rounded-xl p-5 shadow-md">
+                <div class="text-3xl font-bold text-blue-600 counter-value" id="investorsCount">5000+</div>
+                <p class="text-gray-600 text-sm">Happy Investors</p>
+            </div>
+            <div class="bg-white rounded-xl p-5 shadow-md">
+                <div class="text-3xl font-bold text-green-600 counter-value">₹250+ Cr</div>
+                <p class="text-gray-600 text-sm">Assets Under Management</p>
+            </div>
+            <div class="bg-white rounded-xl p-5 shadow-md">
+                <div class="text-3xl font-bold text-purple-600 counter-value">15+</div>
+                <p class="text-gray-600 text-sm">Premium Properties</p>
+            </div>
+            <div class="bg-white rounded-xl p-5 shadow-md">
+                <div class="text-3xl font-bold text-orange-600 counter-value">18%</div>
+                <p class="text-gray-600 text-sm">Avg. Annual Returns</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Investment Modal -->
+    <div id="investmentModal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50 transition-all">
+        <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4 modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-gray-800"><i class="fas fa-chart-pie text-blue-600"></i> Invest in</h3>
+                <button onclick="closeInvestmentModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+            </div>
+            <p class="text-xl font-semibold text-blue-600 mb-4" id="modalPropertyName">Property Name</p>
+            
+            <form id="investmentForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Full Name *</label>
+                    <input type="text" id="invName" required placeholder="Enter your full name" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Email Address *</label>
+                    <input type="email" id="invEmail" required placeholder="your@email.com" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Phone Number *</label>
+                    <input type="tel" id="invPhone" required placeholder="9876543210" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Number of Shares</label>
+                    <input type="number" id="invShares" min="1" value="1" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400">
+                    <p class="text-xs text-gray-500 mt-1">Share price: <span id="sharePriceDisplay">₹25,00,000</span> per share</p>
+                    <p class="text-sm font-bold text-green-600 mt-2">Total Investment: <span id="totalInvestment">₹25,00,000</span></p>
+                </div>
+                <input type="hidden" id="propertyName">
+                <input type="hidden" id="sharePrice">
+                <input type="hidden" id="availableShares">
+                <button type="submit" id="investSubmitBtn" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3.5 rounded-xl font-bold text-lg shadow-md hover:shadow-xl transition">
+                    <i class="fas fa-check-circle"></i> Proceed to Invest
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Floating Contact Button -->
+    <div class="floating-contact">
+        <a href="tel:+919876543210" class="bg-blue-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition transform hover:scale-105">
+            <i class="fas fa-phone-alt text-xl"></i>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <i class="fab fa-facebook-f text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-twitter text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-linkedin-in text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-instagram text-gray-400 hover:text-pink-400 cursor-pointer transition text-xl"></i>
+            </div>
+            <p class="text-gray-400 text-sm">© 2025 Propbandhu | Fractional Ownership Marketplace</p>
+            <p class="text-gray-500 text-xs mt-2">SEBI Registered | RERA Compliant | Your gateway to premium real estate investments</p>
+        </div>
+    </footer>
+
+    <script>
+        // Modal functions
+        const modal = document.getElementById('investmentModal');
+        let currentSharesAvailable = 0;
+        
+        function openInvestmentModal(propertyName, sharePrice, available) {
+            document.getElementById('modalPropertyName').innerHTML = propertyName;
+            document.getElementById('propertyName').value = propertyName;
+            document.getElementById('sharePrice').value = sharePrice;
+            document.getElementById('sharePriceDisplay').innerHTML = '₹' + parseInt(sharePrice).toLocaleString('en-IN');
+            document.getElementById('availableShares').value = available;
+            currentSharesAvailable = parseInt(available);
+            
+            const sharesInput = document.getElementById('invShares');
+            sharesInput.max = available;
+            sharesInput.value = 1;
+            updateTotalInvestment();
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeInvestmentModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function updateTotalInvestment() {
+            const shares = parseInt(document.getElementById('invShares').value) || 0;
+            const sharePrice = parseInt(document.getElementById('sharePrice').value) || 0;
+            const total = shares * sharePrice;
+            document.getElementById('totalInvestment').innerHTML = '₹' + total.toLocaleString('en-IN');
+        }
+        
+        // Update total when shares change
+        document.getElementById('invShares').addEventListener('input', function() {
+            let val = parseInt(this.value);
+            if (val > currentSharesAvailable) {
+                this.value = currentSharesAvailable;
+                val = currentSharesAvailable;
+            }
+            if (val < 1) this.value = 1;
+            updateTotalInvestment();
+        });
+        
+        // Close modal on outside click
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeInvestmentModal();
+            }
+        });
+        
+        // Investment Form Submission
+        const investmentForm = document.getElementById('investmentForm');
+        const investSubmitBtn = document.getElementById('investSubmitBtn');
+        
+        investmentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('invName').value.trim();
+            const email = document.getElementById('invEmail').value.trim();
+            const phone = document.getElementById('invPhone').value.trim();
+            const property = document.getElementById('propertyName').value;
+            const shares = document.getElementById('invShares').value;
+            
+            if (!name || !email || !phone) {
+                alert('❌ Please fill in all required fields.');
+                return;
+            }
+            
+            if (!/^\d{10}$/.test(phone)) {
+                alert('❌ Please enter a valid 10-digit mobile number.');
+                return;
+            }
+            
+            // Show loading state
+            const originalText = investSubmitBtn.innerHTML;
+            investSubmitBtn.innerHTML = '<span class="loading-spinner"></span> Processing...';
+            investSubmitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                console.log('Investment Interest:', { name, email, phone, property, shares });
+                alert(`✓ Thank you ${name}! Your interest in ${property} has been recorded. Our investment advisor will contact you within 2 hours.`);
+                investmentForm.reset();
+                closeInvestmentModal();
+                investSubmitBtn.innerHTML = originalText;
+                investSubmitBtn.disabled = false;
+            }, 800);
+        });
+        
+        // Add image fallback handling
+        document.querySelectorAll('.property-image img').forEach(img => {
+            img.onerror = function() {
+                this.src = 'https://placehold.co/600x400/3b82f6/white?text=Premium+Property';
+            };
+        });
+        
+        // Heart icon toggle functionality
+        document.querySelectorAll('.fa-heart').forEach(heart => {
+            heart.addEventListener('click', function() {
+                this.classList.toggle('text-red-500');
+                this.classList.toggle('text-gray-300');
+            });
+        });
+    </script>
+</body>
+</html>

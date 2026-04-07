@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Emergency Support - Propbandhu | 24/7 Property Emergency Assistance</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ========== COMPLETE CUSTOM CSS FOR EMERGENCY SUPPORT PAGE ========== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        /* Emergency banner pulse animation */
+        .emergency-banner {
+            animation: emergencyPulse 2s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes emergencyPulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 15px rgba(220, 38, 38, 0);
+            }
+        }
+        
+        .emergency-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotateGlow 8s linear infinite;
+        }
+        
+        @keyframes rotateGlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Service card hover effects */
+        .service-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.15);
+            border-color: #ef4444;
+        }
+
+        /* Call button hover */
+        .call-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .call-btn:hover {
+            transform: scale(1.05);
+            background-color: #16a34a;
+        }
+
+        /* Form input focus effects */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            ring: 2px solid #ef4444;
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        /* Button press effect */
+        .btn-submit {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-submit:active {
+            transform: scale(0.97);
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #fecaca;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #ef4444;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dc2626;
+        }
+
+        /* Toast notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            animation: slideInRight 0.3s ease-out;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Urgency badge styling */
+        .urgency-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .urgency-high { background: #fee2e2; color: #dc2626; }
+        .urgency-medium { background: #fed7aa; color: #ea580c; }
+        .urgency-low { background: #dcfce7; color: #16a34a; }
+
+        /* Safety tips hover */
+        .safety-tip {
+            transition: all 0.2s ease;
+        }
+        
+        .safety-tip:hover {
+            transform: translateX(5px);
+            background-color: #fef3c7;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .emergency-banner {
+                padding: 20px;
+            }
+            .emergency-banner h2 {
+                font-size: 1.5rem;
+            }
+            .emergency-banner p {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Floating emergency button */
+        .floating-emergency {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 40;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Service icon animation */
+        .service-icon {
+            transition: transform 0.2s;
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
+        }
+
+        /* Form success animation */
+        .success-message {
+            animation: successPop 0.4s ease-out;
+        }
+        
+        @keyframes successPop {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Siren animation for emergency banner */
+        .siren {
+            display: inline-block;
+            animation: sirenFlash 1s infinite;
+        }
+        
+        @keyframes sirenFlash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar (simulated for standalone preview) -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-ambulance text-red-600 text-2xl"></i>
+                    <span class="font-bold text-xl text-gray-800">Prop<span class="text-red-600">bandhu</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-red-600 font-medium">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-red-600 font-medium">Buy Property</a>
+                    <a href="#" class="text-red-600 font-semibold border-b-2 border-red-600 pb-1">Emergency Support</a>
+                    <a href="#" class="text-gray-700 hover:text-red-600 font-medium">Contact</a>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-user-circle text-gray-500 text-2xl"></i>
+                    <span class="hidden sm:inline text-gray-700">Sign In</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Hero Header -->
+        <div class="mb-10 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 bg-red-100 text-red-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-3">
+                <i class="fas fa-clock siren"></i> 24/7 Available
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">24/7 Emergency Support</h1>
+            <p class="text-gray-600 mt-3 text-lg max-w-2xl">Immediate assistance for all your property emergencies. Water leakage, electrical issues, gas leaks, and more.</p>
+        </div>
+
+        <!-- Emergency Contact Banner -->
+        <div class="emergency-banner bg-gradient-to-r from-red-600 to-red-700 rounded-2xl shadow-2xl p-8 text-white text-center mb-10 relative">
+            <div class="relative z-10">
+                <i class="fas fa-phone-alt text-5xl mb-4 siren"></i>
+                <h2 class="text-3xl font-bold mb-2">Emergency Helpline</h2>
+                <a href="tel:+9118001234567" class="text-3xl md:text-4xl font-bold mb-3 block hover:text-yellow-200 transition">+91 1800 123 4567</a>
+                <p class="text-lg mb-2">📞 Toll-Free | 24x7 Available</p>
+                <div class="flex justify-center gap-4 mt-4 text-sm">
+                    <span class="bg-white/20 px-3 py-1 rounded-full"><i class="fas fa-tint"></i> Plumbing</span>
+                    <span class="bg-white/20 px-3 py-1 rounded-full"><i class="fas fa-bolt"></i> Electrical</span>
+                    <span class="bg-white/20 px-3 py-1 rounded-full"><i class="fas fa-fire-extinguisher"></i> Gas Leak</span>
+                    <span class="bg-white/20 px-3 py-1 rounded-full"><i class="fas fa-key"></i> Locksmith</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Service Request Form -->
+            <div class="bg-white rounded-2xl shadow-xl p-6">
+                <div class="flex items-center gap-2 mb-6">
+                    <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-clipboard-list text-red-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Request Emergency Service</h2>
+                </div>
+                
+                <form id="emergencyForm" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">
+                            Service Type <span class="text-red-500">*</span>
+                        </label>
+                        <select id="serviceType" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-400">
+                            <option value="">Select Emergency Service</option>
+                            <option value="plumbing">🚰 Plumbing (Water Leakage, Pipe Burst)</option>
+                            <option value="electrical">⚡ Electrical (Short Circuit, Power Failure)</option>
+                            <option value="gas">🔥 Gas Leakage (Immediate Response)</option>
+                            <option value="ac">❄️ AC/Fridge Repair</option>
+                            <option value="locksmith">🔑 Locksmith (Locked Out, Broken Keys)</option>
+                            <option value="pest">🐜 Pest Control (Emergency)</option>
+                            <option value="water_logging">💧 Water Logging/Flooding</option>
+                            <option value="structural">🏚️ Structural Damage (Cracks, Collapse Risk)</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">
+                            Urgency Level <span class="text-red-500">*</span>
+                        </label>
+                        <select id="urgency" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-400">
+                            <option value="high">🚨 High (Immediate - Within 1 hour)</option>
+                            <option value="medium">⚠️ Medium (Within 3 hours)</option>
+                            <option value="low">ℹ️ Low (Within 24 hours)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Full Name <span class="text-red-500">*</span></label>
+                            <input type="text" id="name" required placeholder="e.g., Rajesh Kumar" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-400">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Phone Number <span class="text-red-500">*</span></label>
+                            <input type="tel" id="phone" required placeholder="9876543210" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-400">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Property Address <span class="text-red-500">*</span></label>
+                        <textarea id="address" rows="2" required placeholder="Full address with landmark, city, pincode" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-400"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Description of Issue</label>
+                        <textarea id="description" rows="3" placeholder="Describe the problem in detail (e.g., water leaking from ceiling, no power in bedroom, etc.)" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-400"></textarea>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="emergencyConsent" required class="w-4 h-4">
+                        <label class="text-sm text-gray-600">I confirm this is an emergency and I need immediate assistance <span class="text-red-500">*</span></label>
+                    </div>
+                    
+                    <button type="submit" id="submitBtn" class="btn-submit w-full bg-gradient-to-r from-red-600 to-red-700 text-white py-3.5 rounded-xl font-bold text-lg shadow-md hover:shadow-xl transition flex items-center justify-center gap-2">
+                        <i class="fas fa-ambulance"></i> Request Emergency Service
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Quick Services & Tips -->
+            <div class="space-y-6">
+                <!-- Quick Service Providers -->
+                <div class="bg-white rounded-2xl shadow-xl p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fas fa-tools text-green-600 text-xl"></i>
+                        <h2 class="text-xl font-bold text-gray-800">Quick Service Providers</h2>
+                        <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">24/7 On Call</span>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="service-card border rounded-xl p-4 flex justify-between items-center hover:border-red-300">
+                            <div class="flex items-center gap-3">
+                                <div class="service-icon w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-wrench text-blue-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-gray-800">24/7 Plumber</p>
+                                    <p class="text-xs text-gray-500">Water leakage, pipe burst, drainage</p>
+                                </div>
+                            </div>
+                            <button onclick="callNow('+919876543210')" class="call-btn bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700">
+                                <i class="fas fa-phone-alt mr-1"></i> Call
+                            </button>
+                        </div>
+                        
+                        <div class="service-card border rounded-xl p-4 flex justify-between items-center hover:border-red-300">
+                            <div class="flex items-center gap-3">
+                                <div class="service-icon w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-bolt text-yellow-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-gray-800">Emergency Electrician</p>
+                                    <p class="text-xs text-gray-500">Short circuit, power failure, wiring</p>
+                                </div>
+                            </div>
+                            <button onclick="callNow('+919876543211')" class="call-btn bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700">
+                                <i class="fas fa-phone-alt mr-1"></i> Call
+                            </button>
+                        </div>
+                        
+                        <div class="service-card border rounded-xl p-4 flex justify-between items-center hover:border-red-300">
+                            <div class="flex items-center gap-3">
+                                <div class="service-icon w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-key text-purple-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-gray-800">Locksmith Service</p>
+                                    <p class="text-xs text-gray-500">Locked out, broken keys, lock repair</p>
+                                </div>
+                            </div>
+                            <button onclick="callNow('+919876543212')" class="call-btn bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700">
+                                <i class="fas fa-phone-alt mr-1"></i> Call
+                            </button>
+                        </div>
+                        
+                        <div class="service-card border rounded-xl p-4 flex justify-between items-center hover:border-red-300">
+                            <div class="flex items-center gap-3">
+                                <div class="service-icon w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-fire-extinguisher text-red-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-gray-800">Gas Leak Emergency</p>
+                                    <p class="text-xs text-gray-500">Gas leakage detection & repair</p>
+                                </div>
+                            </div>
+                            <button onclick="callNow('+919876543213')" class="call-btn bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-700">
+                                <i class="fas fa-phone-alt mr-1"></i> Emergency
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Safety Tips -->
+                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-6 border border-yellow-200">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fas fa-shield-alt text-yellow-600 text-2xl"></i>
+                        <h3 class="font-bold text-xl text-gray-800">Safety First! ⚠️</h3>
+                    </div>
+                    <ul class="space-y-3 text-sm">
+                        <li class="safety-tip flex items-start gap-2 p-2 rounded-lg"><i class="fas fa-check-circle text-green-600 mt-0.5"></i> <span>In case of gas leakage, open all windows immediately and <strong class="text-red-600">DO NOT use any electrical switches</strong></span></li>
+                        <li class="safety-tip flex items-start gap-2 p-2 rounded-lg"><i class="fas fa-check-circle text-green-600 mt-0.5"></i> <span>For electrical issues, switch off main power supply from the meter box</span></li>
+                        <li class="safety-tip flex items-start gap-2 p-2 rounded-lg"><i class="fas fa-check-circle text-green-600 mt-0.5"></i> <span>Keep emergency numbers saved in your phone contacts</span></li>
+                        <li class="safety-tip flex items-start gap-2 p-2 rounded-lg"><i class="fas fa-check-circle text-green-600 mt-0.5"></i> <span>Don't attempt DIY repairs for major electrical or gas emergencies</span></li>
+                        <li class="safety-tip flex items-start gap-2 p-2 rounded-lg"><i class="fas fa-check-circle text-green-600 mt-0.5"></i> <span>Keep a fire extinguisher and first aid kit accessible</span></li>
+                    </ul>
+                    
+                    <div class="mt-4 pt-3 border-t border-yellow-200">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-semibold text-gray-700">Emergency Numbers:</span>
+                            <div class="flex gap-3">
+                                <span class="text-xs bg-white px-2 py-1 rounded-full">Fire: 101</span>
+                                <span class="text-xs bg-white px-2 py-1 rounded-full">Ambulance: 102</span>
+                                <span class="text-xs bg-white px-2 py-1 rounded-full">Police: 100</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Response Time Guarantee -->
+                <div class="bg-white rounded-2xl p-4 text-center shadow-md">
+                    <div class="flex items-center justify-center gap-2 text-green-600">
+                        <i class="fas fa-clock text-2xl"></i>
+                        <span class="font-bold">Response Time Guarantee</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">High priority: 1 hour | Medium: 3 hours | Low: 24 hours</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Emergency Button -->
+    <div class="floating-emergency">
+        <a href="tel:+9118001234567" class="bg-red-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-red-700 transition transform hover:scale-105">
+            <i class="fas fa-phone-alt text-xl"></i>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <i class="fab fa-facebook-f text-gray-400 hover:text-red-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-twitter text-gray-400 hover:text-red-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-linkedin-in text-gray-400 hover:text-red-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-instagram text-gray-400 hover:text-red-400 cursor-pointer transition text-xl"></i>
+            </div>
+            <p class="text-gray-400 text-sm">© 2025 Propbandhu | 24/7 Emergency Support for Property Emergencies</p>
+            <p class="text-gray-500 text-xs mt-2">Trained professionals | Rapid response | Verified service providers</p>
+        </div>
+    </footer>
+
+    <script>
+        function callNow(number) {
+            window.location.href = `tel:${number}`;
+        }
+        
+        const emergencyForm = document.getElementById('emergencyForm');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        emergencyForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validate form
+            const serviceType = document.getElementById('serviceType').value;
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const consent = document.getElementById('emergencyConsent').checked;
+            
+            if (!serviceType || !name || !phone || !address) {
+                showToast('❌ Please fill in all required fields', 'error');
+                return;
+            }
+            
+            if (!/^\d{10}$/.test(phone)) {
+                showToast('❌ Please enter a valid 10-digit mobile number', 'error');
+                return;
+            }
+            
+            if (!consent) {
+                showToast('❌ Please confirm that this is an emergency', 'error');
+                return;
+            }
+            
+            const urgency = document.getElementById('urgency').value;
+            let responseTime = '';
+            if (urgency === 'high') responseTime = 'within 1 hour';
+            else if (urgency === 'medium') responseTime = 'within 3 hours';
+            else responseTime = 'within 24 hours';
+            
+            const serviceTypeText = document.getElementById('serviceType').options[document.getElementById('serviceType').selectedIndex]?.text || serviceType;
+            
+            // Show loading state
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="loading-spinner"></span> Sending Emergency Request...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Log emergency request
+                console.log('Emergency Request:', {
+                    serviceType, name, phone, address, urgency,
+                    description: document.getElementById('description').value,
+                    timestamp: new Date().toISOString()
+                });
+                
+                // Show success message with details
+                showEmergencyAlert(serviceTypeText, responseTime);
+                
+                // Reset form
+                emergencyForm.reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 1000);
+        });
+        
+        function showEmergencyAlert(serviceType, responseTime) {
+            // Create custom modal-like alert
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50';
+            alertDiv.innerHTML = `
+                <div class="bg-white rounded-2xl p-6 max-w-md mx-4 text-center success-message">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-check-circle text-green-600 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Emergency Request Sent!</h3>
+                    <p class="text-gray-600 mb-3">Service: <strong>${serviceType}</strong></p>
+                    <p class="text-gray-600 mb-3">Response Time: <strong class="text-red-600">${responseTime}</strong></p>
+                    <p class="text-sm text-gray-500 mb-4">Our emergency team will contact you shortly at your provided number.</p>
+                    <div class="bg-red-50 p-3 rounded-xl mb-4">
+                        <p class="text-sm text-red-700"><i class="fas fa-phone-alt"></i> In case of extreme emergency, call our helpline: <strong>1800-123-4567</strong></p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="bg-red-600 text-white px-6 py-2 rounded-xl font-semibold hover:bg-red-700">OK</button>
+                </div>
+            `;
+            document.body.appendChild(alertDiv);
+            
+            // Auto remove after 8 seconds
+            setTimeout(() => {
+                if (alertDiv) alertDiv.remove();
+            }, 8000);
+        }
+        
+        function showToast(message, type = 'error') {
+            const existingToast = document.querySelector('.toast-notification');
+            if (existingToast) existingToast.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.innerHTML = `<i class="fas fa-${type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i><span>${message}</span>`;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 4000);
+        }
+        
+        // Update urgency display based on selection
+        const urgencySelect = document.getElementById('urgency');
+        urgencySelect.addEventListener('change', function() {
+            const serviceSelect = document.getElementById('serviceType');
+            if (this.value === 'high' && serviceSelect.value === 'gas') {
+                showToast('⚠️ Gas leak is critical - Our team will respond immediately', 'info');
+            }
+        });
+    </script>
+</body>
+</html>

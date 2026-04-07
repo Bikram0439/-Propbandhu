@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propbandhu | Smart Property Valuation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9eef5 100%);
+        }
+        
+        /* Modern Navbar Styles */
+        .navbar-modern {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #2563eb, #06b6d4);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link-active {
+            color: #2563eb;
+            font-weight: 600;
+        }
+        
+        .nav-link-active::after {
+            width: 100%;
+        }
+        
+        .btn-nav-cta {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+        }
+        
+        /* Card Styles */
+        .card-premium {
+            background: white;
+            border-radius: 24px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+        }
+        
+        .card-premium:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -12px rgba(0,0,0,0.1);
+        }
+        
+        /* Form Inputs */
+        .input-elegant {
+            border: 1.5px solid #e2e8f0;
+            border-radius: 16px;
+            transition: all 0.2s;
+            background: #fafbfc;
+        }
+        
+        .input-elegant:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+            background: white;
+            outline: none;
+        }
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Result Card */
+        .result-hero {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .result-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .result-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(6,182,212,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        /* Button Styles */
+        .btn-calculate {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            border-radius: 16px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(37,99,235,0.3);
+        }
+        
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37,99,235,0.4);
+        }
+        
+        /* Market Trend Cards */
+        .trend-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .trend-card:hover {
+            transform: translateY(-6px);
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 0 12px 24px -10px rgba(0,0,0,0.1);
+        }
+        
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        /* Mobile Menu */
+        @media (max-width: 768px) {
+            .mobile-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                height: 100vh;
+                background: white;
+                z-index: 2000;
+                transition: right 0.3s ease;
+                box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+            }
+            
+            .mobile-menu.active {
+                right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Modern Navbar -->
+    <nav class="navbar-modern px-4 md:px-8 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
+                    <i class="fas fa-home text-white text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-2xl font-bold gradient-text">Propbandhu</span>
+                    <span class="text-xs text-gray-500 block -mt-1">by Bandhu Group</span>
+                </div>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#" class="nav-link text-gray-700 hover:text-blue-600 transition font-medium">Home</a>
+                <a href="#" class="nav-link text-gray-700 hover:text-blue-600 transition font-medium">Buy</a>
+                <a href="#" class="nav-link text-gray-700 hover:text-blue-600 transition font-medium">Rent</a>
+                <a href="#" class="nav-link nav-link-active text-blue-600 font-semibold">Valuation</a>
+                <a href="#" class="nav-link text-gray-700 hover:text-blue-600 transition font-medium">Insights</a>
+                <a href="#" class="nav-link text-gray-700 hover:text-blue-600 transition font-medium">Contact</a>
+            </div>
+            
+            <!-- Desktop CTA -->
+            <div class="hidden md:flex items-center space-x-4">
+                <button class="px-5 py-2 text-gray-700 font-medium hover:text-blue-600 transition">
+                    <i class="far fa-user-circle mr-2"></i>Sign In
+                </button>
+                <button class="btn-nav-cta px-6 py-2 text-white rounded-xl font-semibold">
+                    <i class="fas fa-plus-circle mr-2"></i>Post Property
+                </button>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" class="md:hidden text-gray-700 text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu Panel -->
+        <div id="mobileMenu" class="mobile-menu md:hidden">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-home text-white text-sm"></i>
+                        </div>
+                        <span class="text-xl font-bold gradient-text">Propbandhu</span>
+                    </div>
+                    <button id="closeMenuBtn" class="text-gray-600 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="flex flex-col space-y-4">
+                    <a href="#" class="py-3 text-gray-700 hover:text-blue-600 transition font-medium border-b border-gray-100">Home</a>
+                    <a href="#" class="py-3 text-gray-700 hover:text-blue-600 transition font-medium border-b border-gray-100">Buy</a>
+                    <a href="#" class="py-3 text-gray-700 hover:text-blue-600 transition font-medium border-b border-gray-100">Rent</a>
+                    <a href="#" class="py-3 text-blue-600 font-semibold border-b border-gray-100">Valuation</a>
+                    <a href="#" class="py-3 text-gray-700 hover:text-blue-600 transition font-medium border-b border-gray-100">Insights</a>
+                    <a href="#" class="py-3 text-gray-700 hover:text-blue-600 transition font-medium border-b border-gray-100">Contact</a>
+                    <button class="mt-4 w-full btn-nav-cta text-white py-3 rounded-xl font-semibold">
+                        <i class="fas fa-plus-circle mr-2"></i>Post Property
+                    </button>
+                    <button class="w-full py-3 border-2 border-gray-300 rounded-xl font-semibold text-gray-700">
+                        <i class="far fa-user-circle mr-2"></i>Sign In
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-8 px-4 md:px-8">
+        <!-- Hero Section -->
+        <div class="text-center mb-10 fade-in-up">
+            <div class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                <i class="fas fa-chart-line"></i>
+                <span>AI-Powered Real Estate Intelligence</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4">
+                Know Your <span class="gradient-text">Property's Worth</span>
+            </h1>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                Get instant, accurate market valuation based on real-time data, location trends, and property features
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Valuation Form -->
+            <div class="card-premium p-6 md:p-8">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-md">
+                        <i class="fas fa-clipboard-list text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">Property Details</h2>
+                        <p class="text-gray-500 text-sm">Fill the details for accurate valuation</p>
+                    </div>
+                </div>
+                
+                <form id="valuationForm" class="space-y-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-building mr-2 text-blue-500"></i>Property Type
+                            </label>
+                            <select id="propertyType" required class="w-full px-4 py-3 input-elegant">
+                                <option value="apartment">🏢 Apartment / Flat</option>
+                                <option value="villa">🏰 Villa / Bungalow</option>
+                                <option value="plot">🌿 Plot / Land</option>
+                                <option value="commercial">🏬 Commercial Property</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-map-marker-alt mr-2 text-blue-500"></i>City
+                            </label>
+                            <select id="city" required class="w-full px-4 py-3 input-elegant">
+                                <option value="mumbai">🌆 Mumbai</option>
+                                <option value="delhi">🏛️ Delhi NCR</option>
+                                <option value="bangalore">🌉 Bangalore</option>
+                                <option value="pune">⛰️ Pune</option>
+                                <option value="hyderabad">🕌 Hyderabad</option>
+                                <option value="chennai">🏝️ Chennai</option>
+                                <option value="kolkata">📖 Kolkata</option>
+                                <option value="ahmedabad">🏙️ Ahmedabad</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-arrows-alt mr-2 text-blue-500"></i>Area (sq. ft.)
+                            </label>
+                            <input type="number" id="area" required class="w-full px-4 py-3 input-elegant" placeholder="e.g., 1200">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-clock mr-2 text-blue-500"></i>Age of Property (Years)
+                            </label>
+                            <input type="number" id="age" class="w-full px-4 py-3 input-elegant" value="0" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-layer-group mr-2 text-blue-500"></i>Floor Level
+                            </label>
+                            <select id="floor" class="w-full px-4 py-3 input-elegant">
+                                <option value="ground">Ground Floor</option>
+                                <option value="mid">Mid Floor</option>
+                                <option value="top">Top Floor</option>
+                                <option value="penthouse">Penthouse</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-couch mr-2 text-blue-500"></i>Furnishing
+                            </label>
+                            <select id="furnishing" class="w-full px-4 py-3 input-elegant">
+                                <option value="unfurnished">Unfurnished</option>
+                                <option value="semi">Semi-furnished</option>
+                                <option value="fully">Fully Furnished</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-parking mr-2 text-blue-500"></i>Car Parking
+                            </label>
+                            <select id="parking" class="w-full px-4 py-3 input-elegant">
+                                <option value="0">No Parking</option>
+                                <option value="1">1 Car</option>
+                                <option value="2">2 Cars</option>
+                                <option value="3">3+ Cars</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-umbrella mr-2 text-blue-500"></i>Balcony
+                            </label>
+                            <select id="balcony" class="w-full px-4 py-3 input-elegant">
+                                <option value="0">No Balcony</option>
+                                <option value="1">1 Balcony</option>
+                                <option value="2">2 Balconies</option>
+                                <option value="3">3+ Balconies</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-calculate w-full text-white py-4 font-bold text-lg flex items-center justify-center gap-3">
+                        <i class="fas fa-chart-line"></i>
+                        Calculate Property Value
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Results Section -->
+            <div>
+                <div id="valuationResult" class="hidden space-y-6">
+                    <!-- Hero Result Card -->
+                    <div class="result-hero p-6 text-white relative">
+                        <div class="relative z-10">
+                            <p class="text-blue-200 text-sm font-semibold uppercase tracking-wide mb-2">
+                                <i class="fas fa-chart-simple mr-1"></i>Estimated Market Value
+                            </p>
+                            <p class="text-5xl font-black" id="estimatedValue">₹0</p>
+                            <p class="text-blue-200 text-sm mt-3">
+                                <i class="far fa-calendar-alt mr-1"></i>Updated: <%= new Date().toLocaleDateString('en-IN') %>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Price Breakdown -->
+                    <div class="card-premium p-6">
+                        <h3 class="font-bold text-xl text-gray-800 mb-4 flex items-center gap-2">
+                            <i class="fas fa-calculator text-blue-500"></i>
+                            Valuation Breakdown
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between py-2 border-b border-gray-100">
+                                <span class="text-gray-600">Base Price</span>
+                                <span class="font-semibold" id="basePrice">₹0</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-gray-100">
+                                <span class="text-gray-600">Location Premium</span>
+                                <span class="font-semibold text-green-600" id="locationPremium">+ ₹0</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-gray-100">
+                                <span class="text-gray-600">Furnishing Adjustment</span>
+                                <span class="font-semibold text-green-600" id="furnishingAdjustment">+ ₹0</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-gray-100">
+                                <span class="text-gray-600">Parking + Balcony + Floor</span>
+                                <span class="font-semibold text-green-600" id="extraFeatures">+ ₹0</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-gray-100">
+                                <span class="text-gray-600">Depreciation</span>
+                                <span class="font-semibold text-red-500" id="depreciation">- ₹0</span>
+                            </div>
+                            <div class="flex justify-between pt-3 mt-2 bg-gradient-to-r from-gray-50 to-white p-3 rounded-xl">
+                                <span class="font-bold text-gray-800">Final Value</span>
+                                <span class="font-bold text-2xl text-blue-600" id="finalValue">₹0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chart -->
+                    <div class="card-premium p-6">
+                        <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                            <i class="fas fa-chart-bar text-blue-500"></i>
+                            Visual Analysis
+                        </h3>
+                        <canvas id="valuationChart" height="200"></canvas>
+                    </div>
+                    
+                    <!-- Expert CTA -->
+                    <button onclick="requestExpertValuation()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-700 text-white py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-3">
+                        <i class="fas fa-user-tie text-xl"></i>
+                        Request Expert Valuation
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <!-- Placeholder -->
+                <div id="noResultPlaceholder" class="card-premium p-8 text-center">
+                    <div class="w-28 h-28 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-full flex items-center justify-center mx-auto mb-5">
+                        <i class="fas fa-chart-pie text-5xl text-blue-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Ready to Value Your Property?</h3>
+                    <p class="text-gray-500">Fill in the property details on the left to get an instant AI-powered valuation</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Market Trends -->
+        <div class="card-premium p-6 mt-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                    <i class="fas fa-chart-line text-green-500"></i>
+                    Market Trends 2026
+                </h2>
+                <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                    <i class="fas fa-database mr-1"></i>Real-time Data
+                </span>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="trend-card p-4 text-center">
+                    <p class="font-bold text-gray-800 text-lg">Mumbai</p>
+                    <p class="text-green-600 font-bold text-xl">↑ 8.5%</p>
+                    <p class="text-sm text-gray-500 mt-1">₹22,500/sq.ft</p>
+                </div>
+                <div class="trend-card p-4 text-center">
+                    <p class="font-bold text-gray-800 text-lg">Bangalore</p>
+                    <p class="text-green-600 font-bold text-xl">↑ 12.3%</p>
+                    <p class="text-sm text-gray-500 mt-1">₹12,800/sq.ft</p>
+                </div>
+                <div class="trend-card p-4 text-center">
+                    <p class="font-bold text-gray-800 text-lg">Pune</p>
+                    <p class="text-green-600 font-bold text-xl">↑ 10.2%</p>
+                    <p class="text-sm text-gray-500 mt-1">₹8,500/sq.ft</p>
+                </div>
+                <div class="trend-card p-4 text-center">
+                    <p class="font-bold text-gray-800 text-lg">Hyderabad</p>
+                    <p class="text-green-600 font-bold text-xl">↑ 15.7%</p>
+                    <p class="text-sm text-gray-500 mt-1">₹7,200/sq.ft</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let valuationChart = null;
+        
+        const cityRates = {
+            mumbai: 22500, delhi: 18000, bangalore: 12800,
+            pune: 8500, hyderabad: 7200, chennai: 6500,
+            kolkata: 5800, ahmedabad: 5500
+        };
+        
+        function formatINR(num) {
+            return '₹' + Math.round(num).toLocaleString('en-IN');
+        }
+        
+        document.getElementById('valuationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const propertyType = document.getElementById('propertyType').value;
+            const city = document.getElementById('city').value;
+            const area = parseFloat(document.getElementById('area').value);
+            const age = parseFloat(document.getElementById('age').value) || 0;
+            const furnishing = document.getElementById('furnishing').value;
+            const parking = parseInt(document.getElementById('parking').value);
+            const balcony = parseInt(document.getElementById('balcony').value);
+            const floor = document.getElementById('floor').value;
+            
+            if (!area || area <= 0) {
+                alert('Please enter a valid area');
+                return;
+            }
+            
+            let baseRate = cityRates[city];
+            const typeMultiplier = { apartment: 1, villa: 1.5, plot: 0.8, commercial: 1.3 };
+            let basePrice = area * baseRate * typeMultiplier[propertyType];
+            
+            let locationPremium = basePrice * (city === 'bangalore' || city === 'hyderabad' ? 0.075 : 0.05);
+            
+            let furnishingAdjustment = 0;
+            if (furnishing === 'semi') furnishingAdjustment = basePrice * 0.08;
+            if (furnishing === 'fully') furnishingAdjustment = basePrice * 0.16;
+            
+            let parkingAdjustment = parking * 550000;
+            let balconyAdjustment = balcony * 210000;
+            let floorAdjustment = floor === 'top' ? basePrice * 0.06 : (floor === 'penthouse' ? basePrice * 0.18 : (floor === 'mid' ? basePrice * 0.02 : 0));
+            let extraFeaturesTotal = parkingAdjustment + balconyAdjustment + floorAdjustment;
+            
+            let depreciation = basePrice * Math.min(age * 0.012, 0.5);
+            let finalValue = basePrice + locationPremium + furnishingAdjustment + extraFeaturesTotal - depreciation;
+            
+            document.getElementById('estimatedValue').innerHTML = formatINR(finalValue);
+            document.getElementById('basePrice').innerHTML = formatINR(basePrice);
+            document.getElementById('locationPremium').innerHTML = '+ ' + formatINR(locationPremium);
+            document.getElementById('furnishingAdjustment').innerHTML = '+ ' + formatINR(furnishingAdjustment);
+            document.getElementById('extraFeatures').innerHTML = '+ ' + formatINR(extraFeaturesTotal);
+            document.getElementById('depreciation').innerHTML = '- ' + formatINR(depreciation);
+            document.getElementById('finalValue').innerHTML = formatINR(finalValue);
+            
+            document.getElementById('valuationResult').classList.remove('hidden');
+            document.getElementById('noResultPlaceholder').style.display = 'none';
+            
+            if (valuationChart) valuationChart.destroy();
+            const ctx = document.getElementById('valuationChart').getContext('2d');
+            valuationChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Base Price', 'Premiums', 'Add-ons', 'Final Value'],
+                    datasets: [{
+                        label: 'Value (₹ Lakhs)',
+                        data: [
+                            basePrice/100000, 
+                            (locationPremium + furnishingAdjustment)/100000, 
+                            extraFeaturesTotal/100000, 
+                            finalValue/100000
+                        ],
+                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'],
+                        borderRadius: 12,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: { callbacks: { label: (ctx) => `₹ ${(ctx.raw * 100000).toLocaleString('en-IN')}` } }
+                    }
+                }
+            });
+        });
+        
+        function requestExpertValuation() {
+            alert('✓ Expert valuation request submitted!\n\nOur property specialist will contact you within 24 hours for a detailed assessment.');
+        }
+        
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+            });
+        }
+        
+        if (closeMenuBtn) {
+            closeMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        }
+        
+        // Close mobile menu on link click
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

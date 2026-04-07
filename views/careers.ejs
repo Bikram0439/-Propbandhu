@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        
+        /* ========== MODERN NAVBAR STYLES ========== */
+        .navbar {
+            background: rgba(189, 184, 184, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+        
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(37,99,235,0.3);
+        }
+        
+        .logo-icon i {
+            font-size: 1.2rem;
+            color: rgb(201, 201, 201);
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e293b, #2563eb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .logo-sub {
+            font-size: 0.7rem;
+            color: #8c96a5;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-links li a {
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: #334155;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .nav-links li a:hover {
+            color: #2563eb;
+        }
+        
+        .nav-links li a.active {
+            color: #2563eb;
+            font-weight: 600;
+        }
+        
+        .has-submenu {
+            position: relative;
+        }
+        
+        .submenu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgb(59, 49, 49);
+            min-width: 200px;
+            border-radius: 16px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.15);
+            padding: 0.5rem 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.25s ease;
+            list-style: none;
+            border: 1px solid #393f49;
+        }
+        
+        .has-submenu:hover .submenu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .submenu li a {
+            padding: 0.6rem 1.2rem;
+            display: block;
+            font-size: 0.85rem;
+        }
+        
+        .submenu li a:hover {
+            background: #1c1d1d;
+            color: #2563eb;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+        
+        .auth-btn {
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .login-btn {
+            background: transparent;
+            color: #2563eb;
+            border: 1.5px solid #2563eb;
+        }
+        
+        .login-btn:hover {
+            background: #474a4d;
+            transform: translateY(-2px);
+        }
+        
+        .signup-btn {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            color: rgb(53, 40, 40);
+        }
+        
+        .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #334155;
+            cursor: pointer;
+        }
+        
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 320px;
+            height: 100vh;
+            background: rgb(28, 25, 25);
+            z-index: 2000;
+            transition: right 0.3s ease;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.1);
+            padding: 2rem 1.5rem;
+        }
+        
+        .mobile-menu.active {
+            right: 0;
+        }
+        
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .navbar {
+                padding: 0.8rem 1.5rem;
+            }
+        }
+        
+        /* ========== MODERN FOOTER STYLES ========== */
+        .footer {
+            background: #0f172a;
+            color: #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #2563eb, #06b6d4, #8b5cf6, #2563eb);
+            background-size: 200% 100%;
+            animation: gradientMove 3s ease infinite;
+        }
+        
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .footer a {
+            transition: all 0.2s ease;
+        }
+        
+        .footer a:hover {
+            color: #60a5fa;
+            transform: translateX(4px);
+        }
+        
+        .footer-heading {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+            border-radius: 2px;
+        }
+        
+        .social-icon {
+            width: 38px;
+            height: 38px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background: #2563eb;
+            transform: translateY(-4px);
+        }
+        
+        .newsletter-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            color: white;
+            transition: all 0.2s;
+        }
+        
+        .newsletter-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .newsletter-btn {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .newsletter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+        }
+        
+        /* Job Card Styles */
+        .job-card {
+            background: white;
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .job-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.15);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .benefit-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-card:hover .benefit-icon {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px -5px rgba(37,99,235,0.4);
+        }
+        
+        .input-modern {
+            transition: all 0.2s ease;
+            border: 1.5px solid #e2e8f0;
+        }
+        .input-modern:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+            outline: none;
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    
+    <!-- ========== MODERN NAVBAR ========== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div>
+                    <div class="logo-text">Propbandhu</div>
+                    <div class="logo-sub">by Bandhu Group</div>
+                </div>
+            </a>
+            
+            <ul class="nav-links">
+                <li class="has-submenu">
+                    <a href="/properties"><i class="fas fa-search"></i> Buy</a>
+                    <ul class="submenu">
+                        <li><a href="/properties?type=Apartment">Flats</a></li>
+                        <li><a href="/properties?type=Villa">Villas</a></li>
+                        <li><a href="/properties?type=Plot">Plots</a></li>
+                        <li><a href="/properties?type=Commercial">Commercial</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="/properties?for=rent"><i class="fas fa-key"></i> Rent</a>
+                    <ul class="submenu">
+                        <li><a href="/properties?type=Apartment&for=rent">Apartments</a></li>
+                        <li><a href="/properties?type=Villa&for=rent">Villas</a></li>
+                        <li><a href="/properties?type=House&for=rent">Houses</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="#"><i class="fas fa-concierge-bell"></i> Services</a>
+                    <ul class="submenu">
+                        <li><a href="/needs/homeloan">Home Loans</a></li>
+                        <li><a href="/needs/legal-support">Legal Support</a></li>
+                        <li><a href="/needs/property-management">Property Management</a></li>
+                        <li><a href="/needs/valuation">Property Valuation</a></li>
+                    </ul>
+                </li>
+                <li><a href="/careers" class="active"><i class="fas fa-briefcase"></i> Careers</a></li>
+                <li><a href="/blog"><i class="fas fa-blog"></i> Blogs</a></li>
+            </ul>
+            
+            <div class="auth-buttons">
+                <a href="/login" class="auth-btn login-btn"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="/register" class="auth-btn signup-btn"><i class="fas fa-user-plus"></i> Sign Up</a>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="flex justify-between items-center mb-8 pb-4 border-b border-gray-100">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-home"></i></div>
+                <div>
+                    <div class="logo-text">Propbandhu</div>
+                    <div class="logo-sub">by Bandhu Group</div>
+                </div>
+            </div>
+            <button class="text-gray-500 text-2xl" id="closeMenuBtn"><i class="fas fa-times"></i></button>
+        </div>
+        <ul class="space-y-4">
+            <li><a href="/properties" class="text-gray-700 hover:text-blue-600 block py-2">Buy</a></li>
+            <li><a href="/properties?for=rent" class="text-gray-700 hover:text-blue-600 block py-2">Rent</a></li>
+            <li><a href="#" class="text-gray-700 hover:text-blue-600 block py-2">Services</a></li>
+            <li><a href="/careers" class="text-blue-600 font-semibold block py-2">Careers</a></li>
+            <li><a href="/blog" class="text-gray-700 hover:text-blue-600 block py-2">Blogs</a></li>
+        </ul>
+        <div class="mt-8 pt-4 border-t border-gray-100 flex gap-3">
+            <a href="/login" class="flex-1 text-center border-2 border-blue-600 text-blue-600 py-2 rounded-xl font-semibold">Login</a>
+            <a href="/register" class="flex-1 text-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2 rounded-xl font-semibold">Sign Up</a>
+        </div>
+    </div>
+    
+    <!-- Hero Section -->
+    <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full filter blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-indigo-500 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-4 py-24 text-center">
+            <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm mb-6">
+                <i class="fas fa-rocket text-yellow-400"></i>
+                <span>We're Hiring!</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+                Join the Propbandhu Team
+            </h1>
+            <p class="text-xl text-blue-100 max-w-2xl mx-auto mb-8">
+                Build the future of real estate with India's fastest-growing proptech platform
+            </p>
+            <div class="flex flex-wrap gap-4 justify-center">
+                <a href="#openings" class="inline-flex items-center gap-2 bg-white text-blue-900 px-8 py-3 rounded-full font-semibold hover:shadow-xl transition-all hover:scale-105">
+                    View Openings <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="hero-wave">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120">
+                <path fill="#f3f4f6" fill-opacity="1" d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
+            </svg>
+        </div>
+    </div>
+    
+    <!-- Success Message -->
+    <% if (successMsg) { %>
+        <div class="fixed top-24 right-4 z-50">
+            <div class="bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-3">
+                <i class="fas fa-check-circle text-xl"></i>
+                <span><%= successMsg %></span>
+                <button onclick="this.parentElement.parentElement.remove()" class="ml-4">&times;</button>
+            </div>
+        </div>
+    <% } %>
+    
+    <!-- Open Positions Section -->
+    <div id="openings" class="max-w-7xl mx-auto px-4 py-20">
+        <div class="text-center mb-12 reveal">
+            <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+                <i class="fas fa-briefcase"></i>
+                <span>Current Opportunities</span>
+            </div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-3">Open Positions</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Join our growing team and make a real impact in the real estate industry</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <% jobs.forEach((job, index) => { %>
+                <div class="job-card p-6 reveal" style="transition-delay: <%= index * 0.05 %>s">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-3">
+                                <i class="fas fa-code text-white text-sm"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800"><%= job.title %></h3>
+                        </div>
+                        <span class="bg-emerald-100 text-emerald-700 text-xs px-3 py-1 rounded-full font-medium"><%= job.type %></span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center gap-2 text-gray-500 text-sm">
+                            <i class="fas fa-map-marker-alt w-4 text-blue-500"></i> <%= job.location %>
+                        </div>
+                        <div class="flex items-center gap-2 text-gray-500 text-sm">
+                            <i class="fas fa-briefcase w-4 text-blue-500"></i> Experience: <%= job.experience %>
+                        </div>
+                        <div class="flex items-center gap-2 text-gray-500 text-sm">
+                            <i class="fas fa-rupee-sign w-4 text-blue-500"></i> <%= job.salary %>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-5"><%= job.description %></p>
+                    <button onclick="openApplyModal(<%= job.id %>, '<%= job.title %>')" 
+                            class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition-all hover:scale-[1.02] flex items-center justify-center gap-2">
+                        Apply Now <i class="fas fa-arrow-right text-sm"></i>
+                    </button>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+    
+    <!-- Why Join Us Section -->
+    <div class="bg-gradient-to-br from-gray-50 to-gray-100 py-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12 reveal">
+                <div class="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+                    <i class="fas fa-star"></i>
+                    <span>Why Choose Us</span>
+                </div>
+                <h2 class="text-4xl font-bold text-gray-800 mb-3">Why Join Propbandhu?</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">We're building India's most trusted real estate platform</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="benefit-card text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all">
+                    <div class="benefit-icon mx-auto"><i class="fas fa-rocket text-white text-2xl"></i></div>
+                    <h3 class="font-bold text-xl text-gray-800 mb-2">Fast-Growing Startup</h3>
+                    <p class="text-gray-500 text-sm">Be part of an exciting journey with massive growth potential</p>
+                </div>
+                <div class="benefit-card text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all">
+                    <div class="benefit-icon mx-auto"><i class="fas fa-graduation-cap text-white text-2xl"></i></div>
+                    <h3 class="font-bold text-xl text-gray-800 mb-2">Learning Environment</h3>
+                    <p class="text-gray-500 text-sm">Continuous learning, workshops, and skill development</p>
+                </div>
+                <div class="benefit-card text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all">
+                    <div class="benefit-icon mx-auto"><i class="fas fa-home text-white text-2xl"></i></div>
+                    <h3 class="font-bold text-xl text-gray-800 mb-2">Flexible Work</h3>
+                    <p class="text-gray-500 text-sm">Remote-first culture with flexible working hours</p>
+                </div>
+                <div class="benefit-card text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all">
+                    <div class="benefit-icon mx-auto"><i class="fas fa-chart-line text-white text-2xl"></i></div>
+                    <h3 class="font-bold text-xl text-gray-800 mb-2">Real Impact</h3>
+                    <p class="text-gray-500 text-sm">Your work directly helps millions of home buyers and sellers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Company Culture Section -->
+    <div class="max-w-7xl mx-auto px-4 py-20">
+        <div class="text-center mb-12 reveal">
+            <div class="inline-flex items-center gap-2 bg-amber-100 text-amber-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+                <i class="fas fa-heart"></i>
+                <span>Life at Propbandhu</span>
+            </div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-3">Our Culture</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">What makes Propbandhu a great place to work</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-white rounded-2xl p-6 text-center shadow-md hover:shadow-xl transition-all">
+                <div class="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-lightbulb text-white text-2xl"></i>
+                </div>
+                <h3 class="font-bold text-xl text-gray-800 mb-2">Innovation</h3>
+                <p class="text-gray-500">We embrace new ideas and cutting-edge technology</p>
+            </div>
+            <div class="bg-white rounded-2xl p-6 text-center shadow-md hover:shadow-xl transition-all">
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-eye text-white text-2xl"></i>
+                </div>
+                <h3 class="font-bold text-xl text-gray-800 mb-2">Transparency</h3>
+                <p class="text-gray-500">Open communication and honest feedback</p>
+            </div>
+            <div class="bg-white rounded-2xl p-6 text-center shadow-md hover:shadow-xl transition-all">
+                <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-chart-line text-white text-2xl"></i>
+                </div>
+                <h3 class="font-bold text-xl text-gray-800 mb-2">Growth</h3>
+                <p class="text-gray-500">Continuous learning and career advancement</p>
+            </div>
+        </div>
+        
+        <!-- CTA Banner -->
+        <div class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-2xl p-8 md:p-12 text-white text-center relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-0 left-0 w-64 h-64 bg-white rounded-full filter blur-3xl"></div>
+                <div class="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full filter blur-3xl"></div>
+            </div>
+            <div class="relative z-10">
+                <h3 class="text-3xl font-bold mb-3">Ready to Join Us?</h3>
+                <p class="text-blue-100 mb-6 max-w-lg mx-auto">Apply now and become part of something great!</p>
+                <a href="#openings" class="inline-flex items-center gap-2 bg-white text-blue-700 px-8 py-3 rounded-full font-semibold hover:shadow-xl transition-all hover:scale-105">
+                    View Open Positions <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Apply Modal -->
+    <div id="applyModal" class="modal">
+        <div class="bg-white rounded-2xl max-w-lg w-full mx-4 p-6">
+            <div class="flex justify-between items-center mb-5 pb-3 border-b border-gray-100">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-800">Apply Now</h3>
+                    <p class="text-gray-500 text-sm">Position: <span id="jobTitleDisplay" class="font-semibold text-blue-600"></span></p>
+                </div>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+            </div>
+            <form action="/careers/apply" method="POST">
+                <input type="hidden" name="jobId" id="jobId">
+                <input type="hidden" name="jobTitle" id="jobTitle">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1.5">Full Name *</label>
+                        <input type="text" name="name" required class="w-full px-4 py-2.5 input-modern rounded-xl focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1.5">Email *</label>
+                        <input type="email" name="email" required class="w-full px-4 py-2.5 input-modern rounded-xl focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1.5">Phone *</label>
+                        <input type="tel" name="phone" required class="w-full px-4 py-2.5 input-modern rounded-xl focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1.5">Experience (Years)</label>
+                        <input type="text" name="experience" class="w-full px-4 py-2.5 input-modern rounded-xl focus:outline-none">
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
+                        Submit Application <i class="fas fa-paper-plane ml-2"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- ========== MODERN FOOTER ========== -->
+    <footer class="footer">
+        <div class="max-w-7xl mx-auto px-4 py-12">
+            <!-- Main Footer Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="logo-icon w-10 h-10">
+                            <i class="fas fa-home text-white"></i>
+                        </div>
+                        <div>
+                            <div class="text-white text-xl font-bold">Propbandhu</div>
+                            <div class="text-gray-400 text-xs">by Bandhu Group</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+                        India's most trusted real estate platform helping millions find their dream homes and make smart property investments.
+                    </p>
+                    <div class="flex gap-3">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f text-gray-300"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter text-gray-300"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram text-gray-300"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in text-gray-300"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube text-gray-300"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/properties" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> Buy Property</a></li>
+                        <li><a href="/properties?for=rent" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> Rent Property</a></li>
+                        <li><a href="/needs/valuation" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> Property Valuation</a></li>
+                        <li><a href="/needs/homeloan" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> Home Loans</a></li>
+                        <li><a href="/needs/legal-support" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> Legal Support</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Support -->
+                <div>
+                    <h3 class="footer-heading">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/about" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> About Us</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> Contact Us</a></li>
+                        <li><a href="/faq" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> FAQ</a></li>
+                        <li><a href="/careers" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-blue-400"></i> Careers</a></li>
+                        <li><a href="/blog" class="text-gray-400 hover:text-white text-sm flex items-center gap-2"><i class="fas-chevron-right text-xs text-blue-400"></i> Blog</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Newsletter -->
+                <div>
+                    <h3 class="footer-heading">Newsletter</h3>
+                    <p class="text-gray-400 text-sm mb-3">Subscribe to get updates on new properties and real estate insights.</p>
+                    <form action="/newsletter" method="POST" class="flex flex-col gap-3">
+                        <input type="email" name="email" placeholder="Your email address" class="newsletter-input" required>
+                        <button type="submit" class="newsletter-btn text-white">Subscribe <i class="fas fa-paper-plane ml-2"></i></button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Bottom Bar -->
+            <div class="border-t border-gray-800 pt-6 mt-6">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="text-gray-500 text-sm">
+                        &copy; 2026 Propbandhu. All rights reserved. Built with <i class="fas fa-heart text-red-500"></i> in India
+                    </p>
+                    <div class="flex gap-6">
+                        <a href="/privacy" class="text-gray-500 hover:text-gray-300 text-sm">Privacy Policy</a>
+                        <a href="/terms" class="text-gray-500 hover:text-gray-300 text-sm">Terms of Service</a>
+                        <a href="/sitemap" class="text-gray-500 hover:text-gray-300 text-sm">Sitemap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+            });
+        }
+        
+        if (closeMenuBtn) {
+            closeMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        }
+        
+        function openApplyModal(jobId, jobTitle) {
+            document.getElementById('jobId').value = jobId;
+            document.getElementById('jobTitle').value = jobTitle;
+            document.getElementById('jobTitleDisplay').innerText = jobTitle;
+            document.getElementById('applyModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            document.getElementById('applyModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        window.onclick = function(event) {
+            const modal = document.getElementById('applyModal');
+            if (event.target === modal) closeModal();
+        }
+        
+        // Scroll Reveal
+        const reveals = document.querySelectorAll('.reveal');
+        function revealOnScroll() {
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) el.classList.add('active');
+            });
+        }
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+        
+        setTimeout(() => {
+            const msg = document.querySelector('.fixed.top-24');
+            if (msg) msg.remove();
+        }, 5000);
+    </script>
+</body>
+</html>

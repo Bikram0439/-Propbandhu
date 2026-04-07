@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Propbandhu</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .tab-btn.active {
+            border-bottom-width: 2px;
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .schedule-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center">
+                        <span class="text-xl font-bold text-gray-900">Propbandhu</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/buyer/dashboard" class="text-gray-600 hover:text-blue-600">
+                        <i class="fas fa-home mr-1"></i>Dashboard
+                    </a>
+                    <a href="/buyer/properties" class="text-gray-600 hover:text-blue-600">
+                        <i class="fas fa-search mr-1"></i>Browse
+                    </a>
+                    <a href="/buyer/cart" class="text-gray-600 hover:text-blue-600">
+                        <i class="fas fa-shopping-cart mr-1"></i>My Cart
+                    </a>
+                    <a href="/buyer/visits" class="text-blue-600 font-medium">
+                        <i class="fas fa-calendar-day mr-1"></i>My Visits
+                    </a>
+                    <a href="/logout" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                        <i class="fas fa-sign-out-alt mr-1"></i>Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <!-- Page Header -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">My Property Visits</h1>
+                <p class="text-gray-600 mt-1">Schedule and manage your property visits</p>
+            </div>
+            <a href="/buyer/cart" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center">
+                <i class="fas fa-shopping-cart mr-2"></i>View Cart
+                <% if (typeof cartCount !== 'undefined' && cartCount && cartCount > 0) { %>
+                <span class="ml-2 bg-white text-blue-600 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                    <%= cartCount %>
+                </span>
+                <% } %>
+            </a>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-lg shadow p-4">
+                <div class="flex items-center">
+                    <div class="p-3 bg-blue-100 text-blue-600 rounded-lg mr-4">
+                        <i class="fas fa-calendar-alt text-lg"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Total Visits</p>
+                        <p class="text-2xl font-bold text-gray-900"><%= visits.length %></p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-4">
+                <div class="flex items-center">
+                    <div class="p-3 bg-yellow-100 text-yellow-600 rounded-lg mr-4">
+                        <i class="fas fa-clock text-lg"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Pending</p>
+                        <p class="text-2xl font-bold text-gray-900"><%= pendingVisits ? pendingVisits.length : 0 %></p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-4">
+                <div class="flex items-center">
+                    <div class="p-3 bg-purple-100 text-purple-600 rounded-lg mr-4">
+                        <i class="fas fa-calendar-check text-lg"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Scheduled</p>
+                        <p class="text-2xl font-bold text-gray-900"><%= scheduledVisits ? scheduledVisits.length : 0 %></p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-4">
+                <div class="flex items-center">
+                    <div class="p-3 bg-green-100 text-green-600 rounded-lg mr-4">
+                        <i class="fas fa-check-circle text-lg"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Confirmed</p>
+                        <p class="text-2xl font-bold text-gray-900"><%= confirmedVisits ? confirmedVisits.length : 0 %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visit Status Tabs -->
+        <div class="flex border-b border-gray-200 mb-6 overflow-x-auto">
+            <button data-status="all" onclick="filterVisits('all')" class="tab-btn px-4 py-2 font-medium border-b-2 border-blue-500 text-blue-600">All Visits</button>
+            <button data-status="pending" onclick="filterVisits('pending')" class="tab-btn px-4 py-2 font-medium text-gray-600 hover:text-blue-600">Pending (<%= pendingVisits ? pendingVisits.length : 0 %>)</button>
+            <button data-status="scheduled" onclick="filterVisits('scheduled')" class="tab-btn px-4 py-2 font-medium text-gray-600 hover:text-blue-600">Scheduled (<%= scheduledVisits ? scheduledVisits.length : 0 %>)</button>
+            <button data-status="confirmed" onclick="filterVisits('confirmed')" class="tab-btn px-4 py-2 font-medium text-gray-600 hover:text-blue-600">Confirmed (<%= confirmedVisits ? confirmedVisits.length : 0 %>)</button>
+            <button data-status="expired" onclick="filterVisits('expired')" class="tab-btn px-4 py-2 font-medium text-gray-600 hover:text-blue-600">Expired (<%= expiredVisits ? expiredVisits.length : 0 %>)</button>
+        </div>
+
+        <!-- Visits List -->
+        <% if (visits.length === 0) { %>
+        <div class="text-center py-12 bg-white rounded-xl shadow">
+            <i class="fas fa-calendar-times text-gray-300 text-6xl mb-4"></i>
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">No visits scheduled</h3>
+            <p class="text-gray-600 mb-6">Add properties to your cart to schedule visits</p>
+            <a href="/buyer/properties" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 inline-flex items-center">
+                <i class="fas fa-search mr-2"></i>Browse Properties
+            </a>
+        </div>
+        <% } else { %>
+        <div class="space-y-6">
+            <% visits.forEach(item => { 
+                const property = item.property;
+                const addedDate = new Date(item.added_at);
+                const visitExpiry = new Date(addedDate);
+                visitExpiry.setDate(visitExpiry.getDate() + 7);
+                const now = new Date();
+                const daysLeft = item.daysLeft || Math.ceil((visitExpiry - now) / (1000 * 60 * 60 * 24));
+                
+                const isConfirmed = item.visit_status === 'confirmed';
+                const isScheduled = item.visit_status === 'scheduled';
+                const isExpired = item.isExpired || item.visit_status === 'expired';
+                const isPending = item.visit_status === 'pending' && !isExpired;
+                
+                let statusColor = 'bg-yellow-100 text-yellow-800';
+                let statusText = 'Pending';
+                if (isConfirmed) { statusColor = 'bg-green-100 text-green-800'; statusText = 'Confirmed'; }
+                else if (isScheduled) { statusColor = 'bg-blue-100 text-blue-800'; statusText = 'Scheduled'; }
+                else if (isExpired) { statusColor = 'bg-red-100 text-red-800'; statusText = 'Expired'; }
+                
+                let dataStatus = 'pending';
+                if (isConfirmed) dataStatus = 'confirmed';
+                else if (isScheduled) dataStatus = 'scheduled';
+                else if (isExpired) dataStatus = 'expired';
+            %>
+            <div class="bg-white rounded-xl shadow overflow-hidden visit-item" data-status="<%= dataStatus %>">
+                <div class="flex flex-col md:flex-row">
+                    <!-- Property Image -->
+                    <div class="md:w-1/4">
+                        <% if (property.primary_image) { %>
+                        <img src="<%= property.primary_image %>" alt="<%= property.title %>" class="w-full h-full object-cover min-h-[200px]">
+                        <% } else if (property.images && property.images.length > 0) { %>
+                        <img src="<%= property.images[0].url %>" alt="<%= property.title %>" class="w-full h-full object-cover min-h-[200px]">
+                        <% } else { %>
+                        <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                            <i class="fas fa-home text-gray-400 text-4xl"></i>
+                        </div>
+                        <% } %>
+                    </div>
+                    
+                    <!-- Visit Details -->
+                    <div class="flex-1 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-xl text-gray-900"><%= property.title %></h3>
+                                <p class="text-gray-600 text-sm flex items-center mt-1">
+                                    <i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>
+                                    <%= property.full_address || (property.address ? property.address.area + ', ' + property.address.city : 'Address not specified') %>
+                                </p>
+                                <div class="flex items-center mt-2">
+                                    <span class="text-blue-600 font-bold mr-3">₹<%= (property.price || 0).toLocaleString() %></span>
+                                    <span class="text-gray-500 text-sm"><i class="fas fa-layer-group mr-1"></i><%= property.property_type || 'Property' %></span>
+                                </div>
+                            </div>
+                            <span class="<%= statusColor %> status-badge"><%= statusText %></span>
+                        </div>
+                        
+                        <!-- SCHEDULED VISIT DETAILS - DISPLAY BROKER'S SCHEDULE -->
+                        <% if (isScheduled && item.formatted_schedule) { %>
+                        <div class="schedule-card bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-4 mb-4 border border-purple-200">
+                            <div class="flex items-start">
+                                <div class="mr-3">
+                                    <i class="fas fa-calendar-check text-purple-600 text-xl"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-gray-800 mb-2 flex items-center">
+                                        <i class="fas fa-clock mr-2 text-purple-600"></i>
+                                        Scheduled Visit Details
+                                    </h4>
+                                    
+                                    <!-- Date and Time -->
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-calendar-alt text-purple-600 w-5 mr-2"></i>
+                                            <div>
+                                                <p class="text-xs text-gray-500">Visit Date</p>
+                                                <p class="font-semibold text-gray-800"><%= item.formatted_schedule.date %></p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <i class="fas fa-hourglass-half text-purple-600 w-5 mr-2"></i>
+                                            <div>
+                                                <p class="text-xs text-gray-500">Visit Time</p>
+                                                <p class="font-semibold text-gray-800"><%= item.formatted_schedule.time %></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Broker's Notes/Message -->
+                                    <% if (item.visit_notes) { %>
+                                    <div class="bg-white rounded-lg p-3 mt-2 border border-purple-100">
+                                        <div class="flex items-start">
+                                            <i class="fas fa-comment-dots text-purple-600 mr-2 mt-1"></i>
+                                            <div>
+                                                <p class="text-xs text-gray-500 mb-1">Message from Broker</p>
+                                                <p class="text-gray-700"><%= item.visit_notes %></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                                    
+                                    <!-- When the visit was scheduled -->
+                                    <% if (item.scheduled_at) { %>
+                                    <p class="text-xs text-gray-400 mt-2 flex items-center">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        Scheduled on: <%= new Date(item.scheduled_at).toLocaleString('en-IN') %>
+                                    </p>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                        
+                        <!-- PENDING VISIT MESSAGE -->
+                        <% if (isPending) { %>
+                        <div class="bg-yellow-50 rounded-lg p-4 mb-4 border border-yellow-200">
+                            <div class="flex items-start">
+                                <i class="fas fa-hourglass-half text-yellow-600 text-xl mr-3 mt-1"></i>
+                                <div>
+                                    <p class="font-semibold text-yellow-800">Awaiting Schedule Confirmation</p>
+                                    <p class="text-sm text-yellow-700 mt-1">
+                                        Your broker will schedule a visit date and time. You'll receive a notification once scheduled.
+                                    </p>
+                                    <p class="text-xs text-yellow-600 mt-2 flex items-center">
+                                        <i class="fas fa-clock mr-1"></i>
+                                        Scheduling deadline: <%= visitExpiry.toLocaleDateString('en-IN') %> (<%= daysLeft %> days left)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                        
+                        <!-- CONFIRMED VISIT MESSAGE -->
+                        <% if (isConfirmed) { %>
+                        <div class="bg-green-50 rounded-lg p-4 mb-4 border border-green-200">
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-green-600 text-xl mr-3 mt-1"></i>
+                                <div>
+                                    <p class="font-semibold text-green-800">Visit Completed & Confirmed</p>
+                                    <p class="text-sm text-green-700 mt-1">
+                                        Thank you for visiting this property. Your broker will assist you with the booking process.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                        
+                        <!-- EXPIRED VISIT MESSAGE -->
+                        <% if (isExpired) { %>
+                        <div class="bg-red-50 rounded-lg p-4 mb-4 border border-red-200">
+                            <div class="flex items-start">
+                                <i class="fas fa-exclamation-circle text-red-600 text-xl mr-3 mt-1"></i>
+                                <div>
+                                    <p class="font-semibold text-red-800">Visit Request Expired</p>
+                                    <p class="text-sm text-red-700 mt-1">
+                                        This visit request has expired. Please add the property to cart again to schedule a new visit.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                        
+                        <!-- Action Buttons -->
+                        <div class="flex flex-wrap gap-3 pt-4 border-t border-gray-200">
+                            <a href="/buyer/properties/<%= property._id %>" class="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-200 flex items-center">
+                                <i class="fas fa-eye mr-2"></i>View Property
+                            </a>
+                            
+                            <% if (isScheduled && !isConfirmed && !isExpired) { %>
+                            <button onclick="confirmVisit('<%= property._id %>')" class="bg-green-100 text-green-700 px-4 py-2 rounded-lg hover:bg-green-200 flex items-center">
+                                <i class="fas fa-check-circle mr-2"></i>Confirm Visit (Completed)
+                            </button>
+                            <% } %>
+                            
+                            <% if (!isConfirmed && !isExpired) { %>
+                            <button onclick="removeFromVisits('<%= property._id %>')" class="bg-red-100 text-red-700 px-4 py-2 rounded-lg hover:bg-red-200 flex items-center">
+                                <i class="fas fa-trash mr-2"></i>Cancel Request
+                            </button>
+                            <% } %>
+                            
+                            <% if (isScheduled && item.scheduled_date && item.scheduled_time) { %>
+                            <button onclick="addToCalendar('<%= item.scheduled_date %>', '<%= item.scheduled_time %>', '<%= property.title %>')" class="bg-purple-100 text-purple-700 px-4 py-2 rounded-lg hover:bg-purple-200 flex items-center">
+                                <i class="fas fa-calendar-plus mr-2"></i>Add to Calendar
+                            </button>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+        <% } %>
+    </div>
+
+    <div id="toast" class="fixed top-4 right-4 z-50 hidden p-4 rounded-lg shadow-lg max-w-md"></div>
+
+    <script>
+        function filterVisits(status) {
+            document.querySelectorAll('.visit-item').forEach(item => {
+                item.style.display = (status === 'all' || item.dataset.status === status) ? 'flex' : 'none';
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-b-2', 'border-blue-500', 'text-blue-600');
+                btn.classList.add('text-gray-600');
+                if (btn.dataset.status === status) {
+                    btn.classList.add('border-b-2', 'border-blue-500', 'text-blue-600');
+                    btn.classList.remove('text-gray-600');
+                }
+            });
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.innerHTML = `<div class="flex items-center"><i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} text-${type === 'success' ? 'green' : 'red'}-500 mr-3"></i><span>${message}</span></div>`;
+            toast.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-md bg-${type === 'success' ? 'green' : 'red'}-50 border border-${type === 'success' ? 'green' : 'red'}-200`;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        }
+
+        async function removeFromVisits(propertyId) {
+            if (!confirm('Cancel this visit request?')) return;
+            try {
+                const res = await fetch('/buyer/api/cart/remove', { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ propertyId }) 
+                });
+                const result = await res.json();
+                if (result.success) { 
+                    showToast(result.message); 
+                    setTimeout(() => location.reload(), 1500); 
+                } else {
+                    showToast(result.message, 'error');
+                }
+            } catch (error) { 
+                showToast('Failed to cancel', 'error'); 
+            }
+        }
+
+        async function confirmVisit(propertyId) {
+            if (!confirm('Have you completed the property visit? This will confirm the visit.')) return;
+            try {
+                const res = await fetch('/buyer/api/visit/confirm', { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ propertyId }) 
+                });
+                const result = await res.json();
+                if (result.success) { 
+                    showToast('Visit confirmed successfully!'); 
+                    setTimeout(() => location.reload(), 1500); 
+                } else {
+                    showToast(result.message, 'error');
+                }
+            } catch (error) { 
+                showToast('Failed to confirm', 'error'); 
+            }
+        }
+
+        function addToCalendar(date, time, title) {
+            const dateTime = new Date(`${date}T${time}`);
+            const formattedDate = dateTime.toISOString().replace(/-|:|\.\d+/g, '');
+            
+            // Google Calendar URL
+            const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Property Visit: ' + title)}&dates=${formattedDate}/${formattedDate}&details=${encodeURIComponent('Property visit scheduled through Propbandhu')}`;
+            
+            window.open(googleUrl, '_blank');
+            showToast('Opening calendar...', 'success');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => filterVisits('all'));
+    </script>
+</body>
+</html>

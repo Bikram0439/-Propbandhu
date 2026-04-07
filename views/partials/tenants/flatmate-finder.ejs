@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Find Roommate/Flatmate - Propbandhu | Connect with Like-Minded Flatmates</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ========== COMPLETE CUSTOM CSS FOR FIND ROOMMATE/FLATMATE PAGE ========== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        /* Profile card hover effects */
+        .profile-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 30px -12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Banner gradient animation */
+        .gradient-banner {
+            background: linear-gradient(135deg, #2563eb, #7c3aed, #db2777);
+            background-size: 200% 200%;
+            animation: gradientShift 4s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Form input focus effects */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            ring: 2px solid #3b82f6;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Button press effect */
+        .btn-primary, .btn-connect {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary:active, .btn-connect:active {
+            transform: scale(0.97);
+        }
+
+        /* Modal animation */
+        .modal-content {
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #dbeafe;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563eb;
+        }
+
+        /* Toast notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            animation: slideInRight 0.3s ease-out;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Filter tag styling */
+        .filter-tag {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .filter-tag:hover {
+            background: #c7d2fe;
+        }
+
+        /* Profile badge animations */
+        .verified-badge {
+            animation: verifiedPulse 2s infinite;
+        }
+        
+        @keyframes verifiedPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .profile-card {
+                margin-bottom: 0;
+            }
+            .gradient-banner h2 {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Heart favorite animation */
+        .favorite-icon {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .favorite-icon:hover {
+            transform: scale(1.15);
+        }
+        
+        .favorite-icon.active {
+            color: #ef4444;
+        }
+
+        /* Filter dropdown custom */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 20px;
+            padding-right: 36px;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: #f8fafc;
+            border-radius: 16px;
+            border: 2px dashed #cbd5e1;
+        }
+        
+        /* Success animation for form */
+        .form-success {
+            animation: successPop 0.4s ease-out;
+        }
+        
+        @keyframes successPop {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar (simulated for standalone preview) -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-users text-blue-600 text-2xl"></i>
+                    <span class="font-bold text-xl text-gray-800">Prop<span class="text-blue-600">bandhu</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Buy Property</a>
+                    <a href="#" class="text-blue-600 font-semibold border-b-2 border-blue-600 pb-1">Roommate Finder</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-user-circle text-gray-500 text-2xl"></i>
+                    <span class="hidden sm:inline text-gray-700">Sign In</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Hero Header -->
+        <div class="mb-10 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-3">
+                <i class="fas fa-handshake"></i> 10,000+ Successful Matches
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">Find Your Perfect Roommate</h1>
+            <p class="text-gray-600 mt-3 text-lg max-w-2xl">Connect with like-minded flatmates across India. Verified profiles, safe community, and easy matching.</p>
+        </div>
+
+        <!-- Post Requirement Banner -->
+        <div class="gradient-banner rounded-2xl shadow-xl p-6 text-white mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-user-plus text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold">Looking for a Roommate?</h2>
+                        <p class="text-sm text-blue-100">Post your requirement and get matched with suitable flatmates</p>
+                    </div>
+                </div>
+                <button onclick="openPostModal()" class="bg-white text-blue-600 px-6 py-2.5 rounded-xl font-bold shadow-lg hover:shadow-xl transition transform hover:scale-105 flex items-center gap-2">
+                    <i class="fas fa-plus"></i> Post Requirement
+                </button>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 mb-8">
+            <div class="flex items-center gap-2 mb-4">
+                <i class="fas fa-sliders-h text-blue-600"></i>
+                <h3 class="font-semibold text-gray-700">Filter Roommates</h3>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">📍 City</label>
+                    <select id="filterCity" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                        <option value="">All Cities</option>
+                        <option value="mumbai">Mumbai</option>
+                        <option value="delhi">Delhi NCR</option>
+                        <option value="bangalore">Bangalore</option>
+                        <option value="pune">Pune</option>
+                        <option value="hyderabad">Hyderabad</option>
+                        <option value="chennai">Chennai</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">👤 Gender</label>
+                    <select id="filterGender" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                        <option value="">Any</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="any">Any</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">💰 Budget (₹/month)</label>
+                    <select id="filterBudget" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                        <option value="">Any</option>
+                        <option value="5000">Under ₹5,000</option>
+                        <option value="10000">₹5,000 - ₹10,000</option>
+                        <option value="15000">₹10,000 - ₹15,000</option>
+                        <option value="20000">₹15,000 - ₹20,000</option>
+                        <option value="20000+">₹20,000+</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">💼 Profession</label>
+                    <select id="filterProfession" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                        <option value="">Any</option>
+                        <option value="working">Working Professional</option>
+                        <option value="student">Student</option>
+                        <option value="business">Business</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-4 flex justify-end">
+                <button onclick="filterProfiles()" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-2 rounded-xl font-semibold hover:shadow-lg transition flex items-center gap-2">
+                    <i class="fas fa-search"></i> Apply Filters
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Count -->
+        <div id="resultsCount" class="mb-4 text-gray-600">
+            <i class="fas fa-user-friends mr-2"></i><span id="profileCount">6</span> roommates found
+        </div>
+
+        <!-- Profiles Grid -->
+        <div id="profilesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Profile 1 - Rahul Sharma -->
+            <div class="profile-card bg-white rounded-2xl shadow-xl overflow-hidden" data-city="bangalore" data-gender="male" data-budget="12000" data-profession="working">
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-5 text-white relative">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-xl">Rahul Sharma</h3>
+                            <p class="text-sm text-blue-100">24 yrs • Software Engineer</p>
+                        </div>
+                        <div class="relative">
+                            <i class="fas fa-user-circle text-4xl"></i>
+                            <i class="fas fa-check-circle absolute -bottom-1 -right-1 text-green-400 text-sm bg-white rounded-full verified-badge"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div class="flex justify-between mb-3">
+                        <span class="text-gray-600 text-sm"><i class="fas fa-map-marker-alt text-blue-500 mr-1"></i> Bangalore, Whitefield</span>
+                        <span class="text-gray-800 font-bold">₹12,000<span class="text-xs font-normal">/month</span></span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Looking for male flatmate. Non-vegetarian friendly, no smoking inside. Near metro station.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="filter-tag"><i class="fas fa-briefcase"></i> Working Professional</span>
+                        <span class="filter-tag"><i class="fas fa-utensils"></i> Non-Veg</span>
+                        <span class="filter-tag"><i class="fas fa-wifi"></i> WiFi Included</span>
+                    </div>
+                    <button onclick="connectWith('Rahul')" class="btn-connect w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition flex items-center justify-center gap-2">
+                        <i class="fas fa-handshake"></i> Connect
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile 2 - Priya Patel -->
+            <div class="profile-card bg-white rounded-2xl shadow-xl overflow-hidden" data-city="mumbai" data-gender="female" data-budget="15000" data-profession="working">
+                <div class="bg-gradient-to-r from-pink-500 to-pink-600 p-5 text-white">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-xl">Priya Patel</h3>
+                            <p class="text-sm text-pink-100">26 yrs • Marketing Professional</p>
+                        </div>
+                        <i class="fas fa-user-circle text-4xl"></i>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div class="flex justify-between mb-3">
+                        <span class="text-gray-600 text-sm"><i class="fas fa-map-marker-alt text-pink-500 mr-1"></i> Mumbai, Andheri</span>
+                        <span class="text-gray-800 font-bold">₹15,000<span class="text-xs font-normal">/month</span></span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Fully furnished 2BHK, looking for female flatmate. Vegetarian preferred, no pets.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="filter-tag"><i class="fas fa-briefcase"></i> Working Professional</span>
+                        <span class="filter-tag"><i class="fas fa-seedling"></i> Vegetarian</span>
+                        <span class="filter-tag"><i class="fas fa-dumbbell"></i> Gym Nearby</span>
+                    </div>
+                    <button onclick="connectWith('Priya')" class="btn-connect w-full bg-gradient-to-r from-pink-600 to-pink-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition flex items-center justify-center gap-2">
+                        <i class="fas fa-handshake"></i> Connect
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile 3 - Amit Kumar -->
+            <div class="profile-card bg-white rounded-2xl shadow-xl overflow-hidden" data-city="pune" data-gender="male" data-budget="8000" data-profession="student">
+                <div class="bg-gradient-to-r from-green-500 to-green-600 p-5 text-white">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-xl">Amit Kumar</h3>
+                            <p class="text-sm text-green-100">23 yrs • MBA Student</p>
+                        </div>
+                        <i class="fas fa-user-circle text-4xl"></i>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div class="flex justify-between mb-3">
+                        <span class="text-gray-600 text-sm"><i class="fas fa-map-marker-alt text-green-500 mr-1"></i> Pune, Hinjewadi</span>
+                        <span class="text-gray-800 font-bold">₹8,000<span class="text-xs font-normal">/month</span></span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">PG accommodation near college. Looking for serious student flatmate, quiet environment.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="filter-tag"><i class="fas fa-graduation-cap"></i> Student</span>
+                        <span class="filter-tag"><i class="fas fa-seedling"></i> Vegetarian</span>
+                        <span class="filter-tag"><i class="fas fa-book"></i> Study Area</span>
+                    </div>
+                    <button onclick="connectWith('Amit')" class="btn-connect w-full bg-gradient-to-r from-green-600 to-green-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition flex items-center justify-center gap-2">
+                        <i class="fas fa-handshake"></i> Connect
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile 4 - Neha Singh -->
+            <div class="profile-card bg-white rounded-2xl shadow-xl overflow-hidden" data-city="delhi" data-gender="female" data-budget="18000" data-profession="working">
+                <div class="bg-gradient-to-r from-purple-500 to-purple-600 p-5 text-white">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-xl">Neha Singh</h3>
+                            <p class="text-sm text-purple-100">27 yrs • HR Manager</p>
+                        </div>
+                        <i class="fas fa-user-circle text-4xl"></i>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div class="flex justify-between mb-3">
+                        <span class="text-gray-600 text-sm"><i class="fas fa-map-marker-alt text-purple-500 mr-1"></i> Delhi, Gurgaon</span>
+                        <span class="text-gray-800 font-bold">₹18,000<span class="text-xs font-normal">/month</span></span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Fully furnished 3BHK, looking for female flatmate. Non-smoker, pet friendly.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="filter-tag"><i class="fas fa-briefcase"></i> Working Professional</span>
+                        <span class="filter-tag"><i class="fas fa-utensils"></i> Non-Veg</span>
+                        <span class="filter-tag"><i class="fas fa-dog"></i> Pet Friendly</span>
+                    </div>
+                    <button onclick="connectWith('Neha')" class="btn-connect w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition flex items-center justify-center gap-2">
+                        <i class="fas fa-handshake"></i> Connect
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile 5 - Vikram Joshi -->
+            <div class="profile-card bg-white rounded-2xl shadow-xl overflow-hidden" data-city="bangalore" data-gender="male" data-budget="25000" data-profession="working">
+                <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-5 text-white">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-xl">Vikram Joshi</h3>
+                            <p class="text-sm text-indigo-100">29 yrs • Product Manager</p>
+                        </div>
+                        <i class="fas fa-user-circle text-4xl"></i>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div class="flex justify-between mb-3">
+                        <span class="text-gray-600 text-sm"><i class="fas fa-map-marker-alt text-indigo-500 mr-1"></i> Bangalore, Koramangala</span>
+                        <span class="text-gray-800 font-bold">₹25,000<span class="text-xs font-normal">/month</span></span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Premium 2BHK, looking for male flatmate. Fully furnished with AC, WiFi, house help.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="filter-tag"><i class="fas fa-briefcase"></i> Working Professional</span>
+                        <span class="filter-tag"><i class="fas fa-utensils"></i> No Preference</span>
+                        <span class="filter-tag"><i class="fas fa-swimming-pool"></i> Society Pool</span>
+                    </div>
+                    <button onclick="connectWith('Vikram')" class="btn-connect w-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition flex items-center justify-center gap-2">
+                        <i class="fas fa-handshake"></i> Connect
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile 6 - Sneha Reddy -->
+            <div class="profile-card bg-white rounded-2xl shadow-xl overflow-hidden" data-city="hyderabad" data-gender="female" data-budget="10000" data-profession="student">
+                <div class="bg-gradient-to-r from-teal-500 to-teal-600 p-5 text-white">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-xl">Sneha Reddy</h3>
+                            <p class="text-sm text-teal-100">22 yrs • Medical Student</p>
+                        </div>
+                        <i class="fas fa-user-circle text-4xl"></i>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div class="flex justify-between mb-3">
+                        <span class="text-gray-600 text-sm"><i class="fas fa-map-marker-alt text-teal-500 mr-1"></i> Hyderabad, Gachibowli</span>
+                        <span class="text-gray-800 font-bold">₹10,000<span class="text-xs font-normal">/month</span></span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Near university, looking for female student flatmate. Quiet study environment.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="filter-tag"><i class="fas fa-graduation-cap"></i> Student</span>
+                        <span class="filter-tag"><i class="fas fa-seedling"></i> Vegetarian</span>
+                        <span class="filter-tag"><i class="fas fa-bus"></i> Transport Nearby</span>
+                    </div>
+                    <button onclick="connectWith('Sneha')" class="btn-connect w-full bg-gradient-to-r from-teal-600 to-teal-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition flex items-center justify-center gap-2">
+                        <i class="fas fa-handshake"></i> Connect
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty state (hidden by default) -->
+        <div id="emptyState" class="empty-state hidden">
+            <i class="fas fa-user-friends text-5xl text-gray-400 mb-4"></i>
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">No roommates found</h3>
+            <p class="text-gray-500">Try adjusting your filters or post your requirement</p>
+            <button onclick="openPostModal()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg">Post Requirement</button>
+        </div>
+    </div>
+
+    <!-- Post Requirement Modal -->
+    <div id="postModal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-gray-800"><i class="fas fa-user-plus text-blue-600"></i> Post Roommate Requirement</h3>
+                <button onclick="closePostModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+            </div>
+            <form id="postRequirementForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Full Name <span class="text-red-500">*</span></label>
+                    <input type="text" id="postName" required placeholder="Enter your full name" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Gender <span class="text-red-500">*</span></label>
+                    <select id="postGender" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Age</label>
+                    <input type="number" id="postAge" placeholder="e.g., 25" class="w-full px-4 py-3 border border-gray-300 rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Profession <span class="text-red-500">*</span></label>
+                    <select id="postProfession" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                        <option value="working">Working Professional</option>
+                        <option value="student">Student</option>
+                        <option value="business">Business</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">City <span class="text-red-500">*</span></label>
+                    <input type="text" id="postCity" required placeholder="e.g., Bangalore" class="w-full px-4 py-3 border border-gray-300 rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Preferred Rent Budget (₹/month)</label>
+                    <input type="number" id="postBudget" placeholder="e.g., 15000" class="w-full px-4 py-3 border border-gray-300 rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Dietary Preference</label>
+                    <select id="postDiet" class="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white">
+                        <option value="veg">Vegetarian</option>
+                        <option value="nonveg">Non-Vegetarian</option>
+                        <option value="both">No Preference</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Additional Info</label>
+                    <textarea id="postInfo" rows="3" placeholder="Describe what you're looking for in a flatmate..." class="w-full px-4 py-3 border border-gray-300 rounded-xl"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Phone Number <span class="text-red-500">*</span></label>
+                    <input type="tel" id="postPhone" required placeholder="9876543210" class="w-full px-4 py-3 border border-gray-300 rounded-xl">
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-xl font-bold text-lg">Post Requirement</button>
+                <button type="button" onclick="closePostModal()" class="w-full text-gray-500 py-2 hover:text-gray-700">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <i class="fab fa-facebook-f text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-twitter text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-linkedin-in text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-instagram text-gray-400 hover:text-pink-400 cursor-pointer transition text-xl"></i>
+            </div>
+            <p class="text-gray-400 text-sm">© 2025 Propbandhu | Find Your Perfect Roommate - Safe & Verified Community</p>
+            <p class="text-gray-500 text-xs mt-2">Verified profiles | Background checked | 50,000+ Happy Roommates</p>
+        </div>
+    </footer>
+
+    <script>
+        let allProfiles = [];
+        
+        // Initialize profiles array
+        function initProfiles() {
+            const profileCards = document.querySelectorAll('.profile-card');
+            allProfiles = Array.from(profileCards);
+            updateProfileCount();
+        }
+        
+        function filterProfiles() {
+            const city = document.getElementById('filterCity').value.toLowerCase();
+            const gender = document.getElementById('filterGender').value.toLowerCase();
+            const budget = document.getElementById('filterBudget').value;
+            const profession = document.getElementById('filterProfession').value.toLowerCase();
+            
+            let visibleCount = 0;
+            
+            allProfiles.forEach(profile => {
+                const profileCity = profile.getAttribute('data-city') || '';
+                const profileGender = profile.getAttribute('data-gender') || '';
+                const profileBudget = parseInt(profile.getAttribute('data-budget')) || 0;
+                const profileProfession = profile.getAttribute('data-profession') || '';
+                
+                let show = true;
+                
+                if (city && profileCity !== city) show = false;
+                if (gender && gender !== 'any' && profileGender !== gender) show = false;
+                if (budget) {
+                    if (budget === '5000' && profileBudget > 5000) show = false;
+                    else if (budget === '10000' && (profileBudget <= 5000 || profileBudget > 10000)) show = false;
+                    else if (budget === '15000' && (profileBudget <= 10000 || profileBudget > 15000)) show = false;
+                    else if (budget === '20000' && (profileBudget <= 15000 || profileBudget > 20000)) show = false;
+                    else if (budget === '20000+' && profileBudget <= 20000) show = false;
+                }
+                if (profession && profileProfession !== profession) show = false;
+                
+                profile.style.display = show ? 'block' : 'none';
+                if (show) visibleCount++;
+            });
+            
+            updateProfileCount(visibleCount);
+            showEmptyState(visibleCount === 0);
+            
+            // Show toast
+            showToast(`🔍 Found ${visibleCount} roommate${visibleCount !== 1 ? 's' : ''} matching your criteria`);
+        }
+        
+        function updateProfileCount(count = null) {
+            const visibleCount = count !== null ? count : document.querySelectorAll('.profile-card[style="display: block"], .profile-card:not([style])').length;
+            document.getElementById('profileCount').innerText = visibleCount;
+        }
+        
+        function showEmptyState(show) {
+            const emptyState = document.getElementById('emptyState');
+            const profilesGrid = document.getElementById('profilesGrid');
+            if (show) {
+                emptyState.classList.remove('hidden');
+                profilesGrid.classList.add('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                profilesGrid.classList.remove('hidden');
+            }
+        }
+        
+        function connectWith(name) {
+            showToast(`🤝 Connection request sent to ${name}! They will be notified within 24 hours.`);
+        }
+        
+        function openPostModal() {
+            document.getElementById('postModal').classList.remove('hidden');
+            document.getElementById('postModal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closePostModal() {
+            document.getElementById('postModal').classList.add('hidden');
+            document.getElementById('postModal').classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function showToast(message) {
+            const existingToast = document.querySelector('.toast-notification');
+            if (existingToast) existingToast.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.innerHTML = `<i class="fas fa-info-circle"></i><span>${message}</span>`;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 4000);
+        }
+        
+        // Post Requirement Form Submission
+        const postForm = document.getElementById('postRequirementForm');
+        postForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('postName').value.trim();
+            const phone = document.getElementById('postPhone').value.trim();
+            const city = document.getElementById('postCity').value.trim();
+            
+            if (!name || !phone || !city) {
+                showToast('❌ Please fill in all required fields');
+                return;
+            }
+            
+            if (!/^\d{10}$/.test(phone)) {
+                showToast('❌ Please enter a valid 10-digit mobile number');
+                return;
+            }
+            
+            // Show success message
+            showToast('✅ Requirement posted successfully! Your profile will appear in search results within 24 hours.');
+            closePostModal();
+            postForm.reset();
+        });
+        
+        // Close modal on outside click
+        const modal = document.getElementById('postModal');
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closePostModal();
+            }
+        });
+        
+        // Initialize on page load
+        initProfiles();
+    </script>
+</body>
+</html>

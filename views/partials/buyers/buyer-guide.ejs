@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Buyer's Guide - Propbandhu | Complete Home Buying Resource</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* ========== COMPLETE CUSTOM CSS FOR BUYER'S GUIDE PAGE ========== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        /* Smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563eb;
+        }
+
+        /* Sidebar navigation link hover */
+        .sidebar-link {
+            transition: all 0.2s ease;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+        
+        .sidebar-link:hover {
+            background-color: #eff6ff;
+            transform: translateX(4px);
+        }
+
+        /* Section card hover effect */
+        .section-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Range input styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #3b82f6;
+            margin-top: -6px;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+            border: 2px solid white;
+        }
+
+        input[type="range"]::-moz-range-track {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #3b82f6;
+            border: 2px solid white;
+        }
+
+        /* Form input focus */
+        input:focus, select:focus {
+            outline: none;
+            ring: 2px solid #3b82f6;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Table row hover */
+        .bank-row {
+            transition: background-color 0.2s ease;
+        }
+        
+        .bank-row:hover {
+            background-color: #f8fafc;
+        }
+
+        /* Modal animation */
+        .modal-content {
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Trust counter animation */
+        .counter-value {
+            transition: all 0.3s;
+        }
+
+        /* Pro tip cards */
+        .tip-card {
+            transition: transform 0.2s ease;
+        }
+        
+        .tip-card:hover {
+            transform: translateX(5px);
+        }
+
+        /* Button press effect */
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+
+        /* Responsive table */
+        @media (max-width: 768px) {
+            .bank-table {
+                font-size: 12px;
+            }
+            .bank-table th, .bank-table td {
+                padding: 8px 4px;
+            }
+        }
+
+        /* Sticky sidebar */
+        .sticky-sidebar {
+            position: sticky;
+            top: 80px;
+        }
+
+        /* Document checklist icons */
+        .checklist-item {
+            transition: all 0.2s ease;
+        }
+        
+        .checklist-item:hover {
+            transform: translateX(5px);
+        }
+
+        /* EMI result cards */
+        .emi-card {
+            transition: transform 0.2s;
+        }
+        
+        .emi-card:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar (simulated for standalone preview) -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-book-open text-blue-600 text-2xl"></i>
+                    <span class="font-bold text-xl text-gray-800">Prop<span class="text-blue-600">bandhu</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Buy Property</a>
+                    <a href="#" class="text-blue-600 font-semibold border-b-2 border-blue-600 pb-1">Buyer's Guide</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-user-circle text-gray-500 text-2xl"></i>
+                    <span class="hidden sm:inline text-gray-700">Sign In</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Hero Header -->
+        <div class="mb-10 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-3">
+                <i class="fas fa-graduation-cap"></i> Your Complete Resource
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">Complete Buyer's Guide</h1>
+            <p class="text-gray-600 mt-3 text-lg max-w-2xl">Everything you need to know before buying your dream home - from financial planning to legal registration.</p>
+        </div>
+
+        <!-- Trust Section -->
+        <div class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-2xl shadow-xl p-6 mb-10 text-white">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="counter-card">
+                    <i class="fas fa-users text-3xl mb-2"></i>
+                    <p class="text-3xl font-bold counter-value">10,000+</p>
+                    <p class="text-sm text-blue-100">Happy Buyers</p>
+                </div>
+                <div class="counter-card">
+                    <i class="fas fa-chart-line text-3xl mb-2"></i>
+                    <p class="text-3xl font-bold counter-value">₹500Cr+</p>
+                    <p class="text-sm text-blue-100">Property Sold</p>
+                </div>
+                <div class="counter-card">
+                    <i class="fas fa-star text-3xl mb-2"></i>
+                    <p class="text-3xl font-bold counter-value">4.8/5</p>
+                    <p class="text-sm text-blue-100">Customer Rating</p>
+                </div>
+                <div class="counter-card">
+                    <i class="fas fa-shield-alt text-3xl mb-2"></i>
+                    <p class="text-3xl font-bold counter-value">100%</p>
+                    <p class="text-sm text-blue-100">Legal Verification</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Sidebar Navigation -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl shadow-xl p-5 sticky-sidebar">
+                    <h3 class="font-bold text-lg text-gray-800 mb-4 flex items-center gap-2">
+                        <i class="fas fa-compass text-blue-600"></i> Guide Sections
+                    </h3>
+                    <ul class="space-y-1">
+                        <li><a href="#planning" class="sidebar-link text-gray-700 hover:text-blue-600"><i class="fas fa-calculator mr-2 w-5 text-blue-500"></i>1. Financial Planning</a></li>
+                        <li><a href="#eligibility" class="sidebar-link text-gray-700 hover:text-blue-600"><i class="fas fa-check-circle mr-2 w-5 text-green-500"></i>2. Eligibility Checker</a></li>
+                        <li><a href="#bank-comparison" class="sidebar-link text-gray-700 hover:text-blue-600"><i class="fas fa-university mr-2 w-5 text-purple-500"></i>3. Bank Comparison</a></li>
+                        <li><a href="#documents" class="sidebar-link text-gray-700 hover:text-blue-600"><i class="fas fa-file-alt mr-2 w-5 text-orange-500"></i>4. Documents Required</a></li>
+                        <li><a href="#loan" class="sidebar-link text-gray-700 hover:text-blue-600"><i class="fas fa-hand-holding-usd mr-2 w-5 text-teal-500"></i>5. Home Loan Process</a></li>
+                        <li><a href="#registration" class="sidebar-link text-gray-700 hover:text-blue-600"><i class="fas fa-registered mr-2 w-5 text-red-500"></i>6. Registration Steps</a></li>
+                        <li><a href="#cost" class="sidebar-link text-gray-700 hover:text-blue-600"><i class="fas fa-chart-pie mr-2 w-5 text-indigo-500"></i>7. Cost Calculator</a></li>
+                    </ul>
+                    
+                    <div class="mt-6 pt-4 border-t border-gray-200">
+                        <div class="bg-blue-50 rounded-xl p-3 text-center">
+                            <i class="fas fa-headset text-blue-600 text-2xl mb-2"></i>
+                            <p class="text-sm font-semibold text-gray-800">Need Expert Advice?</p>
+                            <a href="tel:+919876543210" class="text-blue-600 font-bold text-sm block mt-1">📞 Call +91 98765 43210</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Content Area -->
+            <div class="lg:col-span-3 space-y-8">
+                <!-- 1. Financial Planning with EMI Chart -->
+                <div id="planning" class="bg-white rounded-2xl shadow-xl p-6 section-card">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <i class="fas fa-calculator text-blue-600"></i> 1. Financial Planning & EMI Calculator
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Calculator Form -->
+                        <div>
+                            <div class="space-y-5">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">🏠 Property Price (₹)</label>
+                                    <input type="range" id="propertyPrice" min="1000000" max="20000000" step="500000" value="5000000" class="w-full">
+                                    <div class="flex justify-between mt-1">
+                                        <span class="text-xs text-gray-500">₹10L</span>
+                                        <span class="text-sm font-bold text-blue-600" id="priceValue">₹50,00,000</span>
+                                        <span class="text-xs text-gray-500">₹2Cr</span>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">💰 Down Payment (₹)</label>
+                                    <input type="range" id="downPaymentSlider" min="0" max="10000000" step="100000" value="1000000" class="w-full">
+                                    <div class="flex justify-between mt-1">
+                                        <span class="text-xs text-gray-500">₹0</span>
+                                        <span class="text-sm font-bold text-blue-600" id="downPaymentValue">₹10,00,000</span>
+                                        <span class="text-xs text-gray-500">₹1Cr</span>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">📈 Interest Rate (%)</label>
+                                    <input type="range" id="interestRate" min="6" max="15" step="0.1" value="8.5" class="w-full">
+                                    <div class="flex justify-between mt-1">
+                                        <span class="text-xs text-gray-500">6%</span>
+                                        <span class="text-sm font-bold text-blue-600" id="rateValue">8.5%</span>
+                                        <span class="text-xs text-gray-500">15%</span>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">⏱️ Loan Tenure (Years)</label>
+                                    <input type="range" id="tenure" min="1" max="30" step="1" value="20" class="w-full">
+                                    <div class="flex justify-between mt-1">
+                                        <span class="text-xs text-gray-500">1 Yr</span>
+                                        <span class="text-sm font-bold text-blue-600" id="tenureValue">20 Years</span>
+                                        <span class="text-xs text-gray-500">30 Yrs</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 grid grid-cols-2 gap-3">
+                                <div class="emi-card bg-blue-50 p-3 rounded-xl text-center">
+                                    <p class="text-xs text-gray-600">Monthly EMI</p>
+                                    <p class="text-xl font-bold text-blue-600" id="emiAmount">₹0</p>
+                                </div>
+                                <div class="emi-card bg-orange-50 p-3 rounded-xl text-center">
+                                    <p class="text-xs text-gray-600">Total Interest</p>
+                                    <p class="text-xl font-bold text-orange-600" id="totalInterest">₹0</p>
+                                </div>
+                                <div class="emi-card bg-green-50 p-3 rounded-xl text-center">
+                                    <p class="text-xs text-gray-600">Total Payment</p>
+                                    <p class="text-xl font-bold text-green-600" id="totalPayment">₹0</p>
+                                </div>
+                                <div class="emi-card bg-purple-50 p-3 rounded-xl text-center">
+                                    <p class="text-xs text-gray-600">Loan Amount</p>
+                                    <p class="text-xl font-bold text-purple-600" id="loanAmount">₹0</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- EMI Chart -->
+                        <div>
+                            <canvas id="emiChart" height="250"></canvas>
+                            <div class="mt-4 text-center">
+                                <div class="inline-flex items-center mr-4">
+                                    <div class="w-3 h-3 bg-blue-600 rounded-full mr-1"></div>
+                                    <span class="text-sm text-gray-600">Principal Amount</span>
+                                </div>
+                                <div class="inline-flex items-center">
+                                    <div class="w-3 h-3 bg-orange-500 rounded-full mr-1"></div>
+                                    <span class="text-sm text-gray-600">Total Interest</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-400 text-center mt-3">*EMI calculated on reducing balance method</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Eligibility Checker -->
+                <div id="eligibility" class="bg-white rounded-2xl shadow-xl p-6 section-card">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <i class="fas fa-check-circle text-green-600"></i> 2. Home Loan Eligibility Checker
+                    </h2>
+                    
+                    <form id="eligibilityForm" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Monthly Income (₹)</label>
+                                <input type="number" id="monthlyIncome" class="w-full px-4 py-3 border border-gray-300 rounded-xl" placeholder="e.g., 100000" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Existing EMI (₹)</label>
+                                <input type="number" id="existingEMI" class="w-full px-4 py-3 border border-gray-300 rounded-xl" placeholder="e.g., 20000" value="0">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Credit Score</label>
+                                <select id="creditScore" class="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white">
+                                    <option value="750">750+ (Excellent)</option>
+                                    <option value="650">650-749 (Good)</option>
+                                    <option value="550">550-649 (Average)</option>
+                                    <option value="450">Below 550 (Poor)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Employment Type</label>
+                                <select id="employmentType" class="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white">
+                                    <option value="salaried">Salaried</option>
+                                    <option value="self-employed">Self-Employed</option>
+                                    <option value="business">Business</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition w-full md:w-auto">
+                            <i class="fas fa-chart-line"></i> Check Eligibility
+                        </button>
+                    </form>
+                    
+                    <div id="eligibilityResult" class="mt-5 hidden rounded-xl">
+                        <!-- Dynamic result injected here -->
+                    </div>
+                </div>
+
+                <!-- 3. Bank Comparison Table -->
+                <div id="bank-comparison" class="bg-white rounded-2xl shadow-xl p-6 section-card">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <i class="fas fa-university text-purple-600"></i> 3. Bank Interest Rate Comparison
+                    </h2>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full bank-table">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold">Bank</th>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold">Interest Rate</th>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold">Processing Fee</th>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold">EMI (₹50L, 20Yr)</th>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bank-row border-b">
+                                    <td class="px-4 py-3 font-bold">SBI</td>
+                                    <td class="px-4 py-3 text-blue-600 font-bold">8.40%</td>
+                                    <td class="px-4 py-3">₹10,000</td>
+                                    <td class="px-4 py-3">₹43,000</td>
+                                    <td class="px-4 py-3"><button onclick="applyForLoan('SBI')" class="text-blue-600 hover:text-blue-800 font-semibold">Apply →</button></td>
+                                </tr>
+                                <tr class="bank-row border-b">
+                                    <td class="px-4 py-3 font-bold">HDFC</td>
+                                    <td class="px-4 py-3 text-blue-600 font-bold">8.50%</td>
+                                    <td class="px-4 py-3">₹8,500</td>
+                                    <td class="px-4 py-3">₹43,500</td>
+                                    <td class="px-4 py-3"><button onclick="applyForLoan('HDFC')" class="text-blue-600 hover:text-blue-800 font-semibold">Apply →</button></td>
+                                </tr>
+                                <tr class="bank-row border-b">
+                                    <td class="px-4 py-3 font-bold">ICICI</td>
+                                    <td class="px-4 py-3 text-blue-600 font-bold">8.45%</td>
+                                    <td class="px-4 py-3">₹9,000</td>
+                                    <td class="px-4 py-3">₹43,200</td>
+                                    <td class="px-4 py-3"><button onclick="applyForLoan('ICICI')" class="text-blue-600 hover:text-blue-800 font-semibold">Apply →</button></td>
+                                </tr>
+                                <tr class="bank-row border-b">
+                                    <td class="px-4 py-3 font-bold">Axis Bank</td>
+                                    <td class="px-4 py-3 text-blue-600 font-bold">8.55%</td>
+                                    <td class="px-4 py-3">₹7,500</td>
+                                    <td class="px-4 py-3">₹43,800</td>
+                                    <td class="px-4 py-3"><button onclick="applyForLoan('Axis Bank')" class="text-blue-600 hover:text-blue-800 font-semibold">Apply →</button></td>
+                                </tr>
+                                <tr class="bank-row">
+                                    <td class="px-4 py-3 font-bold">PNB</td>
+                                    <td class="px-4 py-3 text-blue-600 font-bold">8.35%</td>
+                                    <td class="px-4 py-3">₹8,000</td>
+                                    <td class="px-4 py-3">₹42,800</td>
+                                    <td class="px-4 py-3"><button onclick="applyForLoan('PNB')" class="text-blue-600 hover:text-blue-800 font-semibold">Apply →</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-3">*Rates subject to change. Contact bank for exact offers.</p>
+                </div>
+
+                <!-- 4. Documents Required -->
+                <div id="documents" class="bg-white rounded-2xl shadow-xl p-6 section-card">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <i class="fas fa-file-alt text-orange-600"></i> 4. Documents Required
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-bold text-green-600 mb-3 flex items-center gap-2"><i class="fas fa-user-check"></i> For Buyers</h3>
+                            <ul class="space-y-2">
+                                <li class="checklist-item"><i class="fas fa-check-circle text-green-500 mr-2"></i>Identity Proof (Aadhar/PAN/Passport)</li>
+                                <li class="checklist-item"><i class="fas fa-check-circle text-green-500 mr-2"></i>Address Proof</li>
+                                <li class="checklist-item"><i class="fas fa-check-circle text-green-500 mr-2"></i>Income Tax Returns (3 years)</li>
+                                <li class="checklist-item"><i class="fas fa-check-circle text-green-500 mr-2"></i>Salary Slips (3 months)</li>
+                                <li class="checklist-item"><i class="fas fa-check-circle text-green-500 mr-2"></i>Bank Statements (6 months)</li>
+                                <li class="checklist-item"><i class="fas fa-check-circle text-green-500 mr-2"></i>Form 16</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-bold text-blue-600 mb-3 flex items-center gap-2"><i class="fas fa-building"></i> For Property</h3>
+                            <ul class="space-y-2">
+                                <li class="checklist-item"><i class="fas fa-check-circle text-blue-500 mr-2"></i>Sale Deed</li>
+                                <li class="checklist-item"><i class="fas fa-check-circle text-blue-500 mr-2"></i>Mother Deed</li>
+                                <li class="checklist-item"><i class="fas fa-check-circle text-blue-500 mr-2"></i>Encumbrance Certificate</li>
+                                <li class="checklist-item"><i class="fas fa-check-circle text-blue-500 mr-2"></i>Tax Receipts</li>
+                                <li class="checklist-item"><i class="fas fa-check-circle text-blue-500 mr-2"></i>Building Plan Approval</li>
+                                <li class="checklist-item"><i class="fas fa-check-circle text-blue-500 mr-2"></i>Occupancy Certificate</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-yellow-50 rounded-xl flex flex-wrap justify-between items-center gap-3">
+                        <div>
+                            <i class="fas fa-download text-yellow-600 mr-2"></i>
+                            <span class="font-semibold">Complete Checklist PDF</span>
+                        </div>
+                        <button onclick="downloadChecklist()" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">Download PDF</button>
+                    </div>
+                </div>
+
+                <!-- 7. Cost Calculator -->
+                <div id="cost" class="bg-white rounded-2xl shadow-xl p-6 section-card">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <i class="fas fa-chart-pie text-indigo-600"></i> 7. Total Cost Calculator
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Property Value (₹)</label>
+                                <input type="number" id="propertyValue" class="w-full px-4 py-3 border border-gray-300 rounded-xl" value="5000000">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Stamp Duty (%)</label>
+                                <select id="stampDuty" class="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white">
+                                    <option value="5">5% - Maharashtra</option>
+                                    <option value="4">4% - Delhi NCR</option>
+                                    <option value="3">3% - Karnataka</option>
+                                    <option value="2">2% - Gujarat</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Registration Charges (₹)</label>
+                                <input type="number" id="registrationCharges" class="w-full px-4 py-3 border border-gray-300 rounded-xl" value="50000">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">GST (%)</label>
+                                <input type="number" id="gst" class="w-full px-4 py-3 border border-gray-300 rounded-xl" value="1" step="0.5">
+                            </div>
+                            <button onclick="calculateTotalCost()" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700 transition w-full">Calculate Total Cost</button>
+                        </div>
+                        <div class="bg-gradient-to-r from-indigo-50 to-blue-50 p-5 rounded-xl">
+                            <h3 class="font-bold text-lg mb-3">Total Cost Breakdown</h3>
+                            <div class="space-y-2">
+                                <div class="flex justify-between"><span>Property Value:</span><span class="font-semibold" id="displayPropertyValue">₹0</span></div>
+                                <div class="flex justify-between"><span>Stamp Duty:</span><span class="font-semibold text-orange-600" id="stampDutyAmount">₹0</span></div>
+                                <div class="flex justify-between"><span>Registration:</span><span class="font-semibold text-orange-600" id="displayRegistration">₹0</span></div>
+                                <div class="flex justify-between"><span>GST:</span><span class="font-semibold text-orange-600" id="gstAmount">₹0</span></div>
+                                <div class="border-t pt-2 mt-2"><div class="flex justify-between font-bold text-lg"><span>Total Cost:</span><span class="text-indigo-600" id="totalCost">₹0</span></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pro Tips Section -->
+                <div class="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl shadow-xl p-6 text-white">
+                    <h2 class="text-2xl font-bold mb-4 flex items-center gap-2"><i class="fas fa-lightbulb"></i> Pro Tips for Buyers</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="tip-card flex items-start gap-2"><i class="fas fa-check-circle mt-1"></i><span>Always verify property documents with a lawyer</span></div>
+                        <div class="tip-card flex items-start gap-2"><i class="fas fa-check-circle mt-1"></i><span>Check RERA registration for new projects</span></div>
+                        <div class="tip-card flex items-start gap-2"><i class="fas fa-check-circle mt-1"></i><span>Visit property at different times of the day</span></div>
+                        <div class="tip-card flex items-start gap-2"><i class="fas fa-check-circle mt-1"></i><span>Negotiate on price and payment terms</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loan Application Modal -->
+    <div id="loanModal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4 modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800"><i class="fas fa-hand-holding-usd text-blue-600"></i> Apply for Home Loan</h3>
+                <button onclick="closeLoanModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+            </div>
+            <form id="loanForm">
+                <input type="hidden" id="selectedBank">
+                <div class="space-y-4">
+                    <div><label class="block text-sm font-semibold mb-1">Full Name *</label><input type="text" required class="w-full px-4 py-3 border rounded-xl"></div>
+                    <div><label class="block text-sm font-semibold mb-1">Email *</label><input type="email" required class="w-full px-4 py-3 border rounded-xl"></div>
+                    <div><label class="block text-sm font-semibold mb-1">Phone *</label><input type="tel" required class="w-full px-4 py-3 border rounded-xl"></div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold">Submit Application</button>
+                    <button type="button" onclick="closeLoanModal()" class="w-full text-gray-500 py-2">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <i class="fab fa-facebook-f text-gray-400 hover:text-blue-400 cursor-pointer text-xl"></i>
+                <i class="fab fa-twitter text-gray-400 hover:text-blue-400 cursor-pointer text-xl"></i>
+                <i class="fab fa-linkedin-in text-gray-400 hover:text-blue-400 cursor-pointer text-xl"></i>
+                <i class="fab fa-instagram text-gray-400 hover:text-pink-400 cursor-pointer text-xl"></i>
+            </div>
+            <p class="text-gray-400 text-sm">© 2025 Propbandhu | Complete Buyer's Guide - Empowering Your Home Buying Journey</p>
+        </div>
+    </footer>
+
+    <script>
+        let emiChart = null;
+
+        function calculateEMI() {
+            const price = parseFloat(document.getElementById('propertyPrice').value);
+            const downPayment = parseFloat(document.getElementById('downPaymentSlider').value);
+            const rate = parseFloat(document.getElementById('interestRate').value) / 12 / 100;
+            const tenureMonths = parseFloat(document.getElementById('tenure').value) * 12;
+            
+            const loanAmount = price - downPayment;
+            let emi = 0, totalPayment = 0, totalInterest = 0;
+            
+            if (loanAmount > 0 && rate > 0) {
+                emi = loanAmount * rate * Math.pow(1 + rate, tenureMonths) / (Math.pow(1 + rate, tenureMonths) - 1);
+                totalPayment = emi * tenureMonths;
+                totalInterest = totalPayment - loanAmount;
+            }
+            
+            document.getElementById('priceValue').innerHTML = '₹' + price.toLocaleString('en-IN');
+            document.getElementById('downPaymentValue').innerHTML = '₹' + downPayment.toLocaleString('en-IN');
+            document.getElementById('rateValue').innerHTML = document.getElementById('interestRate').value + '%';
+            document.getElementById('tenureValue').innerHTML = document.getElementById('tenure').value + ' Years';
+            document.getElementById('emiAmount').innerHTML = '₹' + (emi || 0).toLocaleString('en-IN', {maximumFractionDigits: 0});
+            document.getElementById('totalInterest').innerHTML = '₹' + (totalInterest || 0).toLocaleString('en-IN', {maximumFractionDigits: 0});
+            document.getElementById('totalPayment').innerHTML = '₹' + (totalPayment || 0).toLocaleString('en-IN', {maximumFractionDigits: 0});
+            document.getElementById('loanAmount').innerHTML = '₹' + (loanAmount || 0).toLocaleString('en-IN', {maximumFractionDigits: 0});
+            
+            if (emiChart) emiChart.destroy();
+            const ctx = document.getElementById('emiChart').getContext('2d');
+            emiChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels: ['Principal Amount', 'Total Interest'], datasets: [{ data: [loanAmount, totalInterest], backgroundColor: ['#3b82f6', '#f97316'], borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+
+        document.getElementById('eligibilityForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const income = parseFloat(document.getElementById('monthlyIncome').value);
+            const existingEMI = parseFloat(document.getElementById('existingEMI').value) || 0;
+            const creditScore = parseFloat(document.getElementById('creditScore').value);
+            
+            const maxEMI = income * 0.5;
+            const availableEMI = maxEMI - existingEMI;
+            const rate = 8.5 / 12 / 100;
+            const tenure = 20 * 12;
+            const eligibleLoan = availableEMI > 0 ? availableEMI * (Math.pow(1 + rate, tenure) - 1) / (rate * Math.pow(1 + rate, tenure)) : 0;
+            
+            let status, color, message;
+            if (creditScore >= 750 && availableEMI > 0) { status = 'Eligible'; color = 'green'; message = `Congratulations! You are eligible for a loan up to ₹${eligibleLoan.toLocaleString('en-IN')}`; }
+            else if (creditScore >= 650 && availableEMI > 0) { status = 'Partially Eligible'; color = 'orange'; message = `You may get loan with higher interest rate. Eligible amount: ₹${eligibleLoan.toLocaleString('en-IN')}`; }
+            else { status = 'Not Eligible'; color = 'red'; message = 'Improve your credit score or reduce existing debt to become eligible.'; }
+            
+            const resultDiv = document.getElementById('eligibilityResult');
+            resultDiv.className = `mt-4 p-4 rounded-xl bg-${color}-50 border border-${color}-200`;
+            resultDiv.innerHTML = `<h3 class="font-bold text-${color}-800">Status: ${status}</h3><p class="text-${color}-700">${message}</p><p class="text-sm text-${color}-600 mt-1">Monthly EMI Capacity: ₹${maxEMI.toLocaleString('en-IN')} | Available: ₹${availableEMI.toLocaleString('en-IN')}</p>`;
+            resultDiv.classList.remove('hidden');
+        });
+
+        function calculateTotalCost() {
+            const value = parseFloat(document.getElementById('propertyValue').value);
+            const stampPercent = parseFloat(document.getElementById('stampDuty').value);
+            const registration = parseFloat(document.getElementById('registrationCharges').value);
+            const gstPercent = parseFloat(document.getElementById('gst').value);
+            const stampAmount = value * stampPercent / 100;
+            const gstAmount = value * gstPercent / 100;
+            const total = value + stampAmount + registration + gstAmount;
+            document.getElementById('displayPropertyValue').innerHTML = '₹' + value.toLocaleString('en-IN');
+            document.getElementById('stampDutyAmount').innerHTML = '₹' + stampAmount.toLocaleString('en-IN');
+            document.getElementById('displayRegistration').innerHTML = '₹' + registration.toLocaleString('en-IN');
+            document.getElementById('gstAmount').innerHTML = '₹' + gstAmount.toLocaleString('en-IN');
+            document.getElementById('totalCost').innerHTML = '₹' + total.toLocaleString('en-IN');
+        }
+
+        function applyForLoan(bank) { document.getElementById('selectedBank').value = bank; document.getElementById('loanModal').classList.remove('hidden'); document.getElementById('loanModal').classList.add('flex'); }
+        function closeLoanModal() { document.getElementById('loanModal').classList.add('hidden'); document.getElementById('loanModal').classList.remove('flex'); }
+        function downloadChecklist() { alert('✓ Checklist PDF is being generated and will download shortly.'); }
+        
+        document.getElementById('loanForm').addEventListener('submit', function(e) { e.preventDefault(); alert('✓ Loan application submitted! Our representative will contact you within 24 hours.'); closeLoanModal(); this.reset(); });
+        document.getElementById('propertyPrice').addEventListener('input', calculateEMI);
+        document.getElementById('downPaymentSlider').addEventListener('input', calculateEMI);
+        document.getElementById('interestRate').addEventListener('input', calculateEMI);
+        document.getElementById('tenure').addEventListener('input', calculateEMI);
+        
+        calculateEMI();
+        calculateTotalCost();
+    </script>
+</body>
+</html>

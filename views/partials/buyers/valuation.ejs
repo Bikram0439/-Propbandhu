@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Property Inspection & Valuation - Propbandhu | Professional Property Assessment</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ========== COMPLETE CUSTOM CSS FOR PROPERTY INSPECTION & VALUATION PAGE ========== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        /* Smooth transitions for all interactive elements */
+        .card-hover,
+        .package-card,
+        button,
+        input,
+        select,
+        textarea {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Card hover effects */
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Package card styling */
+        .package-card {
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .package-card.selected {
+            border-color: #3b82f6;
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2);
+        }
+        
+        .package-card:hover:not(.selected) {
+            border-color: #93c5fd;
+            background-color: #fafcff;
+        }
+
+        /* Form input focus effects */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            ring: 2px solid #3b82f6;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Button press effect */
+        .btn-primary, .btn-success {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary:active, .btn-success:active {
+            transform: scale(0.97);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        /* Valuation result animation */
+        .valuation-result {
+            animation: slideUpFade 0.5s ease-out;
+        }
+        
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Success message animation */
+        .success-toast {
+            animation: successPop 0.4s ease-out forwards;
+        }
+        
+        @keyframes successPop {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Checklist item hover */
+        .checklist-item {
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+        
+        .checklist-item:hover {
+            transform: translateX(5px);
+            background-color: #f8fafc;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Range input styling for future enhancements */
+        input[type="range"] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        
+        /* Floating label effect */
+        .input-group {
+            position: relative;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .valuation-result h3 {
+                font-size: 1rem;
+            }
+            .valuation-result p {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Tooltip custom */
+        .tooltip-icon {
+            cursor: help;
+            border-bottom: 1px dashed #94a3b8;
+        }
+        
+        /* Decorative gradient for package cards */
+        .package-badge {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        }
+        
+        /* Inspection checklist icons animation */
+        .check-icon {
+            transition: transform 0.2s;
+        }
+        .checklist-item:hover .check-icon {
+            transform: scale(1.1);
+        }
+        
+        /* Phone number hover */
+        .support-phone:hover {
+            transform: scale(1.02);
+            color: #1e40af;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar (simulated for standalone preview) -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-home text-blue-600 text-2xl"></i>
+                    <span class="font-bold text-xl text-gray-800">Prop<span class="text-blue-600">bandhu</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Buy Property</a>
+                    <a href="#" class="text-blue-600 font-semibold border-b-2 border-blue-600 pb-1">Inspection & Valuation</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-user-circle text-gray-500 text-2xl"></i>
+                    <span class="hidden sm:inline text-gray-700">Sign In</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Hero Header -->
+        <div class="mb-10 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-3">
+                <i class="fas fa-chart-line"></i> Accurate & Reliable
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">Property Inspection & Valuation</h1>
+            <p class="text-gray-600 mt-3 text-lg max-w-2xl">Get professional property inspection and accurate market valuation from certified experts. Make informed decisions with our detailed reports.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- LEFT: Valuation Calculator -->
+            <div class="bg-white rounded-2xl shadow-xl p-6 card-hover">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                    <i class="fas fa-chart-line text-blue-600 text-2xl"></i>
+                    Valuation Calculator
+                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full ml-2 tooltip-icon" data-tooltip="Get instant market estimate">ⓘ</span>
+                </h2>
+                
+                <form id="valuationForm" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">🏠 Property Type</label>
+                        <select id="propertyType" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                            <option value="apartment">Apartment/Flat</option>
+                            <option value="villa">Villa / Independent House</option>
+                            <option value="plot">Plot/Land</option>
+                            <option value="commercial">Commercial Property</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">📐 Area (sq. ft.)</label>
+                        <input type="number" id="area" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400" placeholder="e.g., 1200" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">📍 City</label>
+                        <select id="city" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                            <option value="mumbai">Mumbai</option>
+                            <option value="delhi">Delhi NCR</option>
+                            <option value="bangalore">Bangalore</option>
+                            <option value="pune">Pune</option>
+                            <option value="hyderabad">Hyderabad</option>
+                            <option value="chennai">Chennai</option>
+                            <option value="kolkata">Kolkata</option>
+                            <option value="ahmedabad">Ahmedabad</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">🏚️ Property Age (Years)</label>
+                        <input type="number" id="age" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400" placeholder="e.g., 5" value="0">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">🛋️ Furnishing Status</label>
+                        <select id="furnishing" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                            <option value="unfurnished">Unfurnished</option>
+                            <option value="semi">Semi-furnished</option>
+                            <option value="fully">Fully Furnished</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" id="calcBtn" class="btn-primary w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3.5 rounded-xl font-bold text-lg shadow-md hover:shadow-xl transition flex items-center justify-center gap-2">
+                        <i class="fas fa-calculator"></i> Calculate Estimated Value
+                    </button>
+                </form>
+                
+                <div id="valuationResult" class="mt-6 p-5 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl hidden valuation-result border border-green-200">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-gray-700"><i class="fas fa-rupee-sign"></i> Estimated Property Value</h3>
+                            <p class="text-3xl font-extrabold text-blue-600 mt-1" id="estimatedValue">₹0</p>
+                        </div>
+                        <i class="fas fa-chart-simple text-green-500 text-3xl opacity-50"></i>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-3 flex items-center gap-1"><i class="fas fa-info-circle"></i> *Based on current market rates, location multiplier, age depreciation, and furnishing status.</p>
+                </div>
+            </div>
+            
+            <!-- RIGHT: Book Inspection -->
+            <div class="bg-white rounded-2xl shadow-xl p-6 card-hover">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                    <i class="fas fa-clipboard-list text-blue-600 text-2xl"></i>
+                    Book Professional Inspection
+                </h2>
+                
+                <!-- Package Selection Cards -->
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">Select Inspection Package</label>
+                    <div class="grid grid-cols-1 gap-3">
+                        <div class="package-card border rounded-xl p-4 cursor-pointer" data-package="basic" data-price="5000">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-home text-blue-500"></i>
+                                        <h3 class="font-bold text-gray-800">Basic Inspection Package</h3>
+                                    </div>
+                                    <p class="text-sm text-gray-500 mt-1">Structural & Visual Inspection + Basic Report</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-bold text-blue-600 text-xl">₹5,000</p>
+                                    <p class="text-xs text-gray-400">+ GST</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="package-card border rounded-xl p-4 cursor-pointer" data-package="comprehensive" data-price="12000">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-chart-bar text-purple-500"></i>
+                                        <h3 class="font-bold text-gray-800">Comprehensive Package</h3>
+                                        <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">Most Popular</span>
+                                    </div>
+                                    <p class="text-sm text-gray-500 mt-1">Structural + Legal Verification + Market Valuation</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-bold text-blue-600 text-xl">₹12,000</p>
+                                    <p class="text-xs text-gray-400">+ GST</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="package-card border rounded-xl p-4 cursor-pointer" data-package="premium" data-price="25000">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-crown text-yellow-500"></i>
+                                        <h3 class="font-bold text-gray-800">Premium Package</h3>
+                                    </div>
+                                    <p class="text-sm text-gray-500 mt-1">Comprehensive + Vastu Consultation + Future Value Forecast</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-bold text-blue-600 text-xl">₹25,000</p>
+                                    <p class="text-xs text-gray-400">+ GST</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="selectedPackage" value="comprehensive">
+                    <input type="hidden" id="selectedPackagePrice" value="12000">
+                </div>
+                
+                <form id="inspectionForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Full Name <span class="text-red-500">*</span></label>
+                        <input type="text" id="inspectionName" required placeholder="e.g. Rajesh Sharma" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Phone Number <span class="text-red-500">*</span></label>
+                        <input type="tel" id="inspectionPhone" required placeholder="9876543210" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Email Address <span class="text-red-500">*</span></label>
+                        <input type="email" id="inspectionEmail" required placeholder="rajesh@example.com" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Property Address <span class="text-red-500">*</span></label>
+                        <textarea id="inspectionAddress" rows="2" required placeholder="Full property address for inspection" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Preferred Date</label>
+                        <input type="date" id="inspectionDate" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    
+                    <button type="submit" id="bookBtn" class="btn-success w-full bg-gradient-to-r from-green-600 to-green-700 text-white py-3.5 rounded-xl font-bold text-lg shadow-md hover:shadow-xl transition flex items-center justify-center gap-2">
+                        <i class="fas fa-calendar-check"></i> Book Inspection Now
+                    </button>
+                </form>
+                
+                <div id="inspectionSuccess" class="mt-5 p-3 bg-green-50 rounded-xl hidden success-toast border border-green-200 flex items-center gap-3">
+                    <i class="fas fa-check-circle text-green-600 text-2xl"></i>
+                    <div>
+                        <p class="text-green-800 font-semibold">Inspection booked successfully!</p>
+                        <p class="text-green-700 text-xs">Our team will contact you within 2 hours to confirm the schedule.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Inspection Checklist Section -->
+        <div class="mt-10 bg-white rounded-2xl shadow-xl p-6 card-hover">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <i class="fas fa-check-double text-green-500"></i> What Our Inspection Covers
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="checklist-item flex items-start p-3 rounded-lg hover:bg-gray-50 transition">
+                    <i class="fas fa-building check-icon text-green-500 mr-3 mt-1 text-lg"></i>
+                    <span class="text-gray-700">Structural Integrity & Foundation</span>
+                </div>
+                <div class="checklist-item flex items-start p-3 rounded-lg hover:bg-gray-50 transition">
+                    <i class="fas fa-faucet check-icon text-green-500 mr-3 mt-1 text-lg"></i>
+                    <span class="text-gray-700">Plumbing & Waterproofing</span>
+                </div>
+                <div class="checklist-item flex items-start p-3 rounded-lg hover:bg-gray-50 transition">
+                    <i class="fas fa-bolt check-icon text-green-500 mr-3 mt-1 text-lg"></i>
+                    <span class="text-gray-700">Electrical Systems & Wiring</span>
+                </div>
+                <div class="checklist-item flex items-start p-3 rounded-lg hover:bg-gray-50 transition">
+                    <i class="fas fa-bug check-icon text-green-500 mr-3 mt-1 text-lg"></i>
+                    <span class="text-gray-700">Termite/Pest Infestation Check</span>
+                </div>
+                <div class="checklist-item flex items-start p-3 rounded-lg hover:bg-gray-50 transition">
+                    <i class="fas fa-sun check-icon text-green-500 mr-3 mt-1 text-lg"></i>
+                    <span class="text-gray-700">Ventilation & Natural Lighting</span>
+                </div>
+                <div class="checklist-item flex items-start p-3 rounded-lg hover:bg-gray-50 transition">
+                    <i class="fas fa-gavel check-icon text-green-500 mr-3 mt-1 text-lg"></i>
+                    <span class="text-gray-700">Legal Document Verification</span>
+                </div>
+                <div class="checklist-item flex items-start p-3 rounded-lg hover:bg-gray-50 transition">
+                    <i class="fas fa-chart-line check-icon text-green-500 mr-3 mt-1 text-lg"></i>
+                    <span class="text-gray-700">Market Valuation Report</span>
+                </div>
+                <div class="checklist-item flex items-start p-3 rounded-lg hover:bg-gray-50 transition">
+                    <i class="fas fa-fire-extinguisher check-icon text-green-500 mr-3 mt-1 text-lg"></i>
+                    <span class="text-gray-700">Fire Safety Compliance</span>
+                </div>
+                <div class="checklist-item flex items-start p-3 rounded-lg hover:bg-gray-50 transition">
+                    <i class="fas fa-wifi check-icon text-green-500 mr-3 mt-1 text-lg"></i>
+                    <span class="text-gray-700">Connectivity & Infrastructure</span>
+                </div>
+            </div>
+            
+            <div class="mt-6 bg-blue-50 p-4 rounded-xl flex flex-wrap justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-file-alt text-blue-600 text-xl"></i>
+                    <span class="text-gray-700 font-medium">Get a detailed 20+ page inspection report within 5 days</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-phone-alt text-green-600"></i>
+                    <a href="tel:+919876543210" class="support-phone font-bold text-blue-600 hover:text-blue-800 transition">Need help? Call +91 98765 43210</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-16 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <i class="fab fa-facebook-f text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-twitter text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-linkedin-in text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-instagram text-gray-400 hover:text-pink-400 cursor-pointer transition text-xl"></i>
+            </div>
+            <p class="text-gray-400 text-sm">© 2025 Propbandhu | Professional Property Inspection & Valuation Services</p>
+            <p class="text-gray-500 text-xs mt-2">Certified engineers & legal experts | ISO 9001:2025 Certified</p>
+        </div>
+    </footer>
+
+    <script>
+        // City rates database (₹ per sq ft)
+        const cityRates = {
+            mumbai: 28000,
+            delhi: 20000,
+            bangalore: 16500,
+            pune: 13000,
+            hyderabad: 12000,
+            chennai: 11000,
+            kolkata: 9500,
+            ahmedabad: 9000
+        };
+        
+        // Property type multipliers
+        const typeMultiplier = {
+            apartment: 1,
+            villa: 1.55,
+            plot: 0.85,
+            commercial: 1.35
+        };
+        
+        // Package selection logic
+        let selectedPackageName = "comprehensive";
+        let selectedPackagePrice = 12000;
+        
+        const packageCards = document.querySelectorAll('.package-card');
+        packageCards.forEach(card => {
+            card.addEventListener('click', () => {
+                packageCards.forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                selectedPackageName = card.getAttribute('data-package');
+                selectedPackagePrice = parseInt(card.getAttribute('data-price'));
+                document.getElementById('selectedPackage').value = selectedPackageName;
+                document.getElementById('selectedPackagePrice').value = selectedPackagePrice;
+            });
+        });
+        
+        // Set default selected package (Comprehensive)
+        document.querySelector('.package-card[data-package="comprehensive"]').classList.add('selected');
+        
+        // Valuation Calculator Form Submission
+        const valuationForm = document.getElementById('valuationForm');
+        const calcBtn = document.getElementById('calcBtn');
+        const valuationResultDiv = document.getElementById('valuationResult');
+        const estimatedValueSpan = document.getElementById('estimatedValue');
+        
+        valuationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const area = parseFloat(document.getElementById('area').value);
+            const city = document.getElementById('city').value;
+            const propertyType = document.getElementById('propertyType').value;
+            const age = parseFloat(document.getElementById('age').value) || 0;
+            const furnishing = document.getElementById('furnishing').value;
+            
+            if (!area || area <= 0) {
+                alert('❌ Please enter a valid area in sq. ft.');
+                return;
+            }
+            
+            let baseRate = cityRates[city] || 12000;
+            let estimatedValue = area * baseRate * typeMultiplier[propertyType];
+            
+            // Depreciation: 1% per year, max 30%
+            if (age > 0) {
+                let depreciation = Math.min(0.3, age * 0.01);
+                estimatedValue *= (1 - depreciation);
+            }
+            
+            // Furnishing adjustment
+            if (furnishing === 'semi') estimatedValue *= 1.08;
+            if (furnishing === 'fully') estimatedValue *= 1.18;
+            
+            // Round to nearest thousand
+            estimatedValue = Math.round(estimatedValue / 1000) * 1000;
+            
+            // Format and display
+            estimatedValueSpan.innerHTML = '₹' + estimatedValue.toLocaleString('en-IN');
+            valuationResultDiv.classList.remove('hidden');
+            
+            // Smooth scroll to result
+            valuationResultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+        
+        // Inspection Booking Form Submission
+        const inspectionForm = document.getElementById('inspectionForm');
+        const bookBtn = document.getElementById('bookBtn');
+        const inspectionSuccess = document.getElementById('inspectionSuccess');
+        
+        inspectionForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('inspectionName').value.trim();
+            const phone = document.getElementById('inspectionPhone').value.trim();
+            const email = document.getElementById('inspectionEmail').value.trim();
+            const address = document.getElementById('inspectionAddress').value.trim();
+            
+            if (!name || !phone || !email || !address) {
+                alert('❌ Please fill in all required fields.');
+                return;
+            }
+            
+            if (!/^\d{10}$/.test(phone)) {
+                alert('❌ Please enter a valid 10-digit mobile number.');
+                return;
+            }
+            
+            if (!email.includes('@')) {
+                alert('❌ Please enter a valid email address.');
+                return;
+            }
+            
+            // Show loading state
+            const originalBtnText = bookBtn.innerHTML;
+            bookBtn.innerHTML = '<span class="loading-spinner"></span> Booking...';
+            bookBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Store booking data (in real app, send to backend)
+                const bookingData = {
+                    name,
+                    phone,
+                    email,
+                    address,
+                    preferredDate: document.getElementById('inspectionDate').value,
+                    package: selectedPackageName,
+                    packagePrice: selectedPackagePrice,
+                    timestamp: new Date().toISOString()
+                };
+                console.log('Inspection Booking:', bookingData);
+                
+                // Show success message
+                inspectionSuccess.classList.remove('hidden');
+                
+                // Reset form
+                inspectionForm.reset();
+                
+                // Keep package selection
+                document.querySelector('.package-card[data-package="comprehensive"]').classList.add('selected');
+                selectedPackageName = "comprehensive";
+                selectedPackagePrice = 12000;
+                
+                // Reset button
+                bookBtn.innerHTML = originalBtnText;
+                bookBtn.disabled = false;
+                
+                // Scroll to success
+                inspectionSuccess.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+                // Auto hide after 6 seconds
+                setTimeout(() => {
+                    inspectionSuccess.classList.add('hidden');
+                }, 6000);
+            }, 800);
+        });
+        
+        // Set minimum date for date picker to today
+        const today = new Date().toISOString().split('T')[0];
+        const dateInput = document.getElementById('inspectionDate');
+        if (dateInput) dateInput.min = today;
+        
+        // Add tooltip functionality
+        const tooltipIcons = document.querySelectorAll('.tooltip-icon');
+        tooltipIcons.forEach(icon => {
+            icon.addEventListener('mouseenter', (e) => {
+                // Tooltip already handled by CSS data-tooltip
+            });
+        });
+    </script>
+</body>
+</html>

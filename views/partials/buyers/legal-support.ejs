@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Legal Support - Propbandhu | Property Lawyers & Legal Assistance</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ========== COMPLETE CUSTOM CSS FOR LEGAL SUPPORT PAGE ========== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        /* Smooth transitions for all interactive elements */
+        .service-card,
+        .faq-question,
+        button,
+        a {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Service card hover effects */
+        .service-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.2s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.15), 0 4px 8px -4px rgba(0, 0, 0, 0.05);
+            border-color: #93c5fd !important;
+        }
+
+        /* Icon container animations */
+        .icon-container {
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        .service-card:hover .icon-container {
+            transform: scale(1.08);
+        }
+
+        /* FAQ section custom styling */
+        .faq-question {
+            cursor: pointer;
+            padding: 0.75rem 0;
+            border-radius: 0.75rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .faq-question:hover {
+            background-color: #f8fafc;
+        }
+
+        .faq-question i {
+            transition: transform 0.25s ease;
+        }
+
+        .faq-answer {
+            padding: 0.5rem 0 0.75rem 1rem;
+            border-left: 3px solid #3b82f6;
+            margin-left: 0.5rem;
+            animation: fadeSlideDown 0.3s ease-out;
+        }
+
+        @keyframes fadeSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Form input focus effects */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            ring: 2px solid #3b82f6;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Sticky card glass effect */
+        .sticky-card {
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        /* Button ripple and press effect */
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        /* Success message animation */
+        .success-toast {
+            animation: slideUpFade 0.4s ease-out forwards;
+        }
+        
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Service badge styling */
+        .price-badge {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            display: inline-block;
+        }
+
+        /* Phone number hover effect */
+        .phone-number {
+            transition: all 0.2s;
+        }
+        .phone-number:hover {
+            transform: scale(1.02);
+            color: #1e40af;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .service-card {
+                margin-bottom: 0.5rem;
+            }
+            .faq-answer {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Loading spinner for form submission (optional) */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Header wave effect */
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+
+        /* Tooltip custom */
+        [data-tooltip] {
+            position: relative;
+            cursor: help;
+        }
+        [data-tooltip]:before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            display: none;
+            z-index: 10;
+        }
+        [data-tooltip]:hover:before {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar (simulated for standalone preview) -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-gavel text-blue-600 text-2xl"></i>
+                    <span class="font-bold text-xl text-gray-800">Prop<span class="text-blue-600">bandhu</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Buy Property</a>
+                    <a href="#" class="text-blue-600 font-semibold border-b-2 border-blue-600 pb-1">Legal Support</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-user-circle text-gray-500 text-2xl"></i>
+                    <span class="hidden sm:inline text-gray-700">Sign In</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Hero Header -->
+        <div class="mb-10 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-3">
+                <i class="fas fa-balance-scale"></i> Expert Legal Assistance
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">Legal Support for Property</h1>
+            <p class="text-gray-600 mt-3 text-lg max-w-2xl">Expert legal assistance for property verification, documentation, registration, and dispute resolution. Trusted by 5000+ happy homeowners.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- LEFT COLUMN: SERVICES LIST + FAQ -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Legal Services Cards -->
+                <div class="bg-white rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-shadow duration-300">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                            <i class="fas fa-handshake text-blue-600"></i> Our Legal Services
+                        </h2>
+                        <span class="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full"><i class="fas fa-clock"></i> Same-day consultation</span>
+                    </div>
+                    
+                    <div class="space-y-5">
+                        <!-- Service 1: Title Verification -->
+                        <div class="service-card border border-gray-200 rounded-xl p-5 bg-white hover:border-blue-300">
+                            <div class="flex items-start flex-col sm:flex-row sm:items-center gap-4">
+                                <div class="icon-container bg-blue-100 p-3 rounded-2xl shrink-0">
+                                    <i class="fas fa-file-alt text-blue-600 text-2xl"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex flex-wrap items-center justify-between gap-2">
+                                        <h3 class="font-bold text-xl text-gray-800">Property Title Verification</h3>
+                                        <span class="price-badge text-blue-700 font-bold px-3 py-1 rounded-full text-sm">Starting ₹5,000</span>
+                                    </div>
+                                    <p class="text-gray-600 mt-2">Complete verification of property documents, ownership history, legal clearances, and encumbrance certificates. Get a detailed title search report.</p>
+                                    <div class="flex gap-3 mt-3 text-xs text-gray-500">
+                                        <span><i class="far fa-check-circle text-green-500"></i> 48h turnaround</span>
+                                        <span><i class="fas fa-shield-alt"></i> Lawyer certified</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 2: Agreement Drafting -->
+                        <div class="service-card border border-gray-200 rounded-xl p-5 bg-white hover:border-green-300">
+                            <div class="flex items-start flex-col sm:flex-row sm:items-center gap-4">
+                                <div class="icon-container bg-green-100 p-3 rounded-2xl shrink-0">
+                                    <i class="fas fa-gavel text-green-600 text-2xl"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex flex-wrap items-center justify-between gap-2">
+                                        <h3 class="font-bold text-xl text-gray-800">Agreement Drafting</h3>
+                                        <span class="price-badge text-green-700 font-bold px-3 py-1 rounded-full text-sm">Starting ₹3,000</span>
+                                    </div>
+                                    <p class="text-gray-600 mt-2">Sale deed, sale agreement, GPA, lease deed, and other property documents drafted by expert lawyers with proper legal review.</p>
+                                    <div class="flex gap-3 mt-3 text-xs text-gray-500">
+                                        <span><i class="fas fa-pen-fancy"></i> Custom templates</span>
+                                        <span><i class="fas fa-stamp"></i> Notary support</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 3: Property Registration -->
+                        <div class="service-card border border-gray-200 rounded-xl p-5 bg-white hover:border-purple-300">
+                            <div class="flex items-start flex-col sm:flex-row sm:items-center gap-4">
+                                <div class="icon-container bg-purple-100 p-3 rounded-2xl shrink-0">
+                                    <i class="fas fa-registered text-purple-600 text-2xl"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex flex-wrap items-center justify-between gap-2">
+                                        <h3 class="font-bold text-xl text-gray-800">Property Registration</h3>
+                                        <span class="price-badge text-purple-700 font-bold px-3 py-1 rounded-full text-sm">Starting ₹10,000</span>
+                                    </div>
+                                    <p class="text-gray-600 mt-2">End-to-end assistance with sub-registrar office, stamp duty calculation, document submission, and registration process.</p>
+                                    <div class="flex gap-3 mt-3 text-xs text-gray-500">
+                                        <span><i class="fas fa-building"></i> PAN India</span>
+                                        <span><i class="fas fa-tasks"></i> Document pickup</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service 4: Legal Due Diligence -->
+                        <div class="service-card border border-gray-200 rounded-xl p-5 bg-white hover:border-yellow-500">
+                            <div class="flex items-start flex-col sm:flex-row sm:items-center gap-4">
+                                <div class="icon-container bg-yellow-100 p-3 rounded-2xl shrink-0">
+                                    <i class="fas fa-chart-line text-yellow-600 text-2xl"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex flex-wrap items-center justify-between gap-2">
+                                        <h3 class="font-bold text-xl text-gray-800">Legal Due Diligence</h3>
+                                        <span class="price-badge text-yellow-700 font-bold px-3 py-1 rounded-full text-sm">Custom pricing</span>
+                                    </div>
+                                    <p class="text-gray-600 mt-2">Complete legal audit of property for NRI buyers, high-value transactions, and commercial real estate. Includes litigation check.</p>
+                                    <div class="flex gap-3 mt-3 text-xs text-gray-500">
+                                        <span><i class="fas fa-chart-simple"></i> Risk assessment</span>
+                                        <span><i class="fas fa-globe"></i> NRI friendly</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Section with improved accordion -->
+                <div class="bg-white rounded-2xl shadow-xl p-6">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                        <i class="fas fa-question-circle text-blue-500"></i> Frequently Asked Questions
+                    </h2>
+                    
+                    <div class="space-y-3">
+                        <div class="border-b border-gray-100 pb-2">
+                            <button class="faq-question w-full text-left font-semibold text-gray-800 flex justify-between items-center group">
+                                <span>📜 What documents are needed for property verification?</span>
+                                <i class="fas fa-chevron-down text-gray-400 group-hover:text-blue-500 transition"></i>
+                            </button>
+                            <div class="faq-answer hidden mt-2 text-gray-600 text-sm leading-relaxed">
+                                Sale deed, mother deed, EC (Encumbrance Certificate) for last 30 years, tax receipts, approved building plan, occupancy certificate, and NOCs from electricity board, water authority, and municipal corporation. Our team will help you collect missing docs.
+                            </div>
+                        </div>
+                        
+                        <div class="border-b border-gray-100 pb-2">
+                            <button class="faq-question w-full text-left font-semibold text-gray-800 flex justify-between items-center group">
+                                <span>⏱️ How long does property registration take?</span>
+                                <i class="fas fa-chevron-down text-gray-400 group-hover:text-blue-500 transition"></i>
+                            </button>
+                            <div class="faq-answer hidden mt-2 text-gray-600 text-sm leading-relaxed">
+                                Typically 15-30 days depending on document availability, stamp duty payment, and government processing time at sub-registrar office. We expedite with prior appointment and document verification.
+                            </div>
+                        </div>
+                        
+                        <div class="border-b border-gray-100 pb-2">
+                            <button class="faq-question w-full text-left font-semibold text-gray-800 flex justify-between items-center group">
+                                <span>💰 What is the stamp duty and registration charges?</span>
+                                <i class="fas fa-chevron-down text-gray-400 group-hover:text-blue-500 transition"></i>
+                            </button>
+                            <div class="faq-answer hidden mt-2 text-gray-600 text-sm leading-relaxed">
+                                Stamp duty varies by state (5-8% of property value). Registration charges are typically 1% of property value. We provide exact calculation based on your city and property type during consultation.
+                            </div>
+                        </div>
+                        
+                        <div class="border-b border-gray-100 pb-2">
+                            <button class="faq-question w-full text-left font-semibold text-gray-800 flex justify-between items-center group">
+                                <span>🏢 Can NRIs avail legal support services?</span>
+                                <i class="fas fa-chevron-down text-gray-400 group-hover:text-blue-500 transition"></i>
+                            </button>
+                            <div class="faq-answer hidden mt-2 text-gray-600 text-sm leading-relaxed">
+                                Absolutely! We specialize in NRI property legal services including PoA drafting, title verification, and remote consultation. Virtual document review and digital signing available.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-xl">
+                        <p class="text-sm text-gray-700"><i class="fas fa-headset text-blue-600 mr-2"></i> Still have questions? Call our legal helpline: <strong class="text-blue-700">+91 98765 43210</strong> (Mon-Sat, 10 AM - 7 PM)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: LAWYER CONSULTATION FORM (Sticky) -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl shadow-xl p-6 sticky top-24 border border-gray-100">
+                    <div class="text-center mb-5">
+                        <div class="bg-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto shadow-lg mb-3">
+                            <i class="fas fa-user-advocate text-white text-3xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900">Consult a Lawyer</h2>
+                        <p class="text-gray-500 text-sm mt-1">Get expert advice within 24 hours</p>
+                    </div>
+                    
+                    <form id="legalConsultForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Full Name <span class="text-red-500">*</span></label>
+                            <input type="text" id="consultName" required placeholder="e.g. Rajesh Khanna" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 transition">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Phone Number <span class="text-red-500">*</span></label>
+                            <input type="tel" id="consultPhone" required placeholder="9876543210" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Email Address <span class="text-red-500">*</span></label>
+                            <input type="email" id="consultEmail" required placeholder="rajesh@example.com" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Service Required <span class="text-red-500">*</span></label>
+                            <select id="consultService" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                                <option value="">Select Service</option>
+                                <option>Title Verification</option>
+                                <option>Agreement Drafting</option>
+                                <option>Property Registration</option>
+                                <option>Legal Due Diligence</option>
+                                <option>Dispute Resolution</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Message (optional)</label>
+                            <textarea id="consultMessage" rows="3" placeholder="Describe your property legal query..." class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400"></textarea>
+                        </div>
+                        
+                        <button type="submit" id="submitBtn" class="btn-primary w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3.5 rounded-xl font-bold text-lg shadow-md hover:shadow-xl transition flex items-center justify-center gap-2">
+                            <i class="fas fa-paper-plane"></i> Request Consultation
+                        </button>
+                    </form>
+                    
+                    <div id="successMessage" class="mt-5 p-3 bg-green-50 rounded-xl hidden success-toast border border-green-200 flex items-center gap-2">
+                        <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                        <div>
+                            <p class="text-green-800 font-semibold">Consultation request sent!</p>
+                            <p class="text-green-700 text-xs">Our legal expert will contact you within 24 hours.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 pt-4 border-t text-center">
+                        <p class="text-sm text-gray-500 mb-2">Or call us directly</p>
+                        <a href="tel:+919876543210" class="phone-number text-2xl font-bold text-blue-600 flex items-center justify-center gap-2 hover:text-blue-800">
+                            <i class="fas fa-phone-alt"></i> +91 98765 43210
+                        </a>
+                        <p class="text-xs text-gray-400 mt-2">📞 Free legal consultation for first-time callers</p>
+                    </div>
+                    
+                    <div class="mt-4 flex justify-center gap-3 text-gray-400 text-xs">
+                        <span><i class="fas fa-lock"></i> 100% confidential</span>
+                        <span><i class="fas fa-certificate"></i> Certified lawyers</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Trust Badges Section -->
+        <div class="mt-12 bg-white rounded-2xl shadow-md p-6 flex flex-wrap justify-around items-center gap-4 text-center">
+            <div class="flex items-center gap-2"><i class="fas fa-users text-blue-500 text-xl"></i> <span class="text-gray-700">5000+ Legal Consultations</span></div>
+            <div class="flex items-center gap-2"><i class="fas fa-star text-yellow-500 text-xl"></i> <span class="text-gray-700">4.9 Rating (1200+ reviews)</span></div>
+            <div class="flex items-center gap-2"><i class="fas fa-shield-alt text-green-500 text-xl"></i> <span class="text-gray-700">PAN India Coverage</span></div>
+            <div class="flex items-center gap-2"><i class="fas fa-clock text-purple-500 text-xl"></i> <span class="text-gray-700">24/7 Emergency Support</span></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-16 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <i class="fab fa-facebook-f text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-twitter text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-linkedin-in text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-instagram text-gray-400 hover:text-pink-400 cursor-pointer transition text-xl"></i>
+            </div>
+            <p class="text-gray-400 text-sm">© 2025 Propbandhu Legal Support | Empowering property owners with expert legal guidance</p>
+            <p class="text-gray-500 text-xs mt-2">*Disclaimer: Legal services are provided by empaneled advocate partners. Terms & conditions apply.</p>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Accordion functionality with smooth toggle
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                const icon = button.querySelector('i');
+                
+                // Toggle visibility
+                if (answer.classList.contains('hidden')) {
+                    answer.classList.remove('hidden');
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    answer.classList.add('hidden');
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+        
+        // Form submission with validation and API simulation
+        const form = document.getElementById('legalConsultForm');
+        const successDiv = document.getElementById('successMessage');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Basic validation
+            const name = document.getElementById('consultName').value.trim();
+            const phone = document.getElementById('consultPhone').value.trim();
+            const email = document.getElementById('consultEmail').value.trim();
+            const service = document.getElementById('consultService').value;
+            
+            if (!name || !phone || !email || !service) {
+                alert('❌ Please fill in all required fields.');
+                return;
+            }
+            
+            if (!/^\d{10}$/.test(phone)) {
+                alert('❌ Please enter a valid 10-digit mobile number.');
+                return;
+            }
+            
+            if (!email.includes('@')) {
+                alert('❌ Please enter a valid email address.');
+                return;
+            }
+            
+            // Disable button and show loading state
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="loading-spinner"></span> Submitting...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call (replace with actual backend endpoint if needed)
+            setTimeout(() => {
+                // Success flow
+                successDiv.classList.remove('hidden');
+                form.reset();
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                // Auto scroll to success message
+                successDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+                // Hide success message after 6 seconds
+                setTimeout(() => {
+                    successDiv.classList.add('hidden');
+                }, 6000);
+                
+                // Optional: console log for demo
+                console.log('Legal Consultation Request:', { name, phone, email, service, message: document.getElementById('consultMessage').value });
+                
+            }, 800);
+        });
+        
+        // Additional interactive hover effect for service icons
+        const serviceCards = document.querySelectorAll('.service-card');
+        serviceCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const iconDiv = card.querySelector('.icon-container');
+                if (iconDiv) iconDiv.style.transform = 'scale(1.05)';
+            });
+            card.addEventListener('mouseleave', () => {
+                const iconDiv = card.querySelector('.icon-container');
+                if (iconDiv) iconDiv.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

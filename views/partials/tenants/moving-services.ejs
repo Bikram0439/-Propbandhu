@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Moving Services - Packers & Movers - Propbandhu | Hassle-Free Relocation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ========== COMPLETE CUSTOM CSS FOR MOVING SERVICES PAGE ========== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #fae8ff 100%);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        /* Smooth transitions for all interactive elements */
+        .service-card,
+        .tip-card,
+        button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Service card hover effects */
+        .service-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Icon container animation */
+        .service-icon {
+            transition: transform 0.2s ease;
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.05);
+        }
+
+        /* Quote calculator section */
+        .quote-section {
+            background: linear-gradient(135deg, #7c3aed, #db2777);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quote-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .quote-section::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Form input focus effects */
+        input:focus, select:focus {
+            outline: none;
+            ring: 2px solid #8b5cf6;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+
+        /* Button press effect */
+        .btn-calculate, .btn-book {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-calculate:active, .btn-book:active {
+            transform: scale(0.97);
+        }
+
+        /* Price result animation */
+        .price-result {
+            animation: slideDownFade 0.5s ease-out;
+        }
+        
+        @keyframes slideDownFade {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Star rating styling */
+        .star-rating {
+            display: inline-flex;
+            gap: 2px;
+        }
+        
+        .star-filled {
+            color: #fbbf24;
+        }
+        
+        .star-half {
+            color: #fbbf24;
+            position: relative;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f3e8ff;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #a855f7;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #7c3aed;
+        }
+
+        /* Toast notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            animation: slideInRight 0.3s ease-out;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Moving tips hover */
+        .tip-card {
+            transition: all 0.2s ease;
+        }
+        
+        .tip-card:hover {
+            transform: translateX(5px);
+            background-color: #ede9fe;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .quote-section {
+                padding: 20px;
+            }
+            .service-card {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Feature badges */
+        .feature-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Price breakdown styling */
+        .price-breakdown {
+            border-left: 3px solid #fbbf24;
+        }
+        
+        /* Vehicle size indicator */
+        .vehicle-indicator {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 8px;
+            background: #f3e8ff;
+            color: #7c3aed;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar (simulated for standalone preview) -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-truck-moving text-purple-600 text-2xl"></i>
+                    <span class="font-bold text-xl text-gray-800">Prop<span class="text-purple-600">bandhu</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-purple-600 font-medium">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-purple-600 font-medium">Buy Property</a>
+                    <a href="#" class="text-purple-600 font-semibold border-b-2 border-purple-600 pb-1">Moving Services</a>
+                    <a href="#" class="text-gray-700 hover:text-purple-600 font-medium">Contact</a>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-user-circle text-gray-500 text-2xl"></i>
+                    <span class="hidden sm:inline text-gray-700">Sign In</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Hero Header -->
+        <div class="mb-10 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-3">
+                <i class="fas fa-box"></i> India's Most Trusted Moving Platform
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">Hassle-Free Moving Services</h1>
+            <p class="text-gray-600 mt-3 text-lg max-w-2xl">Compare and book best packers & movers at lowest prices. Insured transport, GPS tracking, and professional packing.</p>
+        </div>
+
+        <!-- Moving Calculator Section -->
+        <div class="quote-section rounded-2xl shadow-2xl p-8 text-white mb-10 relative">
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-5">
+                    <i class="fas fa-calculator text-3xl"></i>
+                    <h2 class="text-2xl font-bold">Get Instant Moving Quote</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-sm mb-2 opacity-90"><i class="fas fa-map-marker-alt mr-1"></i> Moving From</label>
+                        <input type="text" id="fromCity" placeholder="e.g., Mumbai" class="w-full px-4 py-3 rounded-xl text-gray-900 focus:ring-2 focus:ring-yellow-400">
+                    </div>
+                    <div>
+                        <label class="block text-sm mb-2 opacity-90"><i class="fas fa-flag-checkered mr-1"></i> Moving To</label>
+                        <input type="text" id="toCity" placeholder="e.g., Bangalore" class="w-full px-4 py-3 rounded-xl text-gray-900 focus:ring-2 focus:ring-yellow-400">
+                    </div>
+                    <div>
+                        <label class="block text-sm mb-2 opacity-90"><i class="fas fa-home mr-1"></i> Property Size</label>
+                        <select id="propertySize" class="w-full px-4 py-3 rounded-xl text-gray-900 focus:ring-2 focus:ring-yellow-400">
+                            <option value="1">1 BHK (Small - 1BR/1 Hall)</option>
+                            <option value="2">2 BHK (Medium - 2BR/1 Hall)</option>
+                            <option value="3">3 BHK (Large - 3BR/2 Hall)</option>
+                            <option value="4">4+ BHK (Very Large - Villa/Penthouse)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm mb-2 opacity-90"><i class="fas fa-truck mr-1"></i> Vehicle Type</label>
+                        <select id="vehicleType" class="w-full px-4 py-3 rounded-xl text-gray-900 focus:ring-2 focus:ring-yellow-400">
+                            <option value="small">Small Truck (For 1 BHK)</option>
+                            <option value="medium">Medium Truck (For 2-3 BHK)</option>
+                            <option value="large">Large Container (For 4+ BHK)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mt-5">
+                    <button onclick="calculateMovingCost()" class="btn-calculate bg-yellow-500 hover:bg-yellow-400 text-gray-900 px-8 py-3 rounded-xl font-bold text-lg shadow-lg transition flex items-center justify-center gap-2 w-full md:w-auto">
+                        <i class="fas fa-rupee-sign"></i> Calculate Price
+                    </button>
+                </div>
+                
+                <div id="priceResult" class="mt-6 hidden price-result">
+                    <div class="bg-white text-gray-900 rounded-xl p-5 shadow-xl">
+                        <div class="flex justify-between items-center flex-wrap gap-3">
+                            <div>
+                                <p class="text-sm text-gray-500"><i class="fas fa-route"></i> Distance: <span id="distanceEstimate">~980 km</span></p>
+                                <p class="text-sm text-gray-500 mt-1"><i class="fas fa-clock"></i> Estimated Delivery: <span id="deliveryTime">3-4 days</span></p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm text-gray-500">Estimated Moving Cost</p>
+                                <p class="text-3xl font-bold text-purple-600"><span id="estimatedCost">₹0</span></p>
+                                <p class="text-xs text-gray-400">*Includes packing, loading, transport, unloading, and insurance</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-gray-200 flex justify-between text-xs text-gray-500">
+                            <span><i class="fas fa-box-open"></i> Free Packing Material</span>
+                            <span><i class="fas fa-shield-alt"></i> Insurance Included</span>
+                            <span><i class="fas fa-map-marked-alt"></i> GPS Tracking</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service Providers Section -->
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">Top Rated Packers & Movers</h2>
+            <span class="text-sm text-purple-600 bg-purple-100 px-3 py-1 rounded-full"><i class="fas fa-certificate"></i> Verified Partners</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Service 1: Agarwal Packers -->
+            <div class="service-card bg-white rounded-2xl shadow-xl p-6">
+                <div class="flex items-center mb-4">
+                    <div class="service-icon w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mr-4">
+                        <i class="fas fa-truck text-2xl text-blue-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xl text-gray-800">Agarwal Packers</h3>
+                        <div class="star-rating mt-1">
+                            <i class="fas fa-star star-filled"></i>
+                            <i class="fas fa-star star-filled"></i>
+                            <i class="fas fa-star star-filled"></i>
+                            <i class="fas fa-star star-filled"></i>
+                            <i class="fas fa-star star-filled"></i>
+                            <span class="text-sm text-gray-500 ml-2">(2,345 reviews)</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-3">Professional packing, insured transport, timely delivery, 24/7 customer support</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"><i class="fas fa-check"></i> Free Quote</span>
+                    <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full"><i class="fas fa-shield-alt"></i> ₹10L Insurance</span>
+                    <span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full"><i class="fas fa-chart-line"></i> 15+ Years</span>
+                </div>
+                <button onclick="bookService('Agarwal Packers')" class="btn-book w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition flex items-center justify-center gap-2">
+                    <i class="fas fa-calendar-check"></i> Book Now
+                </button>
+            </div>
+            
+            <!-- Service 2: Leo Packers -->
+            <div class="service-card bg-white rounded-2xl shadow-xl p-6">
+                <div class="flex items-center mb-4">
+                    <div class="service-icon w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mr-4">
+                        <i class="fas fa-boxes text-2xl text-green-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xl text-gray-800">Leo Packers & Movers</h3>
+                        <div class="star-rating mt-1">
+                            <i class="fas fa-star star-filled"></i>
+                            <i class="fas fa-star star-filled"></i>
+                            <i class="fas fa-star star-filled"></i>
+                            <i class="fas fa-star star-filled"></i>
+                            <i class="fas fa-star-half-alt star-filled"></i>
+                            <span class="text-sm text-gray-500 ml-2">(1,892 reviews)</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-3">Affordable rates, free packing material, insurance included, no hidden charges</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"><i class="fas fa-tag"></i> Best Price</span>
+                    <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full"><i class="fas fa-gift"></i> Free Packaging</span>
+                    <span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full"><i class="fas fa-clock"></i> On-Time Delivery</span>
+                </div>
+                <button onclick="bookService('Leo Packers')" class="btn-book w-full bg-gradient-to-r from-green-600 to-green-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition flex items-center justify-center gap-2">
+                    <i class="fas fa-calendar-check"></i> Book Now
+                </button>
+            </div>
+            
+            <!-- Service 3: Nobroker Shift -->
+            <div class="service-card bg-white rounded-2xl shadow-xl p-6">
+                <div class="flex items-center mb-4">
+                    <div class="service-icon w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mr-4">
+                        <i class="fas fa-people-carry text-2xl text-purple-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xl text-gray-800">Nobroker Shift</h3>
+                        <div class="star-rating mt-1">
+                            <i class="fas fa-star star-filled"></i>
+                            <i class="fas fa-star star-filled"></i>
+                            <i class="fas fa-star star-filled"></i>
+                            <i class="fas fa-star star-filled"></i>
+                            <i class="fas fa-star star-filled"></i>
+                            <span class="text-sm text-gray-500 ml-2">(3,124 reviews)</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-3">Tech-enabled tracking, GPS monitored vehicles, real-time updates, dedicated move manager</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"><i class="fas fa-wifi"></i> Live Tracking</span>
+                    <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full"><i class="fas fa-mobile-alt"></i> App Support</span>
+                    <span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full"><i class="fas fa-headset"></i> 24/7 Support</span>
+                </div>
+                <button onclick="bookService('Nobroker Shift')" class="btn-book w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition flex items-center justify-center gap-2">
+                    <i class="fas fa-calendar-check"></i> Book Now
+                </button>
+            </div>
+        </div>
+        
+        <!-- Moving Tips Section -->
+        <div class="mt-10 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6">
+            <div class="flex items-center gap-2 mb-4">
+                <i class="fas fa-lightbulb text-yellow-500 text-2xl"></i>
+                <h3 class="font-bold text-xl text-gray-800">Pro Moving Tips for a Smooth Relocation</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="tip-card flex items-start gap-3 p-3 rounded-xl bg-white/60">
+                    <i class="fas fa-calendar-week text-purple-600 text-lg mt-0.5"></i>
+                    <span class="text-sm text-gray-700">Book at least 2 weeks in advance for best rates</span>
+                </div>
+                <div class="tip-card flex items-start gap-3 p-3 rounded-xl bg-white/60">
+                    <i class="fas fa-file-invoice-dollar text-purple-600 text-lg mt-0.5"></i>
+                    <span class="text-sm text-gray-700">Get insurance for valuable items like electronics</span>
+                </div>
+                <div class="tip-card flex items-start gap-3 p-3 rounded-xl bg-white/60">
+                    <i class="fas fa-trash-alt text-purple-600 text-lg mt-0.5"></i>
+                    <span class="text-sm text-gray-700">Declutter before packing - reduce moving cost</span>
+                </div>
+                <div class="tip-card flex items-start gap-3 p-3 rounded-xl bg-white/60">
+                    <i class="fas fa-clipboard-list text-purple-600 text-lg mt-0.5"></i>
+                    <span class="text-sm text-gray-700">Make an inventory list of all items</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Features Section -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+            <div class="bg-white rounded-xl p-4 shadow-md">
+                <i class="fas fa-shield-alt text-3xl text-green-600 mb-2"></i>
+                <h4 class="font-bold">100% Insurance Coverage</h4>
+                <p class="text-xs text-gray-500">Up to ₹10 lakhs coverage</p>
+            </div>
+            <div class="bg-white rounded-xl p-4 shadow-md">
+                <i class="fas fa-tachometer-alt text-3xl text-blue-600 mb-2"></i>
+                <h4 class="font-bold">Price Match Guarantee</h4>
+                <p class="text-xs text-gray-500">Best price guaranteed</p>
+            </div>
+            <div class="bg-white rounded-xl p-4 shadow-md">
+                <i class="fas fa-headset text-3xl text-purple-600 mb-2"></i>
+                <h4 class="font-bold">24/7 Customer Support</h4>
+                <p class="text-xs text-gray-500">Call us anytime</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <i class="fab fa-facebook-f text-gray-400 hover:text-purple-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-twitter text-gray-400 hover:text-purple-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-linkedin-in text-gray-400 hover:text-purple-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-instagram text-gray-400 hover:text-purple-400 cursor-pointer transition text-xl"></i>
+            </div>
+            <p class="text-gray-400 text-sm">© 2025 Propbandhu | Packers & Movers - Hassle-Free Relocation Services</p>
+            <p class="text-gray-500 text-xs mt-2">ISO Certified | 50,000+ Happy Customers | PAN India Service</p>
+        </div>
+    </footer>
+
+    <script>
+        // Distance database (simplified)
+        const distanceMap = {
+            'mumbai-delhi': 1400, 'delhi-mumbai': 1400,
+            'mumbai-bangalore': 980, 'bangalore-mumbai': 980,
+            'mumbai-pune': 150, 'pune-mumbai': 150,
+            'mumbai-chennai': 1330, 'chennai-mumbai': 1330,
+            'mumbai-hyderabad': 710, 'hyderabad-mumbai': 710,
+            'mumbai-kolkata': 1940, 'kolkata-mumbai': 1940,
+            'delhi-bangalore': 2150, 'bangalore-delhi': 2150,
+            'delhi-pune': 1450, 'pune-delhi': 1450,
+            'delhi-chennai': 2200, 'chennai-delhi': 2200,
+            'delhi-hyderabad': 1550, 'hyderabad-delhi': 1550,
+            'bangalore-pune': 860, 'pune-bangalore': 860,
+            'bangalore-chennai': 350, 'chennai-bangalore': 350,
+            'bangalore-hyderabad': 570, 'hyderabad-bangalore': 570
+        };
+        
+        function getDistance(from, to) {
+            const key1 = `${from.toLowerCase()}-${to.toLowerCase()}`;
+            const key2 = `${to.toLowerCase()}-${from.toLowerCase()}`;
+            return distanceMap[key1] || distanceMap[key2] || 500; // default 500km
+        }
+        
+        function getDeliveryDays(distance) {
+            if (distance < 200) return '1-2 days';
+            if (distance < 500) return '2-3 days';
+            if (distance < 1000) return '3-4 days';
+            return '5-7 days';
+        }
+        
+        function calculateMovingCost() {
+            const fromCity = document.getElementById('fromCity').value.trim();
+            const toCity = document.getElementById('toCity').value.trim();
+            const propertySize = parseInt(document.getElementById('propertySize').value);
+            const vehicleType = document.getElementById('vehicleType').value;
+            
+            if (!fromCity || !toCity) {
+                showToast('⚠️ Please enter both source and destination cities');
+                return;
+            }
+            
+            if (fromCity.toLowerCase() === toCity.toLowerCase()) {
+                showToast('⚠️ Source and destination cities cannot be the same');
+                return;
+            }
+            
+            // Calculate distance
+            const distance = getDistance(fromCity, toCity);
+            const deliveryDays = getDeliveryDays(distance);
+            
+            // Base price calculation
+            let basePrice = 3500;
+            const sizeMultiplier = {1: 1, 2: 1.6, 3: 2.3, 4: 3.2};
+            const vehicleMultiplier = {small: 0.9, medium: 1.2, large: 1.6};
+            
+            let estimatedCost = basePrice * sizeMultiplier[propertySize] * vehicleMultiplier[vehicleType];
+            
+            // Distance factor: add per km charge
+            const perKmCharge = 8;
+            estimatedCost += distance * perKmCharge;
+            
+            // Add fuel surcharge
+            estimatedCost = Math.round(estimatedCost / 100) * 100; // Round to nearest 100
+            
+            // Update UI
+            document.getElementById('estimatedCost').innerHTML = '₹' + estimatedCost.toLocaleString('en-IN');
+            document.getElementById('distanceEstimate').innerHTML = `~${distance} km`;
+            document.getElementById('deliveryTime').innerHTML = deliveryDays;
+            document.getElementById('priceResult').classList.remove('hidden');
+            
+            // Smooth scroll to result
+            document.getElementById('priceResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function bookService(serviceName) {
+            showToast(`✅ Thank you! ${serviceName} will contact you within 30 minutes.`);
+        }
+        
+        function showToast(message) {
+            // Remove existing toast
+            const existingToast = document.querySelector('.toast-notification');
+            if (existingToast) existingToast.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.innerHTML = `<i class="fas fa-info-circle"></i><span>${message}</span>`;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 4000);
+        }
+        
+        // Add city autocomplete suggestion (simple)
+        const cityInputs = ['fromCity', 'toCity'];
+        const cities = ['Mumbai', 'Delhi', 'Bangalore', 'Pune', 'Chennai', 'Hyderabad', 'Kolkata', 'Ahmedabad', 'Jaipur', 'Lucknow'];
+        
+        cityInputs.forEach(id => {
+            const input = document.getElementById(id);
+            input.addEventListener('input', function() {
+                // Simple placeholder - in production add datalist
+            });
+        });
+        
+        // Add some sample values for demo
+        document.getElementById('fromCity').placeholder = 'e.g., Mumbai';
+        document.getElementById('toCity').placeholder = 'e.g., Bangalore';
+    </script>
+</body>
+</html>

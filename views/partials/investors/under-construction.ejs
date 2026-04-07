@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Under Construction Projects - Propbandhu | Invest in Premium Upcoming Projects</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ========== COMPLETE CUSTOM CSS FOR UNDER CONSTRUCTION PROJECTS PAGE ========== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        /* Project card hover effects */
+        .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Image zoom effect */
+        .project-image {
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .project-image img {
+            transition: transform 0.5s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .project-card:hover .project-image img {
+            transform: scale(1.08);
+        }
+
+        /* RERA badge styling */
+        .rera-badge {
+            background: linear-gradient(135deg, #059669, #047857);
+            animation: badgePulse 2s infinite;
+        }
+        
+        @keyframes badgePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+
+        /* Progress bar animation */
+        .progress-bar {
+            transition: width 0.8s cubic-bezier(0.22, 0.97, 0.36, 1);
+        }
+
+        /* Form input focus effects */
+        input:focus, select:focus {
+            outline: none;
+            ring: 2px solid #3b82f6;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Button press effect */
+        .btn-primary, .btn-invest {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary:active, .btn-invest:active {
+            transform: scale(0.97);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #c7d2fe;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #4f46e5;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4338ca;
+        }
+
+        /* Toast notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            animation: slideInRight 0.3s ease-out;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Modal animation */
+        .modal-content {
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Amenities tag styling */
+        .amenity-tag {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .amenity-tag:hover {
+            background: #c7d2fe;
+            transform: scale(1.02);
+        }
+
+        /* ROI highlight */
+        .roi-highlight {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            animation: roiGlow 2s infinite;
+        }
+        
+        @keyframes roiGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+            50% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .project-card {
+                margin-bottom: 1rem;
+            }
+            .stats-grid {
+                gap: 0.75rem;
+            }
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: #f8fafc;
+            border-radius: 16px;
+            border: 2px dashed #cbd5e1;
+        }
+
+        /* Filter badge */
+        .filter-badge {
+            background: #e0e7ff;
+            color: #4338ca;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        
+        /* Custom select dropdown */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 20px;
+            padding-right: 36px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar (simulated for standalone preview) -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-hard-hat text-blue-600 text-2xl"></i>
+                    <span class="font-bold text-xl text-gray-800">Prop<span class="text-blue-600">bandhu</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Buy Property</a>
+                    <a href="#" class="text-blue-600 font-semibold border-b-2 border-blue-600 pb-1">Under Construction</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-user-circle text-gray-500 text-2xl"></i>
+                    <span class="hidden sm:inline text-gray-700">Sign In</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Hero Header -->
+        <div class="mb-10 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-3">
+                <i class="fas fa-chart-line"></i> High Growth Potential
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">Under Construction Projects</h1>
+            <p class="text-gray-600 mt-3 text-lg max-w-2xl">Invest in upcoming premium projects at pre-launch prices. Get up to 25% ROI with early booking benefits.</p>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-xl p-4 text-center shadow-md">
+                <div class="text-2xl font-bold text-blue-600">50+</div>
+                <div class="text-xs text-gray-500">Active Projects</div>
+            </div>
+            <div class="bg-white rounded-xl p-4 text-center shadow-md">
+                <div class="text-2xl font-bold text-green-600">25%</div>
+                <div class="text-xs text-gray-500">Avg. Expected ROI</div>
+            </div>
+            <div class="bg-white rounded-xl p-4 text-center shadow-md">
+                <div class="text-2xl font-bold text-purple-600">2027</div>
+                <div class="text-xs text-gray-500">Latest Possession</div>
+            </div>
+            <div class="bg-white rounded-xl p-4 text-center shadow-md">
+                <div class="text-2xl font-bold text-orange-600">100%</div>
+                <div class="text-xs text-gray-500">RERA Registered</div>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 mb-8">
+            <div class="flex items-center gap-2 mb-4">
+                <i class="fas fa-sliders-h text-blue-600"></i>
+                <h3 class="font-semibold text-gray-700">Filter Projects</h3>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">📍 City</label>
+                    <select id="filterCity" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                        <option value="">All Cities</option>
+                        <option value="mumbai">Mumbai</option>
+                        <option value="bangalore">Bangalore</option>
+                        <option value="pune">Pune</option>
+                        <option value="hyderabad">Hyderabad</option>
+                        <option value="delhi">Delhi NCR</option>
+                        <option value="chennai">Chennai</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">💰 Budget Range</label>
+                    <select id="filterBudget" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                        <option value="">All Budgets</option>
+                        <option value="under50">Under ₹50 Lakhs</option>
+                        <option value="50to100">₹50L - ₹1 Cr</option>
+                        <option value="100to200">₹1 Cr - ₹2 Cr</option>
+                        <option value="above200">Above ₹2 Cr</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">📅 Possession Year</label>
+                    <select id="filterPossession" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                        <option value="">All Years</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027+</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">🏠 Property Type</label>
+                    <select id="filterType" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                        <option value="">All Types</option>
+                        <option value="1bhk">1 BHK</option>
+                        <option value="2bhk">2 BHK</option>
+                        <option value="3bhk">3 BHK</option>
+                        <option value="4bhk">4+ BHK</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-4 flex justify-end gap-3">
+                <button onclick="resetFilters()" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-xl font-medium hover:bg-gray-300 transition">
+                    <i class="fas fa-undo-alt"></i> Reset
+                </button>
+                <button onclick="filterProjects()" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-2 rounded-xl font-semibold hover:shadow-lg transition flex items-center gap-2">
+                    <i class="fas fa-search"></i> Apply Filters
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Count -->
+        <div id="resultsCount" class="mb-4 text-gray-600">
+            <i class="fas fa-building mr-2"></i><span id="projectCount">6</span> projects found
+        </div>
+
+        <!-- Projects Grid -->
+        <div id="projectsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Project 1 - Luxury Heights -->
+            <div class="project-card bg-white rounded-2xl shadow-xl overflow-hidden" data-city="mumbai" data-budget="100to200" data-possession="2025" data-type="3bhk">
+                <div class="project-image h-52 relative">
+                    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=500&h=350&fit=crop" alt="Luxury Heights" class="w-full h-full object-cover">
+                    <span class="rera-badge absolute top-3 right-3 text-white px-2 py-1 rounded-lg text-xs font-bold shadow-md">
+                        <i class="fas fa-certificate"></i> RERA Registered
+                    </span>
+                    <span class="absolute bottom-3 left-3 bg-black/60 text-white px-2 py-1 rounded-lg text-xs">🚧 60% Completed</span>
+                </div>
+                <div class="p-5">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-xl text-gray-800">Luxury Heights</h3>
+                        <span class="roi-highlight text-orange-700 text-xs font-bold px-2 py-1 rounded-full">🔥 18% ROI</span>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-3"><i class="fas fa-map-marker-alt text-blue-500 mr-1"></i> Andheri East, Mumbai</p>
+                    <div class="flex justify-between items-baseline mb-3">
+                        <span class="text-2xl font-bold text-blue-600">₹1.2 Cr*</span>
+                        <span class="text-gray-500 text-sm">3/4 BHK</span>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600 mb-3">
+                        <span><i class="fas fa-calendar-alt"></i> Possession: Dec 2025</span>
+                        <span><i class="fas fa-chart-line"></i> Est. Appreciation: 18%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4">
+                        <div class="progress-bar bg-green-500 h-1.5 rounded-full" style="width: 60%"></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="amenity-tag"><i class="fas fa-swimming-pool"></i> Pool</span>
+                        <span class="amenity-tag"><i class="fas fa-dumbbell"></i> Gym</span>
+                        <span class="amenity-tag"><i class="fas fa-tree"></i> Garden</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="viewProject('Luxury Heights')" class="flex-1 bg-blue-600 text-white py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition">View Details</button>
+                        <button onclick="investNow('Luxury Heights')" class="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition">Invest Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2 - Green Valley -->
+            <div class="project-card bg-white rounded-2xl shadow-xl overflow-hidden" data-city="bangalore" data-budget="50to100" data-possession="2025" data-type="2bhk">
+                <div class="project-image h-52 relative">
+                    <img src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=500&h=350&fit=crop" alt="Green Valley" class="w-full h-full object-cover">
+                    <span class="rera-badge absolute top-3 right-3 text-white px-2 py-1 rounded-lg text-xs font-bold shadow-md">
+                        <i class="fas fa-certificate"></i> RERA Registered
+                    </span>
+                    <span class="absolute bottom-3 left-3 bg-black/60 text-white px-2 py-1 rounded-lg text-xs">🚧 75% Completed</span>
+                </div>
+                <div class="p-5">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-xl text-gray-800">Green Valley</h3>
+                        <span class="roi-highlight text-orange-700 text-xs font-bold px-2 py-1 rounded-full">🔥 22% ROI</span>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-3"><i class="fas fa-map-marker-alt text-blue-500 mr-1"></i> Whitefield, Bangalore</p>
+                    <div class="flex justify-between items-baseline mb-3">
+                        <span class="text-2xl font-bold text-blue-600">₹85 Lakhs*</span>
+                        <span class="text-gray-500 text-sm">2/3 BHK</span>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600 mb-3">
+                        <span><i class="fas fa-calendar-alt"></i> Possession: Mar 2025</span>
+                        <span><i class="fas fa-chart-line"></i> Est. Appreciation: 22%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4">
+                        <div class="progress-bar bg-green-500 h-1.5 rounded-full" style="width: 75%"></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="amenity-tag"><i class="fas fa-wifi"></i> Smart Home</span>
+                        <span class="amenity-tag"><i class="fas fa-parking"></i> Parking</span>
+                        <span class="amenity-tag"><i class="fas fa-shield-alt"></i> Security</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="viewProject('Green Valley')" class="flex-1 bg-blue-600 text-white py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition">View Details</button>
+                        <button onclick="investNow('Green Valley')" class="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition">Invest Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3 - Sunrise Towers -->
+            <div class="project-card bg-white rounded-2xl shadow-xl overflow-hidden" data-city="pune" data-budget="under50" data-possession="2025" data-type="1bhk">
+                <div class="project-image h-52 relative">
+                    <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=500&h=350&fit=crop" alt="Sunrise Towers" class="w-full h-full object-cover">
+                    <span class="rera-badge absolute top-3 right-3 text-white px-2 py-1 rounded-lg text-xs font-bold shadow-md">
+                        <i class="fas fa-certificate"></i> RERA Registered
+                    </span>
+                    <span class="absolute bottom-3 left-3 bg-black/60 text-white px-2 py-1 rounded-lg text-xs">🚧 45% Completed</span>
+                </div>
+                <div class="p-5">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-xl text-gray-800">Sunrise Towers</h3>
+                        <span class="roi-highlight text-orange-700 text-xs font-bold px-2 py-1 rounded-full">🔥 25% ROI</span>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-3"><i class="fas fa-map-marker-alt text-blue-500 mr-1"></i> Hinjewadi, Pune</p>
+                    <div class="flex justify-between items-baseline mb-3">
+                        <span class="text-2xl font-bold text-blue-600">₹65 Lakhs*</span>
+                        <span class="text-gray-500 text-sm">1/2 BHK</span>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600 mb-3">
+                        <span><i class="fas fa-calendar-alt"></i> Possession: Jun 2025</span>
+                        <span><i class="fas fa-chart-line"></i> Est. Appreciation: 25%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4">
+                        <div class="progress-bar bg-green-500 h-1.5 rounded-full" style="width: 45%"></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="amenity-tag"><i class="fas fa-bus"></i> Metro Access</span>
+                        <span class="amenity-tag"><i class="fas fa-store"></i> Market</span>
+                        <span class="amenity-tag"><i class="fas fa-child"></i> Play Area</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="viewProject('Sunrise Towers')" class="flex-1 bg-blue-600 text-white py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition">View Details</button>
+                        <button onclick="investNow('Sunrise Towers')" class="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition">Invest Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4 - Lake View Residency -->
+            <div class="project-card bg-white rounded-2xl shadow-xl overflow-hidden" data-city="hyderabad" data-budget="100to200" data-possession="2026" data-type="3bhk">
+                <div class="project-image h-52 relative">
+                    <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=500&h=350&fit=crop" alt="Lake View Residency" class="w-full h-full object-cover">
+                    <span class="rera-badge absolute top-3 right-3 text-white px-2 py-1 rounded-lg text-xs font-bold shadow-md">
+                        <i class="fas fa-certificate"></i> RERA Registered
+                    </span>
+                    <span class="absolute bottom-3 left-3 bg-black/60 text-white px-2 py-1 rounded-lg text-xs">🚧 30% Completed</span>
+                </div>
+                <div class="p-5">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-xl text-gray-800">Lake View Residency</h3>
+                        <span class="roi-highlight text-orange-700 text-xs font-bold px-2 py-1 rounded-full">🔥 20% ROI</span>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-3"><i class="fas fa-map-marker-alt text-blue-500 mr-1"></i> Gachibowli, Hyderabad</p>
+                    <div class="flex justify-between items-baseline mb-3">
+                        <span class="text-2xl font-bold text-blue-600">₹1.5 Cr*</span>
+                        <span class="text-gray-500 text-sm">3/4 BHK</span>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600 mb-3">
+                        <span><i class="fas fa-calendar-alt"></i> Possession: Jan 2026</span>
+                        <span><i class="fas fa-chart-line"></i> Est. Appreciation: 20%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4">
+                        <div class="progress-bar bg-green-500 h-1.5 rounded-full" style="width: 30%"></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="amenity-tag"><i class="fas fa-water"></i> Lake View</span>
+                        <span class="amenity-tag"><i class="fas fa-running"></i> Jogging Track</span>
+                        <span class="amenity-tag"><i class="fas fa-coffee"></i> Cafe</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="viewProject('Lake View Residency')" class="flex-1 bg-blue-600 text-white py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition">View Details</button>
+                        <button onclick="investNow('Lake View Residency')" class="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition">Invest Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 5 - Urban Forest -->
+            <div class="project-card bg-white rounded-2xl shadow-xl overflow-hidden" data-city="delhi" data-budget="above200" data-possession="2026" data-type="4bhk">
+                <div class="project-image h-52 relative">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500&h=350&fit=crop" alt="Urban Forest" class="w-full h-full object-cover">
+                    <span class="rera-badge absolute top-3 right-3 text-white px-2 py-1 rounded-lg text-xs font-bold shadow-md">
+                        <i class="fas fa-certificate"></i> RERA Registered
+                    </span>
+                    <span class="absolute bottom-3 left-3 bg-black/60 text-white px-2 py-1 rounded-lg text-xs">🚧 20% Completed</span>
+                </div>
+                <div class="p-5">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-xl text-gray-800">Urban Forest</h3>
+                        <span class="roi-highlight text-orange-700 text-xs font-bold px-2 py-1 rounded-full">🔥 15% ROI</span>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-3"><i class="fas fa-map-marker-alt text-blue-500 mr-1"></i> Gurgaon, Delhi NCR</p>
+                    <div class="flex justify-between items-baseline mb-3">
+                        <span class="text-2xl font-bold text-blue-600">₹2.8 Cr*</span>
+                        <span class="text-gray-500 text-sm">4/5 BHK</span>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600 mb-3">
+                        <span><i class="fas fa-calendar-alt"></i> Possession: Dec 2026</span>
+                        <span><i class="fas fa-chart-line"></i> Est. Appreciation: 15%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4">
+                        <div class="progress-bar bg-green-500 h-1.5 rounded-full" style="width: 20%"></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="amenity-tag"><i class="fas fa-golf-ball"></i> Golf Course</span>
+                        <span class="amenity-tag"><i class="fas fa-spa"></i> Spa</span>
+                        <span class="amenity-tag"><i class="fas fa-car"></i> EV Charging</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="viewProject('Urban Forest')" class="flex-1 bg-blue-600 text-white py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition">View Details</button>
+                        <button onclick="investNow('Urban Forest')" class="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition">Invest Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 6 - Tech Park Residences -->
+            <div class="project-card bg-white rounded-2xl shadow-xl overflow-hidden" data-city="bangalore" data-budget="100to200" data-possession="2025" data-type="2bhk">
+                <div class="project-image h-52 relative">
+                    <img src="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=500&h=350&fit=crop" alt="Tech Park Residences" class="w-full h-full object-cover">
+                    <span class="rera-badge absolute top-3 right-3 text-white px-2 py-1 rounded-lg text-xs font-bold shadow-md">
+                        <i class="fas fa-certificate"></i> RERA Registered
+                    </span>
+                    <span class="absolute bottom-3 left-3 bg-black/60 text-white px-2 py-1 rounded-lg text-xs">🚧 80% Completed</span>
+                </div>
+                <div class="p-5">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-xl text-gray-800">Tech Park Residences</h3>
+                        <span class="roi-highlight text-orange-700 text-xs font-bold px-2 py-1 rounded-full">🔥 24% ROI</span>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-3"><i class="fas fa-map-marker-alt text-blue-500 mr-1"></i> Electronic City, Bangalore</p>
+                    <div class="flex justify-between items-baseline mb-3">
+                        <span class="text-2xl font-bold text-blue-600">₹95 Lakhs*</span>
+                        <span class="text-gray-500 text-sm">2/3 BHK</span>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600 mb-3">
+                        <span><i class="fas fa-calendar-alt"></i> Possession: Aug 2025</span>
+                        <span><i class="fas fa-chart-line"></i> Est. Appreciation: 24%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4">
+                        <div class="progress-bar bg-green-500 h-1.5 rounded-full" style="width: 80%"></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="amenity-tag"><i class="fas fa-laptop-code"></i> IT Hub</span>
+                        <span class="amenity-tag"><i class="fas fa-bus"></i> Transport</span>
+                        <span class="amenity-tag"><i class="fas fa-utensils"></i> Food Court</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="viewProject('Tech Park Residences')" class="flex-1 bg-blue-600 text-white py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition">View Details</button>
+                        <button onclick="investNow('Tech Park Residences')" class="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition">Invest Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State (hidden by default) -->
+        <div id="emptyState" class="empty-state hidden mt-8">
+            <i class="fas fa-hard-hat text-5xl text-gray-400 mb-4"></i>
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">No projects found</h3>
+            <p class="text-gray-500">Try adjusting your filters to see more projects</p>
+            <button onclick="resetFilters()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg">Clear Filters</button>
+        </div>
+    </div>
+
+    <!-- Investment Modal -->
+    <div id="investmentModal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4 modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-gray-800"><i class="fas fa-chart-line text-green-600"></i> Invest in <span id="modalProjectName">Project</span></h3>
+                <button onclick="closeInvestmentModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+            </div>
+            <form id="investmentForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Full Name *</label>
+                    <input type="text" id="invName" required class="w-full px-4 py-3 border border-gray-300 rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Email *</label>
+                    <input type="email" id="invEmail" required class="w-full px-4 py-3 border border-gray-300 rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Phone *</label>
+                    <input type="tel" id="invPhone" required class="w-full px-4 py-3 border border-gray-300 rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Preferred Budget (₹)</label>
+                    <input type="text" id="invBudget" placeholder="e.g., 1.2 Cr" class="w-full px-4 py-3 border border-gray-300 rounded-xl">
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-green-600 to-green-700 text-white py-3 rounded-xl font-bold text-lg">Schedule Callback</button>
+                <button type="button" onclick="closeInvestmentModal()" class="w-full text-gray-500 py-2">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <i class="fab fa-facebook-f text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-twitter text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-linkedin-in text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-instagram text-gray-400 hover:text-pink-400 cursor-pointer transition text-xl"></i>
+            </div>
+            <p class="text-gray-400 text-sm">© 2025 Propbandhu | Under Construction Projects - Invest in Future Growth</p>
+            <p class="text-gray-500 text-xs mt-2">All projects are RERA registered | Payment plans available | T&C apply</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentProjectName = '';
+        
+        function filterProjects() {
+            const city = document.getElementById('filterCity').value;
+            const budget = document.getElementById('filterBudget').value;
+            const possession = document.getElementById('filterPossession').value;
+            const type = document.getElementById('filterType').value;
+            
+            const projects = document.querySelectorAll('.project-card');
+            let visibleCount = 0;
+            
+            projects.forEach(project => {
+                let show = true;
+                
+                if (city && project.getAttribute('data-city') !== city) show = false;
+                if (budget && project.getAttribute('data-budget') !== budget) show = false;
+                if (possession && project.getAttribute('data-possession') !== possession) show = false;
+                if (type && project.getAttribute('data-type') !== type) show = false;
+                
+                project.style.display = show ? 'block' : 'none';
+                if (show) visibleCount++;
+            });
+            
+            document.getElementById('projectCount').innerText = visibleCount;
+            const emptyState = document.getElementById('emptyState');
+            const projectsGrid = document.getElementById('projectsGrid');
+            
+            if (visibleCount === 0) {
+                emptyState.classList.remove('hidden');
+                projectsGrid.classList.add('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                projectsGrid.classList.remove('hidden');
+            }
+            
+            showToast(`🔍 Found ${visibleCount} project${visibleCount !== 1 ? 's' : ''} matching your criteria`);
+        }
+        
+        function resetFilters() {
+            document.getElementById('filterCity').value = '';
+            document.getElementById('filterBudget').value = '';
+            document.getElementById('filterPossession').value = '';
+            document.getElementById('filterType').value = '';
+            filterProjects();
+        }
+        
+        function viewProject(name) {
+            showToast(`📋 Viewing details of ${name}. A detailed brochure will be sent to your email.`);
+        }
+        
+        function investNow(name) {
+            currentProjectName = name;
+            document.getElementById('modalProjectName').innerText = name;
+            document.getElementById('investmentModal').classList.remove('hidden');
+            document.getElementById('investmentModal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeInvestmentModal() {
+            document.getElementById('investmentModal').classList.add('hidden');
+            document.getElementById('investmentModal').classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function showToast(message) {
+            const existingToast = document.querySelector('.toast-notification');
+            if (existingToast) existingToast.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.innerHTML = `<i class="fas fa-info-circle"></i><span>${message}</span>`;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 4000);
+        }
+        
+        // Investment Form Submission
+        const investmentForm = document.getElementById('investmentForm');
+        investmentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('invName').value.trim();
+            const phone = document.getElementById('invPhone').value.trim();
+            const email = document.getElementById('invEmail').value.trim();
+            
+            if (!name || !phone || !email) {
+                showToast('❌ Please fill in all required fields');
+                return;
+            }
+            
+            if (!/^\d{10}$/.test(phone)) {
+                showToast('❌ Please enter a valid 10-digit mobile number');
+                return;
+            }
+            
+            showToast(`✅ Thank you! Our investment advisor will contact you within 24 hours regarding ${currentProjectName}`);
+            closeInvestmentModal();
+            investmentForm.reset();
+        });
+        
+        // Close modal on outside click
+        const modal = document.getElementById('investmentModal');
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeInvestmentModal();
+            }
+        });
+        
+        // Initialize progress bars animation on scroll
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressBar = entry.target.querySelector('.progress-bar');
+                    if (progressBar) {
+                        const width = progressBar.style.width;
+                        progressBar.style.width = '0%';
+                        setTimeout(() => { progressBar.style.width = width; }, 100);
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.project-card').forEach(card => observer.observe(card));
+    </script>
+</body>
+</html>

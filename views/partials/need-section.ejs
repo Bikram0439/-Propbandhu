@@ -1,0 +1,161 @@
+<div class="needs-section">
+  <h2>Everything you Need at One Place</h2>
+  <div class="needs-tabs">
+    <button class="needs-tab active" data-tab="buyers">For Buyers</button>
+    <button class="needs-tab" data-tab="tenants">For Tenants</button>
+    <button class="needs-tab" data-tab="agents">For Legacy Owners</button>
+    <button class="needs-tab" data-tab="banks">For Investors</button>
+  </div>
+  
+  <div class="needs-content">
+    <!-- Buyers / Owners -->
+    <div class="tab-content active" id="buyers">
+      <div class="needs-cards">
+        <a href="/needs/homeloan" class="needs-card">
+          <img src="/assets/home-loan.png" alt="Home Loan" />
+          <span>Home Loan</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/legal-support" class="needs-card">
+          <img src="/assets/legal-support.png" alt="Legal Support" />
+          <span>Legal Support</span>
+          <span>(Real Estate)</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/valuation" class="needs-card">
+          <img src="/assets/valuation.png" alt="Valuation" />
+          <span>Property Inspection</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/vastu" class="needs-card">
+          <img src="/assets/vastu-calculator.png" alt="Vastu Calculator" />
+          <span>Vastu Calculator</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/property-management" class="needs-card">
+          <img src="/assets/property-management.png" alt="Property Management" />
+          <span>Fractional Ownership</span>
+          <span>Marketplace</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/buyer-guide" class="needs-card">
+          <img src="/assets/buyer-guide.png" alt="Buyer Guide" />
+          <span>Buyer Guide</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Tenants -->
+    <div class="tab-content" id="tenants">
+      <div class="needs-cards">
+        <a href="/needs/find-flat" class="needs-card">
+          <img src="/assets/find-flat.png" alt="Find Flat" />
+          <span>Relationship Manager</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/rent-agreement" class="needs-card">
+          <img src="/assets/rent-agreement.png" alt="Rent Agreement" />
+          <span>Home/PG/Room Tour</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/moving-services" class="needs-card">
+          <img src="/assets/moving-services.png" alt="Moving Services" />
+          <span>Moving Services</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/emergency-support" class="needs-card">
+          <img src="/assets/emergency-support.png" alt="Emergency Support" />
+          <span>Emergency Support</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/flatmate-finder" class="needs-card">
+          <img src="/assets/flatmate-finder.png" alt="Flatmate Finder" />
+          <span>Roommate/Flatmate</span>
+          <span>Finder</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- For Legacy Owners / Sellers -->
+    <div class="tab-content" id="agents">
+      <div class="needs-cards">
+        <a href="/needs/post-property" class="needs-card">
+          <img src="/assets/post-property.png" alt="Post Property" />
+          <span>Post Free Property</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/property-valuation" class="needs-card">
+          <img src="/assets/property-valuation.png" alt="Property Valuation" />
+          <span>Valuation of Property</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/seller-property-management" class="needs-card">
+          <img src="/assets/property-management.png" alt="Property Management" />
+          <span>Property Management</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/sell-stay" class="needs-card">
+          <img src="/assets/sell-stay.png" alt="Sell & Stay" />
+          <span>Sell & Stay Solutions</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/seller-guide" class="needs-card">
+          <img src="/assets/seller-guide.png" alt="Seller Guide" />
+          <span>Seller Guide</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Investors -->
+    <div class="tab-content" id="banks">
+      <div class="needs-cards">
+        <a href="/needs/under-construction" class="needs-card">
+          <img src="/assets/under-construction.png" alt="Under Construction" />
+          <span>Under Construction Projects</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/pre-launch" class="needs-card">
+          <img src="/assets/pre-launch.png" alt="Pre Launch" />
+          <span>Pre Launch Offer</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/roi-calculator" class="needs-card">
+          <img src="/assets/sell-stay.png" alt="Sell & Stay" />
+          <span>Sell & Stay Solutions</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/developing-areas" class="needs-card">
+          <img src="/assets/developing-areas.png" alt="Developing Areas" />
+          <span>Projects in Developing Area</span>
+        </a>
+        <div class="needs-divider"></div>
+        <a href="/needs/emi-projects" class="needs-card">
+          <img src="/assets/emi-projects.png" alt="EMI Projects" />
+          <span>Only EMI Projects</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Tab switching functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.needs-tab');
+    const contents = document.querySelectorAll('.tab-content');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        const targetTab = this.dataset.tab;
+        
+        // Remove active class from all tabs and contents
+        tabs.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+        
+        // Add active class to current tab and content
+        this.classList.add('active');
+        document.getElementById(targetTab).classList.add('active');
+      });
+    });
+  });
+</script>

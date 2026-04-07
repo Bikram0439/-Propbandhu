@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Find Flat/Rental Properties - Propbandhu | Rent Your Dream Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ========== COMPLETE CUSTOM CSS FOR FIND FLAT/RENTAL PROPERTIES PAGE ========== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        /* Smooth transitions for all interactive elements */
+        .property-card,
+        .filter-select,
+        button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Property card hover effects */
+        .property-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .property-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.15), 0 4px 8px -4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Image overlay zoom effect */
+        .property-image {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .property-image img {
+            transition: transform 0.4s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .property-card:hover .property-image img {
+            transform: scale(1.05);
+        }
+
+        /* Badge styling for featured properties */
+        .featured-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* New badge animation */
+        .new-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #ef4444;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        /* Form input focus effects */
+        input:focus, select:focus {
+            outline: none;
+            ring: 2px solid #3b82f6;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Custom select dropdown styling */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 20px;
+            padding-right: 36px;
+        }
+
+        /* Filter section glass effect */
+        .filter-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Button press effect */
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+
+        /* Contact button hover animation */
+        .contact-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+
+        .contact-btn:active::after {
+            width: 200px;
+            height: 200px;
+        }
+
+        /* Loading spinner animation */
+        .loading-spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #e2e8f0;
+            border-radius: 50%;
+            border-top-color: #3b82f6;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Skeleton loading animation */
+        .skeleton-card {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 12px;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        /* Results count animation */
+        .results-count {
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Amenities tags styling */
+        .amenity-tag {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            margin: 2px;
+            transition: all 0.2s;
+        }
+
+        .amenity-tag:hover {
+            background: #e2e8f0;
+            transform: scale(1.02);
+        }
+
+        /* Price highlight animation */
+        .price-highlight {
+            animation: pricePop 0.5s ease-out;
+        }
+
+        @keyframes pricePop {
+            0% {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+            80% {
+                transform: scale(1.02);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Empty state styling */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: #f8fafc;
+            border-radius: 16px;
+            border: 2px dashed #cbd5e1;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: #94a3b8;
+            margin-bottom: 16px;
+        }
+
+        /* Load more button */
+        .load-more-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .load-more-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Tooltip styling */
+        [data-tooltip] {
+            position: relative;
+            cursor: help;
+        }
+
+        [data-tooltip]:before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            white-space: nowrap;
+            display: none;
+            z-index: 20;
+        }
+
+        [data-tooltip]:hover:before {
+            display: block;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .property-card {
+                margin-bottom: 0;
+            }
+            
+            .filter-section {
+                padding: 16px;
+            }
+            
+            .amenity-tag {
+                font-size: 10px;
+                padding: 3px 8px;
+            }
+        }
+
+        /* Favorite icon heart animation */
+        .favorite-icon {
+            cursor: pointer;
+            transition: transform 0.2s ease, color 0.2s;
+        }
+
+        .favorite-icon:hover {
+            transform: scale(1.15);
+        }
+
+        .favorite-icon.active {
+            color: #ef4444;
+        }
+
+        /* Toast notification styling */
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            animation: slideInRight 0.3s ease-out;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Filter badge count */
+        .filter-badge {
+            background: #3b82f6;
+            color: white;
+            border-radius: 20px;
+            padding: 2px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+
+        /* Navbar active state */
+        .nav-active {
+            color: #2563eb;
+            border-bottom: 2px solid #2563eb;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar (simulated for standalone preview) -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-home text-blue-600 text-2xl"></i>
+                    <span class="font-bold text-xl text-gray-800">Prop<span class="text-blue-600">bandhu</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Buy Property</a>
+                    <a href="#" class="text-blue-600 font-semibold border-b-2 border-blue-600 pb-1">Rent Property</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-user-circle text-gray-500 text-2xl"></i>
+                    <span class="hidden sm:inline text-gray-700">Sign In</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Hero Header -->
+        <div class="mb-10 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-3">
+                <i class="fas fa-key"></i> 5000+ Rental Properties Available
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">Find Your Perfect Rental Home</h1>
+            <p class="text-gray-600 mt-3 text-lg max-w-2xl">Search thousands of rental properties across India. Verified listings, no brokerage, direct owner contact.</p>
+        </div>
+
+        <!-- Search Filters -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 mb-8 filter-section">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">📍 City</label>
+                    <select id="city" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                        <option value="">All Cities</option>
+                        <option value="mumbai">Mumbai</option>
+                        <option value="delhi">Delhi NCR</option>
+                        <option value="bangalore">Bangalore</option>
+                        <option value="pune">Pune</option>
+                        <option value="hyderabad">Hyderabad</option>
+                        <option value="chennai">Chennai</option>
+                        <option value="kolkata">Kolkata</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">🏠 Property Type</label>
+                    <select id="propertyType" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                        <option value="">All Types</option>
+                        <option value="apartment">Apartment/Flat</option>
+                        <option value="villa">Villa / Independent House</option>
+                        <option value="pg">PG/Hostel</option>
+                        <option value="room">Single Room</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">💰 Budget (₹/month)</label>
+                    <select id="budget" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                        <option value="">Any Budget</option>
+                        <option value="5000">Under ₹5,000</option>
+                        <option value="10000">₹5,000 - ₹10,000</option>
+                        <option value="20000">₹10,000 - ₹20,000</option>
+                        <option value="30000">₹20,000 - ₹30,000</option>
+                        <option value="50000">₹30,000 - ₹50,000</option>
+                        <option value="50000+">₹50,000+</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">🛏️ BHK</label>
+                    <select id="bhk" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 bg-white">
+                        <option value="">Any</option>
+                        <option value="1">1 BHK / 1 RK</option>
+                        <option value="2">2 BHK</option>
+                        <option value="3">3 BHK</option>
+                        <option value="4">4+ BHK</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3 mt-5">
+                <button onclick="searchProperties()" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-2.5 rounded-xl font-semibold hover:shadow-lg transition flex items-center justify-center gap-2">
+                    <i class="fas fa-search"></i> Search Properties
+                </button>
+                <button onclick="resetFilters()" class="bg-gray-200 text-gray-700 px-6 py-2.5 rounded-xl font-medium hover:bg-gray-300 transition">
+                    <i class="fas fa-undo-alt"></i> Reset
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Count -->
+        <div id="resultsCount" class="mb-4 text-gray-600 flex justify-between items-center">
+            <span><i class="fas fa-building mr-2"></i><span id="propertyCount">0</span> properties found</span>
+            <div class="flex items-center gap-2">
+                <span class="text-sm">Sort by:</span>
+                <select id="sortBy" onchange="searchProperties()" class="border rounded-lg px-2 py-1 text-sm">
+                    <option value="relevance">Relevance</option>
+                    <option value="price_low">Price: Low to High</option>
+                    <option value="price_high">Price: High to Low</option>
+                    <option value="newest">Newest First</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Properties Grid -->
+        <div id="propertiesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Properties will be loaded here dynamically -->
+        </div>
+
+        <!-- Load More -->
+        <div id="loadMoreBtn" class="text-center mt-8 hidden">
+            <button onclick="loadMore()" class="load-more-btn bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-gray-700 transition shadow-md">
+                <i class="fas fa-arrow-down mr-2"></i> Load More Properties
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <i class="fab fa-facebook-f text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-twitter text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-linkedin-in text-gray-400 hover:text-blue-400 cursor-pointer transition text-xl"></i>
+                <i class="fab fa-instagram text-gray-400 hover:text-pink-400 cursor-pointer transition text-xl"></i>
+            </div>
+            <p class="text-gray-400 text-sm">© 2025 Propbandhu | Find Your Perfect Rental Home - No Brokerage, Direct Owner Connect</p>
+            <p class="text-gray-500 text-xs mt-2">Verified properties | 24/7 Support | Free Listing Alerts</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mock property database (simulating backend data)
+        const allProperties = [
+            { id: 1, title: "Spacious 2BHK with Balcony", location: "Andheri East, Mumbai", rent: 35000, bhk: 2, bathroom: 2, area: 1100, type: "apartment", city: "mumbai", image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=500&h=350&fit=crop", featured: true, new: false, ownerId: "owner1", amenities: ["Parking", "Lift", "Security"] },
+            { id: 2, title: "Luxury 3BHK with Pool View", location: "Bandra West, Mumbai", rent: 85000, bhk: 3, bathroom: 3, area: 1800, type: "apartment", city: "mumbai", image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500&h=350&fit=crop", featured: true, new: true, ownerId: "owner2", amenities: ["Swimming Pool", "Gym", "Club House"] },
+            { id: 3, title: "Affordable 1RK Near Metro", location: "Dwarka, Delhi", rent: 12000, bhk: 1, bathroom: 1, area: 450, type: "apartment", city: "delhi", image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=500&h=350&fit=crop", featured: false, new: false, ownerId: "owner3", amenities: ["Metro Access", "Market Nearby"] },
+            { id: 4, title: "Premium 2BHK in Whitefield", location: "Whitefield, Bangalore", rent: 45000, bhk: 2, bathroom: 2, area: 1250, type: "apartment", city: "bangalore", image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=500&h=350&fit=crop", featured: true, new: false, ownerId: "owner4", amenities: ["IT Corridor", "24/7 Water", "Power Backup"] },
+            { id: 5, title: "Independent Villa with Garden", location: "Hinjewadi, Pune", rent: 75000, bhk: 4, bathroom: 4, area: 2500, type: "villa", city: "pune", image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=500&h=350&fit=crop", featured: false, new: true, ownerId: "owner5", amenities: ["Private Garden", "Car Parking", "Security"] },
+            { id: 6, title: "Co-living PG for Boys", location: "Koramangala, Bangalore", rent: 15000, bhk: 1, bathroom: 1, area: 300, type: "pg", city: "bangalore", image: "https://images.unsplash.com/photo-1554995207-c18c203602cb?w=500&h=350&fit=crop", featured: false, new: false, ownerId: "owner6", amenities: ["WiFi", "Meals", "Laundry"] },
+            { id: 7, title: "Modern 3BHK with Terrace", location: "Gachibowli, Hyderabad", rent: 55000, bhk: 3, bathroom: 3, area: 1600, type: "apartment", city: "hyderabad", image: "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=500&h=350&fit=crop", featured: false, new: true, ownerId: "owner7", amenities: ["Terrace Access", "Gym", "Park"] },
+            { id: 8, title: "Budget Single Room", location: "T Nagar, Chennai", rent: 8000, bhk: 1, bathroom: 1, area: 200, type: "room", city: "chennai", image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=350&fit=crop", featured: false, new: false, ownerId: "owner8", amenities: ["Near Bus Stand", "Affordable"] },
+            { id: 9, title: "Luxury 2BHK with City View", location: "MG Road, Pune", rent: 40000, bhk: 2, bathroom: 2, area: 1150, type: "apartment", city: "pune", image: "https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=500&h=350&fit=crop", featured: true, new: false, ownerId: "owner9", amenities: ["City View", "Lift", "Intercom"] },
+            { id: 10, title: "Spacious 3BHK Family Home", location: "Salt Lake, Kolkata", rent: 28000, bhk: 3, bathroom: 2, area: 1350, type: "apartment", city: "kolkata", image: "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=500&h=350&fit=crop", featured: false, new: true, ownerId: "owner10", amenities: ["Park", "Market", "School Nearby"] }
+        ];
+
+        let currentPage = 1;
+        let isLoading = false;
+        let currentProperties = [...allProperties];
+        const pageSize = 6;
+
+        function filterProperties() {
+            const city = document.getElementById('city').value;
+            const propertyType = document.getElementById('propertyType').value;
+            const budget = document.getElementById('budget').value;
+            const bhk = document.getElementById('bhk').value;
+            const sortBy = document.getElementById('sortBy').value;
+
+            let filtered = [...allProperties];
+
+            // Filter by city
+            if (city) {
+                filtered = filtered.filter(p => p.city === city);
+            }
+
+            // Filter by property type
+            if (propertyType) {
+                filtered = filtered.filter(p => p.type === propertyType);
+            }
+
+            // Filter by budget
+            if (budget) {
+                if (budget === '5000') filtered = filtered.filter(p => p.rent <= 5000);
+                else if (budget === '10000') filtered = filtered.filter(p => p.rent > 5000 && p.rent <= 10000);
+                else if (budget === '20000') filtered = filtered.filter(p => p.rent > 10000 && p.rent <= 20000);
+                else if (budget === '30000') filtered = filtered.filter(p => p.rent > 20000 && p.rent <= 30000);
+                else if (budget === '50000') filtered = filtered.filter(p => p.rent > 30000 && p.rent <= 50000);
+                else if (budget === '50000+') filtered = filtered.filter(p => p.rent > 50000);
+            }
+
+            // Filter by BHK
+            if (bhk) {
+                const bhkNum = parseInt(bhk);
+                if (bhkNum === 4) filtered = filtered.filter(p => p.bhk >= 4);
+                else filtered = filtered.filter(p => p.bhk === bhkNum);
+            }
+
+            // Sort
+            if (sortBy === 'price_low') filtered.sort((a, b) => a.rent - b.rent);
+            else if (sortBy === 'price_high') filtered.sort((a, b) => b.rent - a.rent);
+            else if (sortBy === 'newest') filtered.sort((a, b) => (b.new ? 1 : 0) - (a.new ? 1 : 0));
+            else filtered.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+
+            return filtered;
+        }
+
+        async function searchProperties() {
+            currentPage = 1;
+            currentProperties = filterProperties();
+            await loadProperties();
+        }
+
+        function resetFilters() {
+            document.getElementById('city').value = '';
+            document.getElementById('propertyType').value = '';
+            document.getElementById('budget').value = '';
+            document.getElementById('bhk').value = '';
+            document.getElementById('sortBy').value = 'relevance';
+            searchProperties();
+        }
+
+        async function loadProperties() {
+            if (isLoading) return;
+            isLoading = true;
+
+            // Show loading skeletons
+            if (currentPage === 1) {
+                showSkeletons();
+            }
+
+            setTimeout(() => {
+                const start = (currentPage - 1) * pageSize;
+                const end = start + pageSize;
+                const paginatedProperties = currentProperties.slice(start, end);
+                const hasMore = end < currentProperties.length;
+
+                if (currentPage === 1) {
+                    document.getElementById('propertiesGrid').innerHTML = '';
+                }
+
+                displayProperties(paginatedProperties);
+                document.getElementById('propertyCount').innerHTML = currentProperties.length;
+                document.getElementById('loadMoreBtn').className = hasMore ? 'text-center mt-8' : 'hidden';
+                isLoading = false;
+            }, 300);
+        }
+
+        function showSkeletons() {
+            const grid = document.getElementById('propertiesGrid');
+            grid.innerHTML = '';
+            for (let i = 0; i < 6; i++) {
+                grid.innerHTML += `<div class="skeleton-card h-96 rounded-xl"></div>`;
+            }
+        }
+
+        function displayProperties(properties) {
+            const grid = document.getElementById('propertiesGrid');
+            
+            if (properties.length === 0 && currentPage === 1) {
+                grid.innerHTML = `
+                    <div class="empty-state col-span-full">
+                        <i class="fas fa-home"></i>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">No properties found</h3>
+                        <p class="text-gray-500">Try adjusting your filters or search in different location</p>
+                        <button onclick="resetFilters()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg">Clear Filters</button>
+                    </div>
+                `;
+                return;
+            }
+
+            properties.forEach(prop => {
+                const featuredBadge = prop.featured ? '<span class="featured-badge"><i class="fas fa-star mr-1"></i>Featured</span>' : '';
+                const newBadge = prop.new ? '<span class="new-badge">New</span>' : '';
+                
+                const amenitiesHtml = prop.amenities.slice(0, 3).map(a => `<span class="amenity-tag">${a}</span>`).join('');
+                
+                const card = `
+                    <div class="property-card bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
+                        <div class="property-image h-52 relative">
+                            <img src="${prop.image}" alt="${prop.title}" class="w-full h-full object-cover" loading="lazy" onerror="this.src='https://placehold.co/600x400/3b82f6/white?text=Property+Image'">
+                            ${featuredBadge}
+                            ${newBadge}
+                            <button class="favorite-icon absolute bottom-3 right-3 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-md hover:bg-gray-100" onclick="toggleFavorite(this)">
+                                <i class="far fa-heart text-gray-500"></i>
+                            </button>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-bold text-xl text-gray-800 mb-1">${prop.title}</h3>
+                            <p class="text-gray-500 text-sm mb-2"><i class="fas fa-map-marker-alt text-blue-500 mr-1"></i>${prop.location}</p>
+                            <p class="text-2xl font-bold text-blue-600 price-highlight">₹${prop.rent.toLocaleString()}<span class="text-sm font-normal text-gray-500">/month</span></p>
+                            <div class="flex justify-between mt-3 text-sm text-gray-600">
+                                <span><i class="fas fa-bed text-blue-500"></i> ${prop.bhk} BHK</span>
+                                <span><i class="fas fa-bath text-blue-500"></i> ${prop.bathroom} Bath</span>
+                                <span><i class="fas fa-ruler-combined text-blue-500"></i> ${prop.area} sq.ft</span>
+                            </div>
+                            <div class="mt-3 flex flex-wrap gap-1">
+                                ${amenitiesHtml}
+                            </div>
+                            <button onclick="contactOwner('${prop.ownerId}', '${prop.title}')" class="contact-btn mt-4 w-full bg-gradient-to-r from-green-600 to-green-700 text-white py-2.5 rounded-xl font-semibold hover:shadow-lg transition flex items-center justify-center gap-2">
+                                <i class="fas fa-phone-alt"></i> Contact Owner
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        function loadMore() {
+            currentPage++;
+            loadProperties();
+        }
+
+        function contactOwner(ownerId, propertyTitle) {
+            // Show toast notification
+            showToast(`📞 Request sent for "${propertyTitle}". Owner will contact you within 2 hours.`);
+        }
+
+        function toggleFavorite(element) {
+            const icon = element.querySelector('i');
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                icon.classList.add('text-red-500');
+                showToast('❤️ Added to favorites!');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                icon.classList.remove('text-red-500');
+                showToast('Removed from favorites');
+            }
+        }
+
+        function showToast(message) {
+            // Remove existing toast
+            const existingToast = document.querySelector('.toast-notification');
+            if (existingToast) existingToast.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.innerHTML = `<i class="fas fa-info-circle"></i><span>${message}</span>`;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Initial load
+        searchProperties();
+    </script>
+</body>
+</html>
