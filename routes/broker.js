@@ -524,7 +524,7 @@ router.get('/properties', async (req, res) => {
 // ========== BROKER ADD PROPERTY PAGE (UNIFIED FORM) ==========
 router.get('/properties/add', async (req, res) => {
   try {
-    const User = require('../models/User');
+    const User = require('../models/user');
     const Property = require('../models/Property');
     
     // Get all active sellers for broker to choose from
@@ -580,7 +580,7 @@ router.get('/properties/add', async (req, res) => {
 router.post('/api/properties/add', uploadPropertyImage.single('images'), async (req, res) => {
   try {
     const Property = require('../models/Property');
-    const User = require('../models/User');
+    const User = require('../models/user');
     const bcrypt = require('bcryptjs');
     
     console.log('=== FORM SUBMISSION DEBUG ===');
@@ -2055,7 +2055,7 @@ router.get('/api/commissions/:id/timeline', async (req, res) => {
 router.get('/api/commission-settings', async (req, res) => {
   try {
     // Get broker's payment/bank details
-    const User = require('../models/User');
+    const User = require('../models/user');
     
     const broker = await User.findById(req.user.id).select('bank_details');
     
@@ -2089,7 +2089,7 @@ router.get('/api/commission-settings', async (req, res) => {
 
 router.put('/api/commission-settings', async (req, res) => {
   try {
-    const User = require('../models/User');
+    const User = require('../models/user');
     const { bank_details } = req.body;
     
     // Validate bank details
@@ -2126,7 +2126,7 @@ router.put('/api/commission-settings', async (req, res) => {
 // ========== API: GET SELLERS FOR BROKER ==========
 router.get('/api/sellers', async (req, res) => {
   try {
-    const User = require('../models/User');
+    const User = require('../models/user');
     
     const sellers = await User.find({
       role: 'seller',
@@ -3098,7 +3098,7 @@ router.get('/visits/schedule/:propertyId', async (req, res) => {
   try {
     const Property = require('../models/Property');
     const Cart = require('../models/Cart');
-    const User = require('../models/User');
+    const User = require('../models/user');
 
     const { propertyId } = req.params;
 
@@ -4337,7 +4337,7 @@ router.post('/properties/:id/request-edit', async (req, res) => {
         }
 
         // Get admin users to send notifications
-        const User = require('../models/User');
+        const User = require('../models/user');
         const adminUsers = await User.find({ role: 'admin' }).select('_id name email');
         
         if (adminUsers.length === 0) {
@@ -4440,7 +4440,7 @@ router.post('/properties/:id/request-extension', async (req, res) => {
 
         // Notify admin
         const Notification = require('../models/Notification');
-        const User = require('../models/User');
+        const User = require('../models/user');
         
         const adminUsers = await User.find({ role: 'admin' }).select('_id');
         

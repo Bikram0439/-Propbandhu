@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { requireAuth } = require('../middleware/auth');
 const Property = require('../models/Property');
-const User = require('../models/User');
+const User = require('../models/user');
 const Commission = require('../models/Commission');
 const mongoose = require('mongoose');
 // Apply admin auth middleware to all routes
@@ -1414,7 +1414,7 @@ router.post('/api/properties/:id/approve', async (req, res) => {
     
     // ✅ BUYER NOTIFICATIONS - FIXED!
     const Cart = require('../models/Cart');
-    const User = require('../models/User');
+    const User = require('../models/user');
     
     // Option 1: Notify buyers who have this property in favorites
     const buyersWithFavorites = await User.find({
@@ -1834,7 +1834,7 @@ router.post('/api/properties/:id/request-changes-limited', async (req, res) => {
       
       // Also send an email notification (optional)
       try {
-        const User = require('../models/User');
+        const User = require('../models/user');
         const seller = await User.findById(property.seller);
         
         if (seller && seller.email) {
@@ -2041,7 +2041,7 @@ router.post('/api/properties/:id/verify-field-edit', async (req, res) => {
 router.get('/notifications', async (req, res) => {
   try {
     const Notification = require('../models/Notification');
-    const User = require('../models/User');
+    const User = require('../models/user');
     const mongoose = require('mongoose');
     
     console.log('🔔 Loading notifications for admin:', req.user.id);
@@ -2353,7 +2353,7 @@ router.get('/notifications', async (req, res) => {
 router.post('/notifications/test-edit-request', async (req, res) => {
   try {
     const Notification = require('../models/Notification');
-    const User = require('../models/User');
+    const User = require('../models/user');
     
     // Get current user (admin)
     const admin = req.user;
@@ -2405,7 +2405,7 @@ router.post('/notifications/:id/approve-edit', async (req, res) => {
     
     const Notification = require('../models/Notification');
     const Property = require('../models/Property');
-    const User = require('../models/User');
+    const User = require('../models/user');
     const mongoose = require('mongoose');
     
     // Get the edit request notification
@@ -2873,7 +2873,7 @@ router.get('/api/notifications/recent', async (req, res) => {
 router.get('/broker-assignment', async (req, res) => {
   try {
     const Property = require('../models/Property');
-    const User = require('../models/User');
+    const User = require('../models/user');
     
     // Get seller-added properties without broker
     const properties = await Property.find({
@@ -2969,7 +2969,7 @@ router.get('/broker-assignment', async (req, res) => {
 router.get('/broker-assignment/history', async (req, res) => {
   try {
     const Property = require('../models/Property');
-    const User = require('../models/User');
+    const User = require('../models/user');
     
     // Get all broker assignments
     const assignments = await Property.find({
@@ -3040,7 +3040,7 @@ router.get('/broker-assignment/history', async (req, res) => {
 router.post('/api/properties/:id/assign-broker', async (req, res) => {
   try {
     const Property = require('../models/Property');
-    const User = require('../models/User');
+    const User = require('../models/user');
     const Notification = require('../models/Notification'); // ✅ Add this
     
     const { id } = req.params;
@@ -3157,7 +3157,7 @@ router.post('/api/properties/:id/assign-broker', async (req, res) => {
 router.post('/api/properties/:id/assign-broker', async (req, res) => {
   try {
     const Property = require('../models/Property');
-    const User = require('../models/User');
+    const User = require('../models/user');
     
     const { id } = req.params;
     const { brokerId } = req.body;
@@ -3580,7 +3580,7 @@ router.post('/api/properties/:id/notify-price-drop', async (req, res) => {
     // ✅ NOTIFY BUYERS ABOUT PRICE DROP
     const Notification = require('../models/Notification');
     const Cart = require('../models/Cart');
-    const User = require('../models/User');
+    const User = require('../models/user');
     
     const notifiedBuyers = new Set();
     
@@ -3714,7 +3714,7 @@ router.post('/api/buyers/bulk-notify', async (req, res) => {
     }
     
     const Notification = require('../models/Notification');
-    const User = require('../models/User');
+    const User = require('../models/user');
     
     // Verify all buyer IDs exist
     const buyers = await User.find({

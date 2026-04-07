@@ -429,7 +429,7 @@ router.post('/properties/add', upload.array('images', 10), async (req, res) => {
 
     // 🔔🔔🔔 CRITICAL: NOTIFICATION CREATION STARTS HERE 🔔🔔🔔
     try {
-      const User = require('../models/User');
+      const User = require('../models/user');
       const Notification = require('../models/Notification');
       
       console.log('🔔 Creating notification for new property...');
@@ -979,7 +979,7 @@ router.post('/properties/:id/edit',
           // 🔔🔔🔔 NOTIFICATION: When seller resubmits property after changes
           if (isResubmitting && originalStatus === 'changes_requested') {
             try {
-              const User = require('../models/User');
+              const User = require('../models/user');
               const Notification = require('../models/Notification');
               
               console.log('🔔 Creating notification for property resubmission...');
@@ -1078,7 +1078,7 @@ router.post('/properties/:id/edit',
           // If price was changed, notify buyers who favorited this property
           if (uniqueUpdatedFields.includes('price')) {
             try {
-              const User = require('../models/User');
+              const User = require('../models/user');
               const Notification = require('../models/Notification');
               
               // Find buyers who have this property in favorites
@@ -1234,7 +1234,7 @@ router.post('/properties/:id/request-edit', validateObjectId, async (req, res) =
     });
     
     const Property = require('../models/Property');
-    const User = require('../models/User');
+    const User = require('../models/user');
     
     const property = await Property.findOne({
       _id: req.params.id,
@@ -1493,7 +1493,7 @@ router.post('/properties/:id/submit', validateObjectId, async (req, res) => {
 
     // Create notification for admin
     try {
-      const User = require('../models/User');
+      const User = require('../models/user');
       const Notification = require('../models/Notification');
       
       // Find all admins
@@ -1569,7 +1569,7 @@ router.post('/properties/:id/delete', validateObjectId, async (req, res) => {
 
     // 🔔🔔🔔 NOTIFICATION: Seller deleted property → Notify admins
     try {
-      const User = require('../models/User');
+      const User = require('../models/user');
       const Notification = require('../models/Notification');
       
       console.log('🔔 Creating notification for deleted property...');
@@ -1638,7 +1638,7 @@ router.post('/properties/:id/delete', validateObjectId, async (req, res) => {
 router.get('/properties/:id/cart-details', validateObjectId, async (req, res) => {
   try {
     const Property = require('../models/Property');
-    const User = require('../models/User');
+    const User = require('../models/user');
     
     const property = await Property.findOne({
       _id: req.params.id,
@@ -2675,7 +2675,7 @@ router.post('/api/properties/:id/update-price', validateObjectId, async (req, re
     const Property = require('../models/Property');
     const Cart = require('../models/Cart');
     const Notification = require('../models/Notification');
-    const User = require('../models/User');
+    const User = require('../models/user');
     
     const { id } = req.params;
     const { newPrice, reason } = req.body;
@@ -2821,7 +2821,7 @@ router.post('/api/properties/:id/update-price', validateObjectId, async (req, re
 router.post('/api/message/buyer/:buyerId', async (req, res) => {
   try {
     const Notification = require('../models/Notification');
-    const User = require('../models/User');
+    const User = require('../models/user');
     
     const { buyerId } = req.params;
     const { message, propertyId, propertyTitle } = req.body;

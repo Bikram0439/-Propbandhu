@@ -859,7 +859,7 @@ router.post('/api/cart/add', async (req, res) => {
     const Property = require('../models/Property');
     const Cart = require('../models/Cart');
     const Notification = require('../models/Notification');
-    const User = require('../models/User');
+    const User = require('../models/user');
     
     const { propertyId } = req.body;
     
@@ -1081,7 +1081,7 @@ router.post('/api/cart/remove', async (req, res) => {
     const Cart = require('../models/Cart');
     const Property = require('../models/Property');
     const Notification = require('../models/Notification');
-    const User = require('../models/User');
+    const User = require('../models/user');
     
     const { propertyId } = req.body;
     
