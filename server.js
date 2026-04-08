@@ -9,12 +9,21 @@ const cartCleanupService = require('./services/cartCleanupService');
 const simpleCleanupService = require('./services/simpleCleanupService');
 const { router: notificationsRouter } = require('./routes/notifications');
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT;
 console.log("PORT VALUE:", PORT);
 const Property = require('./models/Property');
+
 // Connect to MongoDB
-
-
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => {
+  console.log('✅ MongoDB connected successfully');
+})
+.catch(err => {
+  console.error('❌ MongoDB connection error:', err.message);
+});
 
 // Middleware
 app.use(express.json());
@@ -81,14 +90,13 @@ process.on('SIGINT', () => {
   process.exit(0);
 });
 
-
 // ========== PUBLIC ROUTES ==========
 
 if (process.env.NODE_ENV !== 'test') {
   cartCleanupService.start();
 }
 
-// Graceful shutdown
+// Graceful shutdown for cart service
 process.on('SIGINT', () => {
   cartCleanupService.stop();
   process.exit(0);
@@ -183,8 +191,6 @@ app.get('/search', (req, res) => {
   });
 });
 
-
-
 // ========== FIXED ORDER: SPECIFIC ROUTES BEFORE PARAMETERIZED ROUTES ==========
 app.get('/properties', async (req, res) => {
   try {
@@ -233,7 +239,6 @@ app.get('/properties', async (req, res) => {
   }
 });
 
-
 // FIXED API endpoint - working version
 app.get('/api/properties/search', async (req, res) => {
   try {
@@ -243,40 +248,8 @@ app.get('/api/properties/search', async (req, res) => {
     console.log('\n=== API SEARCH START ===');
     console.log('Query:', { city, locations, budget, furnishing });
     
-    // FIRST: Let's check what properties actually exist in the database
-    console.log('\n=== DATABASE DIAGNOSTICS ===');
-    
-    // Check ALL properties regardless of filters
-    const allProperties = await Property.find({})
-      .select('title address.city address.areas price furnishing status is_active is_approved')
-      .limit(10)
-      .lean();
-    
-    console.log('Total properties in DB (all statuses):', allProperties.length);
-    console.log('Sample properties:');
-    allProperties.forEach((prop, i) => {
-      console.log(`${i+1}. ${prop.title || 'No title'}`);
-      console.log(`   City: ${prop.address?.city || 'No city'}`);
-      console.log(`   Areas: ${prop.address?.areas?.join(', ') || 'No areas'}`);
-      console.log(`   Price: ${prop.price ? '₹' + prop.price.toLocaleString('en-IN') : 'No price'}`);
-      console.log(`   Furnishing: ${prop.furnishing || 'No furnishing'}`);
-      console.log(`   Status: ${prop.status || 'No status'}`);
-      console.log(`   is_active: ${prop.is_active}`);
-      console.log(`   is_approved: ${prop.is_approved}`);
-      console.log('---');
-    });
-    
     // Build filter step by step - SIMPLIFIED
     const filter = {};
-    
-    // Only add status filter if you want ONLY live properties
-    // If you want to see ALL properties for testing, comment this out:
-    // filter.status = 'live';
-    
-    // Only add active/approved filters if you want them
-    // For testing, comment these out:
-    // filter.is_active = true;
-    // filter.is_approved = true;
     
     // City filter - SIMPLE exact match first
     if (city && city.trim() !== '') {
@@ -326,37 +299,6 @@ app.get('/api/properties/search', async (req, res) => {
       .lean();
     
     console.log('Found properties:', properties.length);
-    
-    // If still no results, try a broader search
-    if (properties.length === 0) {
-      console.log('\n=== TRYING BROADER SEARCH ===');
-      
-      // Try without furnishing
-      const filterNoFurnishing = { ...filter };
-      delete filterNoFurnishing.furnishing;
-      console.log('Trying without furnishing filter:', JSON.stringify(filterNoFurnishing, null, 2));
-      const noFurnishingResults = await Property.find(filterNoFurnishing).countDocuments();
-      console.log('Results without furnishing:', noFurnishingResults);
-      
-      // Try without budget
-      const filterNoBudget = { ...filter };
-      delete filterNoBudget.price;
-      console.log('Trying without budget filter:', JSON.stringify(filterNoBudget, null, 2));
-      const noBudgetResults = await Property.find(filterNoBudget).countDocuments();
-      console.log('Results without budget:', noBudgetResults);
-      
-      // Try just city
-      if (city && city.trim() !== '') {
-        const cityOnlyFilter = { 'address.city': city.trim() };
-        console.log('Trying city only:', JSON.stringify(cityOnlyFilter, null, 2));
-        const cityOnlyResults = await Property.find(cityOnlyFilter).countDocuments();
-        console.log(`Properties in ${city.trim()}:`, cityOnlyResults);
-      }
-      
-      // Try ALL properties
-      const allCount = await Property.countDocuments({});
-      console.log('Total properties in database:', allCount);
-    }
     
     res.json({
       success: true,
@@ -604,19 +546,6 @@ app.use('/buyer/notifications', notificationsRouter);
 app.use('/broker/notifications', notificationsRouter);
 app.use('/needs', needsRoutes);
 
-// Add this after your other public routes, before the 404 handler
-
-// ========== SEARCH ROUTES ==========
-
-// Search page
-app.get('/search', (req, res) => {
-  res.render('search', {
-    title: 'Search Properties - Propbandhu',
-    user: req.session.user,
-    activePage: 'search'
-  });
-});
-
 // API endpoint for property search
 app.get('/api/search/properties', async (req, res) => {
   try {
@@ -697,8 +626,6 @@ app.get('/api/search/properties', async (req, res) => {
     });
   }
 });
-
-
 
 // ================= CAREERS ROUTES =================
 
@@ -1014,8 +941,6 @@ app.get('/blog/:slug', (req, res) => {
   });
 });
 
-
-
 // 404 handler
 app.use((req, res) => {
   res.status(404).render('error', { 
@@ -1040,38 +965,9 @@ app.use((err, req, res, next) => {
   });
 });
 
-
-
-mongoose.connect(process.env.MONGODB_URI , {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => {
-  console.log('✅ MongoDB connected successfully');
-})
-.catch(err => {
-  console.error('❌ MongoDB connection error:', err.message);
-});
-
-
-// ========== START SERVER ==========
+// ========== START SERVER (ONLY ONCE!) ==========
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server started on port ${PORT}`);
+  console.log(`📊 Role-based dashboards ready`);
+  console.log(`🔐 Authentication endpoints ready`);
 });
-// 📊 ROLE-BASED DASHBOARDS:
-//    👑 Admin:     /admin/dashboard
-//    👤 Buyer:     /buyer/dashboard  
-//    🏠 Seller:    /seller/dashboard
-//    🤝 Broker:    /broker/dashboard
-
-// 🔐 AUTHENTICATION:
-//    📝 Register:  /register
-//    🔑 Login:     /login
-//    🚪 Logout:    /logout
-
-// 💡 How to use:
-//    1. Go to /register to create an account
-//    2. Choose "seller" as your role
-//    3. Login with your credentials
-//    4. You'll be redirected to /seller/dashboard
-// `);
