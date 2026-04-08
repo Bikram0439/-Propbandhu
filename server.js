@@ -9,7 +9,8 @@ const cartCleanupService = require('./services/cartCleanupService');
 const simpleCleanupService = require('./services/simpleCleanupService');
 const { router: notificationsRouter } = require('./routes/notifications');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
+console.log("PORT VALUE:", PORT);
 const Property = require('./models/Property');
 // Connect to MongoDB
 
@@ -1054,25 +1055,23 @@ mongoose.connect(process.env.MONGODB_URI , {
 
 
 // ========== START SERVER ==========
-app.listen(PORT, () => {
-  console.log(`
-🚀 Server started: http://localhost:${PORT}
-
-📊 ROLE-BASED DASHBOARDS:
-   👑 Admin:     /admin/dashboard
-   👤 Buyer:     /buyer/dashboard  
-   🏠 Seller:    /seller/dashboard
-   🤝 Broker:    /broker/dashboard
-
-🔐 AUTHENTICATION:
-   📝 Register:  /register
-   🔑 Login:     /login
-   🚪 Logout:    /logout
-
-💡 How to use:
-   1. Go to /register to create an account
-   2. Choose "seller" as your role
-   3. Login with your credentials
-   4. You'll be redirected to /seller/dashboard
-`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server started on port ${PORT}`);
 });
+// 📊 ROLE-BASED DASHBOARDS:
+//    👑 Admin:     /admin/dashboard
+//    👤 Buyer:     /buyer/dashboard  
+//    🏠 Seller:    /seller/dashboard
+//    🤝 Broker:    /broker/dashboard
+
+// 🔐 AUTHENTICATION:
+//    📝 Register:  /register
+//    🔑 Login:     /login
+//    🚪 Logout:    /logout
+
+// 💡 How to use:
+//    1. Go to /register to create an account
+//    2. Choose "seller" as your role
+//    3. Login with your credentials
+//    4. You'll be redirected to /seller/dashboard
+// `);
