@@ -9,7 +9,7 @@ const cartCleanupService = require('./services/cartCleanupService');
 const simpleCleanupService = require('./services/simpleCleanupService');
 const { router: notificationsRouter } = require('./routes/notifications');
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 const Property = require('./models/Property');
 // Connect to MongoDB
 
